@@ -512,7 +512,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_ユースケース図">1.2. ユースケース図</h3>
 <div class="imageblock">
 <div class="content">
-<img src="img/diag-3ed47d666d03d09c5b06304e43fc3bd9.png" alt="Diagram" width="380" height="200">
+<img src="img/diag-e3586867dd161ef3a5897ebbee058bb9.png" alt="Diagram" width="477" height="200">
 </div>
 </div>
 </div>
@@ -707,23 +707,36 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li>
 <p>ユーザーは「表示」ボタンを押下する</p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="red">URLが未入力の場合</span> ⇒ <a href="#display-Alt-1">Alt-1へ移動</a></p>
 </li>
 <li>
-<p>システムは対応する画像を表示する</p>
+<p><span class="red">URLが正しくない場合</span> ⇒ <a href="#display-Err-1">Err-1へ移動</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>表情分析システムは対応する画像を表示する</p>
 </li>
 </ol>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">代替フロー</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<td class="tableblock halign-left valign-top"><div class="content"><div id="display-Alt-1" class="ulist">
 <ul>
 <li>
-<p>Alt-1 URLが正しくない場合(入力が空を含む)</p>
+<p>Alt-1 URLが未入力の場合</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>メッセージ01を表示する。</p>
+<p>表示ボタン押下不可</p>
+</li>
+<li>
+<p>基本フローのステップ1に戻る</p>
 </li>
 </ol>
 </div>
@@ -733,8 +746,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">例外フロー</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>-</p>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="display-Err-1" class="ulist">
+<ul>
+<li>
+<p>Err-1 URLが正しくない場合</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>メッセージ01を表示する。</p>
+</li>
+</ol>
+</div>
+</li>
+</ul>
 </div></div></td>
 </tr>
 <tr>
@@ -827,23 +851,33 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li>
 <p>ユーザーは「分析」ボタンを押下する</p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="red">画像が選択されていない場合</span> ⇒ <a href="#analyze-Alt-1">Alt-1に移動</a></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>システムは画像の分析結果を表示する</p>
+<p>表情分析システムは画像の分析結果を表示する</p>
 </li>
 </ol>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">代替フロー</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<td class="tableblock halign-left valign-top"><div class="content"><div id="analyze-Alt-1" class="ulist">
 <ul>
 <li>
 <p>Alt-1 画像が選択されていない場合</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>メッセージ02を表示する。</p>
+<p>分析ボタン押下不可</p>
+</li>
+<li>
+<p>基本フローのステップ1に戻る</p>
 </li>
 </ol>
 </div>
@@ -897,7 +931,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 1.0 2020-10-21<br>
-Last updated 2020-10-21 10:38:34 +0900
+Last updated 2020-10-21 16:31:51 +0900
 </div>
 </div>
 </body>
