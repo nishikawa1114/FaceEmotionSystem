@@ -1,6 +1,6 @@
 = FaceEmotion System 
 Ryosuke Nishikawa
-v1.0 2020-10-19
+v1.0 2020-10-21
 :doctype: book
 :toc: left
 :toclevels: 3
@@ -8,6 +8,8 @@ v1.0 2020-10-19
 :sectnums:
 :sectnumlevels: 3
 :icons: font
+:imagesdir: img
+:figure-caption: 図
 
 == 機能概要
 
@@ -26,7 +28,6 @@ v1.0 2020-10-19
 |画像を分析する
 
 |===
-
 
 === ユースケース図
 
@@ -48,13 +49,20 @@ rectangle FaceEmotion{
 @enduml
 --
 
-
-
 == 画面仕様
 
 === 画面遷移
 
 === 画面
+
+==== ホーム画面
+image::home.png[home, 600]
+
+==== 分析結果画面
+
+image::analyzed.png[home, 600]
+
+CAUTION: 画像は、ボタン、フォームなどの配置のイメージです。
 
 == ユースケース記述
 
@@ -129,6 +137,10 @@ rectangle FaceEmotion{
 
 |備考
 |
+画像に対応する以下の情報を画面に表示する
+
+* ユーザー名
+* 日付
 
 |===
 
@@ -155,7 +167,7 @@ rectangle FaceEmotion{
 * 画像が表示されていること
 
 |事後条件
-|* 画像と分析結果のグラフが表示されていること
+|* 分析結果画面が表示されていること
 
 |基本フロー
 |. ユーザーは画像をチェックボックスで選択する
