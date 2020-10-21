@@ -53,6 +53,21 @@ rectangle FaceEmotion{
 
 === 画面遷移
 
+
+[plantuml]
+--
+@startuml screen transition
+
+hide empty description
+[*] -right-> ホーム画面
+' ホーム画面 : URL入力フォーム
+' ホーム画面 : 画像表示
+分析結果画面 -left--> ホーム画面 : 戻るボタン押下
+ホーム画面 -right-> 分析結果画面 : 画像を選択して分析ボタン押下
+
+@enduml
+--
+
 === 画面
 
 ==== ホーム画面
