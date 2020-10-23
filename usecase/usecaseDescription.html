@@ -461,6 +461,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_ホーム画面">2.2.1. ホーム画面</a></li>
 <li><a href="#_分析結果画面">2.2.2. 分析結果画面</a></li>
+<li><a href="#_エラー画面">2.2.3. エラー画面</a></li>
 </ul>
 </li>
 </ul>
@@ -512,7 +513,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_ユースケース図">1.2. ユースケース図</h3>
 <div class="imageblock">
 <div class="content">
-<img src="img/diag-e3586867dd161ef3a5897ebbee058bb9.png" alt="Diagram" width="477" height="200">
+<img src="img/diag-dc96f736bdc50dd3df93b6d8d5ea901e.png" alt="Diagram" width="477" height="204">
 </div>
 </div>
 </div>
@@ -525,7 +526,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_画面遷移">2.1. 画面遷移</h3>
 <div class="imageblock">
 <div class="content">
-<img src="img/diag-e17d57390fc11972244dae12ad7fc940.png" alt="Diagram" width="464" height="64">
+<img src="img/diag-89c0bfd840848b0365abc9edad966e80.png" alt="Diagram" width="604" height="176">
 </div>
 </div>
 </div>
@@ -543,7 +544,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_分析結果画面">2.2.2. 分析結果画面</h4>
 <div class="imageblock">
 <div class="content">
-<img src="img/analyzed.png" alt="home" width="600">
+<img src="img/analyzed.png" alt="analyzed" width="600">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_エラー画面">2.2.3. エラー画面</h4>
+<div class="imageblock">
+<div class="content">
+<img src="img/err.png" alt="err" width="600">
 </div>
 </div>
 <div class="admonitionblock caution">
@@ -719,7 +728,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </li>
 <li>
-<p>表情分析システムは対応する画像を表示する</p>
+<p>システムは対応する画像を表示する</p>
 </li>
 </ol>
 </div></div></td>
@@ -753,7 +762,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>メッセージ01を表示する。</p>
+<p>エラー画面へ遷移</p>
+</li>
+<li>
+<p>メッセージ表示領域にメッセージ01を表示する</p>
 </li>
 </ol>
 </div>
@@ -813,6 +825,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p>ユーザー</p>
 </li>
+<li>
+<p>表情分析システム</p>
+</li>
 </ul>
 </div></div></td>
 </tr>
@@ -860,7 +875,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </li>
 <li>
-<p>表情分析システムは画像の分析結果を表示する</p>
+<p>システムは画像の分析結果を表示する</p>
+<div class="ulist">
+<ul>
+<li>
+<p><span class="red">分析結果がエラーの場合</span> ⇒ <a href="#analyze-Err-1">Err-1に移動</a></p>
+</li>
+</ul>
+</div>
 </li>
 </ol>
 </div></div></td>
@@ -887,13 +909,57 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">例外フロー</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>-</p>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="analyze-Err-1" class="ulist">
+<ul>
+<li>
+<p>Err-1 表情分析システムからのレスポンスがエラーの場合</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>エラー画面へ遷移</p>
+</li>
+<li>
+<p>メッセージ表示領域にメッセージ02を表示する</p>
+</li>
+</ol>
+</div>
+</li>
+</ul>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">備考</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>分析結果には以下の感情値が含まれる</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>怒り</p>
+</li>
+<li>
+<p>軽蔑</p>
+</li>
+<li>
+<p>嫌悪感</p>
+</li>
+<li>
+<p>恐怖</p>
+</li>
+<li>
+<p>喜び</p>
+</li>
+<li>
+<p>中立</p>
+</li>
+<li>
+<p>悲しみ</p>
+</li>
+<li>
+<p>驚き</p>
+</li>
+</ul>
+</div></div></td>
 </tr>
 </tbody>
 </table>
@@ -921,7 +987,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">02</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">画像が選択されていません</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">分析結果が取得できませんでした</p></td>
 </tr>
 </tbody>
 </table>
@@ -931,7 +997,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 1.0 2020-10-21<br>
-Last updated 2020-10-21 16:31:51 +0900
+Last updated 2020-10-23 11:18:33 +0900
 </div>
 </div>
 </body>
