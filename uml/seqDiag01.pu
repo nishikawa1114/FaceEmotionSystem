@@ -1,0 +1,68 @@
+@startuml
+title UC01 画像を表示する
+
+actor ユーザー
+participant ホーム画面
+participant 入力チェック
+participant 画像を表示
+participant 画像情報
+participant エラー画面
+
+group 初期画面表示
+ユーザー -> ホーム画面 : 起動
+activate ホーム画面
+ユーザー <-- ホーム画面 : ホーム画面表示
+end
+
+group ホーム画面に画像を表示
+ユーザー -> ホーム画面 : フォームにURLを入力
+note right : フォームの入力内容の変更を検知する
+ホーム画面 -> 入力チェック : URLの未入力を確認する
+activate 入力チェック
+ホーム画面 <-- 入力チェック : true or false
+deactivate 入力チェック
+
+alt URLが入力済みの場合
+ホーム画面 -> ホーム画面 : 表示ボタン押下可能状態に変更
+else URLが未入力の場合
+ホーム画面 -> ホーム画面 : 表示ボタン押下不可状態に変更
+end
+
+ユーザー -> ホーム画面 : 表示ボタンを押下
+note right : ボタンのクリックを検知する
+ホーム画面 -> 入力チェック : 画像が存在するか確認する(画像URL)
+activate 入力チェック
+ホーム画面 <-- 入力チェック : true or false
+deactivate 入力チェック
+
+alt URLが正しい場合
+
+ホーム画面 -> 画像を表示 : 画像を表示する(画像URL)
+activate 画像を表示
+画像を表示 -> 画像情報 : 画像情報のID、ユーザー名、日付、URLをセットする(ユーザー名, 日付, URL)
+note right
+URLの内容からユーザー名、日付をセットする
+(例) ~/nishikawa/2020/10/04/~~~.jpg
+end note
+activate 画像情報
+画像を表示 <-- 画像情報 : 画像オブジェクトを返却
+deactivate 画像情報
+ホーム画面 <-- 画像を表示 : 画像領域表示
+deactivate 画像を表示 
+ユーザー <-- ホーム画面 : ホーム画面に画像が反映
+
+else URLが不正の場合
+ホーム画面 -> エラー画面 : エラー画面を表示する(メッセージ番号)
+activate エラー画面
+ユーザー <-- エラー画面 : エラー画面表示
+ユーザー -> エラー画面 : ホーム画面に戻るボタンを押下
+ユーザー <-- エラー画面 : ホーム画面表示
+deactivate エラー画面
+
+end
+
+deactivate ホーム画面
+
+end
+
+@enduml
