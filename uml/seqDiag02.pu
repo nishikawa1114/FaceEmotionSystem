@@ -4,6 +4,7 @@ title UC02 画像を分析する
 actor ユーザー
 participant ホーム画面
 participant 分析結果画面
+participant 画像分析
 participant FaceAPI
 participant エラー画面
 
@@ -24,10 +25,14 @@ note right : ボタンのクリックを検知する
 ホーム画面 -> 分析結果画面 : 分析結果画面を表示する(選択された画像情報)
 deactivate ホーム画面
 activate 分析結果画面
-分析結果画面 -> FaceAPI : 画像を分析する(選択された画像情報のURL)
+分析結果画面 -> 画像分析 : 画像を分析する(選択された画像情報のURL)
+activate 画像分析
+画像分析 -> FaceAPI : 分析要求
 activate FaceAPI
-分析結果画面 <-- FaceAPI : 分析結果
+画像分析 <-- FaceAPI : 分析結果
 deactivate FaceAPI
+分析結果画面 <-- 画像分析 : 分析結果
+deactivate 画像分析
 
 alt 分析結果が正常の場合
 ユーザー <-- 分析結果画面 : 分析結果画面表示
