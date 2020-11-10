@@ -5,8 +5,8 @@ actor ユーザー
 participant ホーム画面
 participant 分析結果画面
 participant 画像分析
-participant FaceAPI
 participant エラー画面
+actor FaceAPI
 
 activate ホーム画面
 ユーザー -> ホーム画面 : 画像を選択
