@@ -2,13 +2,23 @@
   margin: 20px;
 }
 
-.images {
+.image_area {
   width: 800px;
-  height: 200px;
   background: lightgray;
+  display: grid;
+  /* grid-template-columns: 200px 1fr; */
 }
 
 .analuze_button {
   width: 800px;
   margin: 10px 10px 10px 750px;
+}
+
+.image_info {
+  width: 190px;
+  padding: 10px;
+}
+
+img {
+  width: 150px;;
 }

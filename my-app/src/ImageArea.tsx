@@ -13,27 +13,27 @@ interface BoardProps {
     // id: number;
     // url: string;
     // images: Array<Image>
-    images: Array<string>
+    images: Array<Image>
 }
 
 export class ImageArea extends React.Component<BoardProps>  {
 
     private renderImageInfo(i: number) {
         // console.log(this.props.images[i])
-        console.log(i)
         return (
             <ImageInfo
                 // url={this.props.images[i].url}
-                url={this.props.images[i]}
+                image={this.props.images[i]}
             />
         );
     }
 
     public render() {
         const length = this.props.images.length;
+        const maxRow = 4;
 
         return (
-            <div>
+            <div className="image_area">
                 {/* {length}<br/> */}
                 {
                     Array(length).fill(this.props.images).map((value, i: number) => {
