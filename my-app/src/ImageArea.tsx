@@ -13,24 +13,24 @@ interface BoardProps {
     // id: number;
     // url: string;
     // images: Array<Image>
-    images: Array<Image>
+    images: Array<Image>;
+    onClick: (i: number) => void;
+    checkedImage: Array<boolean>
 }
 
 export class ImageArea extends React.Component<BoardProps>  {
 
     private renderImageInfo(i: number) {
-        // console.log(this.props.images[i])
         return (
             <ImageInfo
-                // url={this.props.images[i].url}
                 image={this.props.images[i]}
-            />
+                onClick={() => this.props.onClick(i)}    
+                checked={this.props.checkedImage[i]}            />
         );
     }
 
     public render() {
         const length = this.props.images.length;
-        const maxRow = 4;
 
         return (
             <div className="image_area">

@@ -1,24 +1,48 @@
+body{
+  
+}
+
 .url_form {
   margin: 20px;
 }
 
 .image_area {
-  width: 800px;
-  background: lightgray;
+  /* width: 800px; */
+  /* background: lightgray; */
   display: grid;
-  /* grid-template-columns: 200px 1fr; */
+  grid-template-columns: 200px 1fr;
 }
 
-.analuze_button {
+.analyze_button {
   width: 800px;
-  margin: 10px 10px 10px 750px;
+  margin: 10px 10px 10px 10px;
 }
 
 .image_info {
   width: 190px;
   padding: 10px;
+  position: relative;
 }
 
-img {
+/* img {
   width: 150px;;
+} */
+
+img.image {
+  width: 150px;
+}
+
+.image_checkbox {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  /* display: none; */
+}
+
+.error_message {
+  width:100%; /*ページ全体の幅は100%と指定する*/	
+  height: 300px;
+  text-align:center; /*ページ全体を中央揃えにする*/
+  margin-top: 100px;
+  color: red;
 }
