@@ -4,8 +4,6 @@ import './index.css';
 interface Image {
     id: number;
     url: string;
-    // name: string;
-    // date: string;
 }
 
 
@@ -62,7 +60,7 @@ export class ImageInfo extends React.Component<ImageInfoProps, ImageInfoState> {
                     />
                 </form>
                 {/* ユーザー名,日付 */}
-                {this.props.image.id}<br />
+                {/* {this.props.image.id}<br /> */}
                 {this.state.name}<br />
                 {this.state.date}
             </div>

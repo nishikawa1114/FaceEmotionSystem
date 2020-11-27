@@ -4,6 +4,7 @@ import { ImageArea } from './ImageArea';
 import './index.css';
 import { Util } from './Util';
 import { Error } from './Error';
+import { AnalysResult } from './AnalysResult';
 
 interface Image {
   id: number;
@@ -16,6 +17,7 @@ interface HomeState {
   checkedImage: Array<boolean>
   errorId: number;
   isError: boolean;
+  displayId: number;
 }
 
 export default class Home extends React.Component<{}, HomeState> {
@@ -27,6 +29,7 @@ export default class Home extends React.Component<{}, HomeState> {
       checkedImage: [],
       errorId: 0,
       isError: false,
+      displayId: 1
     }
   }
 
@@ -50,6 +53,7 @@ export default class Home extends React.Component<{}, HomeState> {
       this.setState({
         errorId: 1,
         isError: true,
+        displayId: 0,
       })
     }
   }
@@ -75,6 +79,7 @@ export default class Home extends React.Component<{}, HomeState> {
       isError: false,
       inputUrl: '',
       checkedImage: checkedImage,
+      displayId: 1,
     })
   }
 
@@ -84,41 +89,41 @@ export default class Home extends React.Component<{}, HomeState> {
   private handleSubmitAnalyze = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault(); // 
     let count: number = 0;
-    let checkId: number = 0;
+    // let checkId: number = 0;
     for (let i: number = 0; i < this.state.checkedImage.length; ++i) {
       if (this.state.checkedImage[i] === true) {
         count++;
-        checkId = i + 1;
+        // checkId = i + 1;
       }
     }
 
-    console.log('チェック済:' + count + '個');
-    console.log('画像ID : ' + this.state.images[checkId - 1].id);
-    console.log('画像URL : ' + this.state.images[checkId - 1].url);
+    this.setState({
+      displayId: 2,
+    })
+
+    // console.log('チェック済:' + count + '個');
+    // console.log('画像ID : ' + this.state.images[checkId - 1].id);
+    // console.log('画像URL : ' + this.state.images[checkId - 1].url);
   }
 
   public render() {
     const isInputUrl: boolean = Util.isInput(this.state.inputUrl); // URLの入力済確認
+    const images = this.state.images;
+    const displayId = this.state.displayId;
     // 画像のチェック数のカウント
     let count: number = 0;
+    let checkedId: number = 0;
     for (let i: number = 0; i < this.state.checkedImage.length; ++i) {
       if (this.state.checkedImage[i] === true) {
         count++;
+        checkedId = i + 1;
       }
     }
-
     const canAnalyze: boolean = count === 1 ? true : false;
-    const images = this.state.images;
 
-    return (
-      this.state.isError ?
-        // エラー発生時
-        <Error
-          errorId={this.state.errorId}
-          onSubmit={this.handleSubmitToHome}
-        />
-        :
-        // 正常時
+    if (displayId === 1) {
+      // ホーム画面
+      return (
         <div>
           <header>
             <h1>Face Emotion System</h1>
@@ -165,7 +170,25 @@ export default class Home extends React.Component<{}, HomeState> {
             </form>
           </div> */}
         </div>
-    )
+      )
+    } else if (displayId === 2) {
+      // 分析画面
+      return (
+        <AnalysResult
+          checkedimage={images[checkedId - 1]}
+          onSubmit={this.handleSubmitToHome}
+          onClick={() => {}}
+        />
+      )
+    } else if (displayId === 0) {
+        // エラー画面
+        return (
+        <Error
+          errorId={this.state.errorId}
+          onSubmit={this.handleSubmitToHome}
+        />
+      )
+    }
   }
 }
 

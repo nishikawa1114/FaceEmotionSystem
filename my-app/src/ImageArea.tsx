@@ -20,7 +20,8 @@ export class ImageArea extends React.Component<BoardProps>  {
             <ImageInfo
                 image={this.props.images[i]}
                 onClick={() => this.props.onClick(i)}    
-                checked={this.props.checkedImage[i]}            />
+                checked={this.props.checkedImage[i]}
+            />
         );
     }
 

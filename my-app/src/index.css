@@ -8,9 +8,9 @@ body{
 
 .image_area {
   /* width: 800px; */
-  background: lightgray;
-  /* display: grid; */
-  /* grid-template-columns: 200px 1fr; */
+  /* background: lightgray; */
+  display: grid;
+  grid-template-columns: 200px 1fr;
 }
 
 .analyze_button {
@@ -44,4 +44,8 @@ img.image {
   text-align:center;
   margin-top: 100px;
   color: red;
+}
+
+.hidden_box input {
+  display: none;
 }
