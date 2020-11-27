@@ -8,18 +8,13 @@ import { Error } from './Error';
 interface Image {
   id: number;
   url: string;
-  // name: string;
-  // date: Date;
 }
 
 interface HomeState {
   inputUrl: string;
-  // images: Array<Image>
   images: Array<Image>
   checkedImage: Array<boolean>
   errorId: number;
-
-
   isError: boolean;
 }
 
@@ -31,7 +26,7 @@ export default class Home extends React.Component<{}, HomeState> {
       images: [],
       checkedImage: [],
       errorId: 0,
-      isError: true,
+      isError: false,
     }
   }
 
@@ -54,7 +49,7 @@ export default class Home extends React.Component<{}, HomeState> {
     } else { // 画像が存在しない場合
       this.setState({
         errorId: 1,
-        isError: false,
+        isError: true,
       })
     }
   }
@@ -77,14 +72,15 @@ export default class Home extends React.Component<{}, HomeState> {
     const checkedImage = this.state.checkedImage;
     checkedImage.fill(false);
     this.setState({
-      isError: true,
+      isError: false,
       inputUrl: '',
       checkedImage: checkedImage,
     })
   }
 
   // 分析ボタンを押下した場合の処理
-  // 今はチェック数を表示するだけ
+  // 今は選択画像の情報をコンソールに表示するだけ
+  // 分析機能は今後実装予定
   private handleSubmitAnalyze = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault(); // 
     let count: number = 0;
@@ -101,29 +97,28 @@ export default class Home extends React.Component<{}, HomeState> {
     console.log('画像URL : ' + this.state.images[checkId - 1].url);
   }
 
-  // // 後で消す
-  // // エラー画面へ移動ボタンの処理
-  // private handleSubmitToError = (e: React.ChangeEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   this.setState({
-  //     errorId: 2,
-  //     isError: false,
-  //   })
-  // }
-
   public render() {
     const isInputUrl: boolean = Util.isInput(this.state.inputUrl); // URLの入力済確認
+    // 画像のチェック数のカウント
     let count: number = 0;
     for (let i: number = 0; i < this.state.checkedImage.length; ++i) {
       if (this.state.checkedImage[i] === true) {
         count++;
       }
     }
+
     const canAnalyze: boolean = count === 1 ? true : false;
     const images = this.state.images;
 
     return (
       this.state.isError ?
+        // エラー発生時
+        <Error
+          errorId={this.state.errorId}
+          onSubmit={this.handleSubmitToHome}
+        />
+        :
+        // 正常時
         <div>
           <header>
             <h1>Face Emotion System</h1>
@@ -170,11 +165,6 @@ export default class Home extends React.Component<{}, HomeState> {
             </form>
           </div> */}
         </div>
-        :
-        <Error
-          errorId={this.state.errorId}
-          onSubmit={this.handleSubmitToHome}
-        />
     )
   }
 }

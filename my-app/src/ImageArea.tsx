@@ -5,14 +5,9 @@ import { ImageInfo } from './ImageInfo';
 interface Image {
     id: number;
     url: string;
-    // name: string;
-    // date: Date;
 }
 
 interface BoardProps {
-    // id: number;
-    // url: string;
-    // images: Array<Image>
     images: Array<Image>;
     onClick: (i: number) => void;
     checkedImage: Array<boolean>
@@ -34,7 +29,6 @@ export class ImageArea extends React.Component<BoardProps>  {
 
         return (
             <div className="image_area">
-                {/* {length}<br/> */}
                 {
                     Array(length).fill(this.props.images).map((value, i: number) => {
                         return (
