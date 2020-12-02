@@ -3,6 +3,7 @@ import './index.css';
 import { ImageInfo } from './ImageInfo';
 import { Analyser } from './Analyser';
 import { Graph } from './Graph';
+import { Table } from './Table';
 
 interface Image {
     id: number;
@@ -87,25 +88,14 @@ export class AnalysResult extends React.Component<analyseProps, AnalysResultStat
 
                     <div className="graph">
                         <Graph
-                            emotoin={this.state.emotion}
+                            emotion={this.state.emotion}
                         />
                     </div>
 
                     <div>
-                        <table>
-                            <tr>
-                                <th>感情</th>
-                                <th>値</th>
-                            </tr>
-                            {Object.entries(this.state.emotion).map(([key, value]) => (
-
-                                <tr >
-                                    <td className="emotion">{key}</td>
-                                    <td className="emotion_value">{value}</td>
-                                </tr>
-
-                            ))}
-                        </table>
+                        <Table
+                            emotion={this.state.emotion}
+                        />
                     </div>
                 </div>
 

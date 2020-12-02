@@ -16,8 +16,8 @@ interface ImageInfoState {
 
 interface ImageInfoProps {
     image: Image;
-    onClick: () => void;
     checked: boolean;
+    onClick: () => void;
 }
 
 export class ImageInfo extends React.Component<ImageInfoProps, ImageInfoState> {

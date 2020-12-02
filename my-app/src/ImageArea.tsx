@@ -9,8 +9,8 @@ interface Image {
 
 interface BoardProps {
     images: Array<Image>;
-    onClick: (i: number) => void;
     checkedImage: Array<boolean>
+    onClick: (i: number) => void;
 }
 
 export class ImageArea extends React.Component<BoardProps>  {

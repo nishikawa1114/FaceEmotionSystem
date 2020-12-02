@@ -14,7 +14,7 @@ interface emotion {
 }
 
 interface CraphProps {
-    emotoin: emotion;
+    emotion: emotion;
 }
 
 export class Graph extends React.Component<CraphProps> {
@@ -23,28 +23,28 @@ export class Graph extends React.Component<CraphProps> {
 
         const data = [
             {
-                subject: 'anger', A: this.props.emotoin.anger, fullMark: 1,
+                subject: 'anger', A: this.props.emotion.anger, fullMark: 1,
             },
             {
-                subject: 'contempt', A: this.props.emotoin.contempt, fullMark: 1,
+                subject: 'contempt', A: this.props.emotion.contempt, fullMark: 1,
             },
             {
-                subject: 'disgust', A: this.props.emotoin.disgust, fullMark: 1,
+                subject: 'disgust', A: this.props.emotion.disgust, fullMark: 1,
             },
             {
-                subject: 'fear', A: this.props.emotoin.fear, fullMark: 1,
+                subject: 'fear', A: this.props.emotion.fear, fullMark: 1,
             },
             {
-                subject: 'happiness', A: this.props.emotoin.happiness, fullMark: 1,
+                subject: 'happiness', A: this.props.emotion.happiness, fullMark: 1,
             },
             {
-                subject: 'neutral', A: this.props.emotoin.neutral, fullMark: 1,
+                subject: 'neutral', A: this.props.emotion.neutral, fullMark: 1,
             },
             {
-                subject: 'sadness', A: this.props.emotoin.sadness, fullMark: 1,
+                subject: 'sadness', A: this.props.emotion.sadness, fullMark: 1,
             },
             {
-                subject: 'surprise', A: this.props.emotoin.surprise, fullMark: 1,
+                subject: 'surprise', A: this.props.emotion.surprise, fullMark: 1,
             },
         ];
 
