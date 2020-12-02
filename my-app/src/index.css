@@ -7,15 +7,12 @@ body{
 }
 
 .image_area {
-  /* width: 800px; */
-  /* background: lightgray; */
-  display: grid;
-  grid-template-columns: 200px 1fr;
+  display: flex;
 }
 
-.analyze_button {
-  width: 800px;
-  margin: 10px 10px 10px 10px;
+.analyse_button {
+  width: 300px;
+  margin: 0 0 0 auto;
 }
 
 .image_info {
@@ -24,12 +21,9 @@ body{
   position: relative;
 }
 
-/* img {
-  width: 150px;;
-} */
-
 img.image {
-  width: 150px;
+  max-width: 150px;
+  height: 100px;
 }
 
 .image_checkbox {
@@ -48,4 +42,42 @@ img.image {
 
 .hidden_box input {
   display: none;
+}
+
+.result {
+  display: flex;
+  margin: 20px;
+}
+
+.result table {
+  border-collapse:collapse;
+  border:1px solid black; 
+  margin: 20px;
+}
+.result graph {
+  margin: 20px;
+}
+
+.emotion_value {
+  width: 50px;
+}
+
+.emotion {
+  width: 100px;
+  text-align: left;
+}
+
+th {
+  border:1px solid black;
+}
+
+td {
+  text-align:right;
+  border:1px solid black; 
+}
+
+
+.home_button {
+  width: 400px;
+  float: right;
 }

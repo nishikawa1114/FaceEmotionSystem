@@ -12,10 +12,12 @@ export class Error extends React.Component<errorProps> {
     render() {
 
         let errorMessage: string;
-        if (this.props.errorId == 1) {
+        if (this.props.errorId === 1) {
             errorMessage = '画像が存在しません';
+        }else if (this.props.errorId === 2) {
+            errorMessage = '分析結果が取得できませんでした';
         } else {
-            errorMessage = 'エラー'
+            errorMessage = '予期しないエラー'
         }
 
         return (

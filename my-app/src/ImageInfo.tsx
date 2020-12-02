@@ -31,11 +31,13 @@ export class ImageInfo extends React.Component<ImageInfoProps, ImageInfoState> {
         }
     }
 
+    // URLから日付を返す
     getDate(str: string) {
         let strDate = String(str.match(/\d{4}\/\d{2}\/\d{2}/));
         return strDate;
     }
 
+    // URLからユーザー名を返す
     getName(str: string) {
         let temp: string = String(str.split('images/').pop());
         let name: string = String(temp.split('/').shift());
@@ -60,7 +62,6 @@ export class ImageInfo extends React.Component<ImageInfoProps, ImageInfoState> {
                     />
                 </form>
                 {/* ユーザー名,日付 */}
-                {/* {this.props.image.id}<br /> */}
                 {this.state.name}<br />
                 {this.state.date}
             </div>

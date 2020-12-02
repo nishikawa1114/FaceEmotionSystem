@@ -11,6 +11,7 @@
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
     "axios": "^0.21.0",
+    "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "@types/node-fetch": "^2.5.7",
-    "@types/recharts": "^1.8.16"
+    "@types/recharts": "^1.8.16",
+    "recharts": "^1.8.5"
   }
 }

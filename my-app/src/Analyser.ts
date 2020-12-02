@@ -1,14 +1,14 @@
 'use strict';
 import fetch from 'node-fetch';
+require('dotenv').config();
 
 export class Analyser {
 
     public static analyse(str: string) {
 
         // Add a valid subscription key and endpoint to your environment variables.
-        let subscriptionKey = '';
-        let endpoint = '' + '/face/v1.0/detect'
-
+        let subscriptionKey = String(process.env.REACT_APP_FACE_SUBSCRIPTION_KEY);
+        let endpoint = String(process.env.REACT_APP_FACE_ENDPOINT) + '/face/v1.0/detect';
         // Optionally, replace with your own image URL (for example a .jpg or .png URL).
         let imageUrl = str;
 
@@ -33,13 +33,16 @@ export class Analyser {
                 return response.json(); // Promiseを返す
             })
             .then((data: { [x: string]: { [x: string]: any; }; }[]) => { // JSONデータ
-                let id = data[0]['faceId'];
+                // 分析結果が空の場合 
+                if (data.length === 0) {
+                    return Object;
+                }
                 let emotion = data[0]['faceAttributes']['emotion'];
-                console.log(emotion);
                 return emotion;
             })
             .catch((error: any) => { // エラーの場合
                 console.log(error);
+                return Object;
             });
     }
 }
