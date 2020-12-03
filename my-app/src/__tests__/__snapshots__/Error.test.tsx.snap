@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`error analyze 1`] = `
+<div>
+  <header>
+    <h1>
+      Face Emotion System
+    </h1>
+  </header>
+  <div
+    className="error_message"
+  >
+    <h2>
+      分析結果が取得できませんでした
+    </h2>
+    <form
+      onSubmit={[Function]}
+    >
+      <button
+        type="submit"
+      >
+        ホーム画面へ戻る
+      </button>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`error no image 1`] = `
+<div>
+  <header>
+    <h1>
+      Face Emotion System
+    </h1>
+  </header>
+  <div
+    className="error_message"
+  >
+    <h2>
+      画像が存在しません
+    </h2>
+    <form
+      onSubmit={[Function]}
+    >
+      <button
+        type="submit"
+      >
+        ホーム画面へ戻る
+      </button>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`snapshot test 1`] = `
+<div>
+  <header>
+    <h1>
+      Face Emotion System
+    </h1>
+  </header>
+  <div
+    className="error_message"
+  >
+    <h2>
+      予期しないエラー
+    </h2>
+    <form
+      onSubmit={[Function]}
+    >
+      <button
+        type="submit"
+      >
+        ホーム画面へ戻る
+      </button>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`snapshot test 2`] = `
+<div>
+  <header>
+    <h1>
+      Face Emotion System
+    </h1>
+  </header>
+  <div
+    className="error_message"
+  >
+    <h2>
+      画像が存在しません
+    </h2>
+    <form
+      onSubmit={[Function]}
+    >
+      <button
+        type="submit"
+      >
+        ホーム画面へ戻る
+      </button>
+    </form>
+  </div>
+</div>
+`;

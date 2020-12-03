@@ -22,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -45,7 +45,12 @@
   },
   "devDependencies": {
     "@types/node-fetch": "^2.5.7",
+    "@types/react-test-renderer": "^17.0.0",
     "@types/recharts": "^1.8.16",
-    "recharts": "^1.8.5"
+    "jest": "^26.6.3",
+    "jest-transform-stub": "^2.0.0",
+    "react-test-renderer": "^17.0.1",
+    "recharts": "^1.8.5",
+    "ts-jest": "^26.4.4"
   }
 }

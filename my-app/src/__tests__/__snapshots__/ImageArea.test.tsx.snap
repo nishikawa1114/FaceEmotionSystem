@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot test 1`] = `
+<div
+  className="image_area"
+>
+  <div
+    className="image_info"
+  >
+    <img
+      className="image"
+      onClick={[Function]}
+      src="https://nishikawa.blob.core.windows.net/images/steve/2020/10/15/01.jpg?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D"
+    />
+    <form>
+      <input
+        checked={true}
+        className="image_checkbox"
+        type="checkbox"
+        value="https://nishikawa.blob.core.windows.net/images/steve/2020/10/15/01.jpg?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D"
+      />
+    </form>
+    steve
+    <br />
+    2020/10/15
+  </div>
+  <div
+    className="image_info"
+  >
+    <img
+      className="image"
+      onClick={[Function]}
+      src="https://nishikawa.blob.core.windows.net/images/steve/2020/10/15/01.jpg?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D"
+    />
+    <form>
+      <input
+        checked={false}
+        className="image_checkbox"
+        type="checkbox"
+        value="https://nishikawa.blob.core.windows.net/images/steve/2020/10/15/01.jpg?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D"
+      />
+    </form>
+    steve
+    <br />
+    2020/10/15
+  </div>
+</div>
+`;

@@ -2,22 +2,11 @@ import React from 'react';
 import './index.css';
 import { Radar, RadarChart, PolarGrid, Legend, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 
-interface emotion {
-    anger: number;
-    contempt: number;
-    disgust: number;
-    fear: number;
-    happiness: number;
-    neutral: number;
-    sadness: number;
-    surprise: number;
+interface GraphProps {
+    emotion: Emotion;
 }
 
-interface CraphProps {
-    emotion: emotion;
-}
-
-export class Graph extends React.Component<CraphProps> {
+export class Graph extends React.Component<GraphProps> {
 
     render() {
 

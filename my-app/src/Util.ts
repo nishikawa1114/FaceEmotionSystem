@@ -4,7 +4,7 @@ export class Util {
 
     // 
     static isInput(str: string) {
-        if (!str) { // urlが入力済
+        if (str) { // urlが入力済
             return true;
         } else { // urlが未入力
             return false;
