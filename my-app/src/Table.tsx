@@ -1,5 +1,7 @@
 import React from 'react';
 import './index.css';
+import { Emotion } from './types';
+
 
 interface TableProps {
     emotion: Emotion;

@@ -8,21 +8,21 @@ export class Analyzer {
     public static analyze(str: string) {
 
         // Add a valid subscription key and endpoint to your environment variables.
-        let subscriptionKey = String(process.env.REACT_APP_FACE_SUBSCRIPTION_KEY);
-        let endpoint = String(process.env.REACT_APP_FACE_ENDPOINT) + '/face/v1.0/detect';
+        const subscriptionKey = String(process.env.REACT_APP_FACE_SUBSCRIPTION_KEY);
+        const endpoint = String(process.env.REACT_APP_FACE_ENDPOINT) + '/face/v1.0/detect';
         // Optionally, replace with your own image URL (for example a .jpg or .png URL).
-        let imageUrl = str;
+        const imageUrl = str;
 
-        const params = {    // Face API に渡すパラメータ
+        const queryParams = {    // Face API に渡すパラメータ
             "detectionModel": "detection_01",
             "returnFaceAttributes": "emotion",
             "returnFaceId": "true"
         };
 
-        const query_params = new URLSearchParams(params);
+        const queryString = new URLSearchParams(queryParams);
 
         
-        return fetch(endpoint + '?' + query_params, {  // パラメータparamsをURLに入れてFace API に渡す
+        return fetch(endpoint + '?' + queryString, {  // パラメータparamsをURLに入れてFace API に渡す
             method: 'POST',
             headers: { 
                 'Ocp-Apim-Subscription-Key': subscriptionKey,   // Face API サブスクリプションキー
@@ -38,7 +38,7 @@ export class Analyzer {
                 if (data.length === 0) {
                     return Object;
                 }
-                let emotion = data[0]['faceAttributes']['emotion'];
+                const emotion = data[0]['faceAttributes']['emotion'];
                 return emotion;
             })
             .catch((error: any) => { // エラーの場合

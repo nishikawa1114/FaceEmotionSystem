@@ -1,7 +1,6 @@
 import React from 'react';
 import './index.css';
 
-
 interface errorProps {
     errorId: number;
     onSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void;

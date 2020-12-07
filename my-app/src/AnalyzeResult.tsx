@@ -4,11 +4,9 @@ import { ImageInfo } from './ImageInfo';
 import { Analyzer } from './Analyzer';
 import { Graph } from './Graph';
 import { Table } from './Table';
-
-interface Image {
-    id: number;
-    url: string;
-}
+import { Image } from './types';
+import { Emotion } from './types';
+import { ErrorId } from './types';
 
 interface AnalyzeProps {
     checkedimage: Image;
@@ -40,15 +38,15 @@ export class AnalysResult extends React.Component<AnalyzeProps, AnalysResultStat
     }
 
     private analyzeImage = async (str: string) => {
-        let emotion = await Analyzer.analyze(str);
+        const emotion = await Analyzer.analyze(str);
         return emotion;
     }
 
     public async componentDidMount() {
         this.analyzeImage(this.props.checkedimage.url).then((response: any) => {
             // 分析結果が空の場合
-            if(!Object.keys(response).length) {
-                this.props.setErrorId(2);
+            if (!Object.keys(response).length) {
+                this.props.setErrorId(ErrorId.ERROR_ANALYZE_RESULT_EMPTY);
                 return;
             }
 

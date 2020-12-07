@@ -1,11 +1,7 @@
 import React from 'react';
 import './index.css';
 import { ImageInfo } from './ImageInfo';
-
-interface Image {
-    id: number;
-    url: string;
-}
+import { Image } from './types';
 
 interface BoardProps {
     images: Array<Image>;

@@ -24,7 +24,7 @@ const checkedImages: Array<boolean> = [true, false];
         const tree = create(
             <ImageArea
                 images={images}
-                checkedImage={checkedImages}
+                checkedImages={checkedImages}
                 onClick={() => {}}
             />
         ).toJSON();

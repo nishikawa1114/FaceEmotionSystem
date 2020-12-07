@@ -5,11 +5,8 @@ import './index.css';
 import { Util } from './Util';
 import { Error } from './Error';
 import { AnalysResult } from './AnalyzeResult';
-
-interface Image {
-  id: number;
-  url: string;
-}
+import { Image } from './types';
+import { ErrorId } from './types';
 
 interface HomeState {
   inputUrl: string; // フォームに入力されたurl
@@ -19,6 +16,12 @@ interface HomeState {
   displayId: number; // 1:ホーム画面, 2:分析結果画面, 0:エラー画面
 }
 
+enum DisplayId {
+  HOME,
+  ANALYZE,
+  ERROR
+}
+
 export default class Home extends React.Component<{}, HomeState> {
   constructor(props: {}) {
     super(props);
@@ -26,8 +29,8 @@ export default class Home extends React.Component<{}, HomeState> {
       inputUrl: '',
       images: [],
       checkedImages: [],
-      errorId: 0,
-      displayId: 1
+      errorId: ErrorId.NOT_ERROR,
+      displayId: DisplayId.HOME,
     }
   }
 
@@ -39,8 +42,8 @@ export default class Home extends React.Component<{}, HomeState> {
 
     if (!exit) { // 画像が存在しない場合
       this.setState({
-        errorId: 1,
-        displayId: 0,
+        errorId: ErrorId.ERROR_IMAGE_NOT_EXIST,
+        displayId: DisplayId.ERROR,
       })
       return;
     }
@@ -77,7 +80,7 @@ export default class Home extends React.Component<{}, HomeState> {
     this.setState({
       inputUrl: '',
       checkedImages: checkedImages,
-      displayId: 1, // ホーム画面へ
+      displayId: DisplayId.HOME, // ホーム画面へ
     })
   }
 
@@ -85,7 +88,7 @@ export default class Home extends React.Component<{}, HomeState> {
   private handleSubmitAnalyze = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault(); // 
     this.setState({
-      displayId: 2, // 分析画面へ
+      displayId: DisplayId.ANALYZE, // 分析画面へ
     })
   }
 
@@ -93,7 +96,7 @@ export default class Home extends React.Component<{}, HomeState> {
   public setErrrorId = (id: number) => {
     this.setState({
       errorId: id,
-      displayId: 0, // エラー画面へ
+      displayId: DisplayId.ERROR, // エラー画面へ
     })
   }
 
@@ -105,14 +108,14 @@ export default class Home extends React.Component<{}, HomeState> {
     let count: number = 0;
     let checkedId: number = 0;
     this.state.checkedImages.filter((value, index) => {
-      if(value === true) {
+      if (value === true) {
         count++;
         checkedId = index + 1;
       }
     })
     const canAnalyze: boolean = count === 1 ? true : false;
 
-    if (displayId === 1) {
+    if (displayId === DisplayId.HOME) {
       // ホーム画面
       return (
         <div>
@@ -156,7 +159,7 @@ export default class Home extends React.Component<{}, HomeState> {
           </div>
         </div>
       )
-    } else if (displayId === 2) {
+    } else if (displayId === DisplayId.ANALYZE) {
       // 分析画面
       return (
         <AnalysResult
@@ -166,7 +169,7 @@ export default class Home extends React.Component<{}, HomeState> {
           setErrorId={this.setErrrorId}
         />
       )
-    } else if (displayId === 0) {
+    } else if (displayId === DisplayId.ERROR) {
       // エラー画面
       return (
         <Error

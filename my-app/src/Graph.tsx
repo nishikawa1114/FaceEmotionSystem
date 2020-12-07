@@ -1,6 +1,7 @@
 import React from 'react';
 import './index.css';
 import { Radar, RadarChart, PolarGrid, Legend, PolarAngleAxis, PolarRadiusAxis } from "recharts";
+import { Emotion } from './types';
 
 interface GraphProps {
     emotion: Emotion;
