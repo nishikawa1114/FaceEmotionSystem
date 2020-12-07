@@ -4,19 +4,22 @@ import { ImageArea } from './ImageArea';
 import './index.css';
 import { Util } from './Util';
 import { Error } from './Error';
-import { AnalysResult } from './AnalysResult';
-
-interface Image {
-  id: number;
-  url: string;
-}
+import { AnalysResult } from './AnalyzeResult';
+import { Image } from './types';
+import { ErrorId } from './types';
 
 interface HomeState {
   inputUrl: string; // フォームに入力されたurl
   images: Array<Image> // 表示している画像のリスト
-  checkedImage: Array<boolean>
+  checkedImages: Array<boolean>
   errorId: number; // 1:画像が存在しない, 2:分析結果が取得できない, 0:エラーなし
   displayId: number; // 1:ホーム画面, 2:分析結果画面, 0:エラー画面
+}
+
+enum DisplayId {
+  HOME,
+  ANALYZE,
+  ERROR
 }
 
 export default class Home extends React.Component<{}, HomeState> {
@@ -25,22 +28,22 @@ export default class Home extends React.Component<{}, HomeState> {
     this.state = {
       inputUrl: '',
       images: [],
-      checkedImage: [],
-      errorId: 0,
-      displayId: 1
+      checkedImages: [],
+      errorId: ErrorId.NOT_ERROR,
+      displayId: DisplayId.HOME,
     }
   }
 
   // 表示ボタンを押下して、画像を表示
   private handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { images, checkedImage } = this.state;
-    const exit = await Util.exitImage(this.state.inputUrl);
+    const { images, checkedImages } = this.state;
+    const imageExists = await Util.imageExists(this.state.inputUrl);
 
-    if (!exit) { // 画像が存在しない場合
+    if (!imageExists) { // 画像が存在しない場合
       this.setState({
-        errorId: 1,
-        displayId: 0,
+        errorId: ErrorId.ERROR_IMAGE_NOT_EXIST,
+        displayId: DisplayId.ERROR,
       })
       return;
     }
@@ -51,7 +54,7 @@ export default class Home extends React.Component<{}, HomeState> {
         id: images.length + 1,
         url: this.state.inputUrl,
       }),
-      checkedImage: checkedImage.concat(false),
+      checkedImages: checkedImages.concat(false),
       inputUrl: ''
     })
 
@@ -64,28 +67,28 @@ export default class Home extends React.Component<{}, HomeState> {
 
   // 画像をクリックして画像を選択
   private handleClick = (i: number) => {
-    const checkedImage = this.state.checkedImage;
-    checkedImage[i] = !checkedImage[i];
-    this.setState({ checkedImage: checkedImage });
+    const checkedImages = this.state.checkedImages;
+    checkedImages[i] = !checkedImages[i];
+    this.setState({ checkedImages: checkedImages });
   }
 
   // ホームへ戻るボタンを押下した場合の処理 (エラー画面)
   private handleSubmitToHome = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const checkedImage = this.state.checkedImage;
-    checkedImage.fill(false);
+    const checkedImages = this.state.checkedImages;
+    checkedImages.fill(false);
     this.setState({
       inputUrl: '',
-      checkedImage: checkedImage,
-      displayId: 1, // ホーム画面へ
+      checkedImages: checkedImages,
+      displayId: DisplayId.HOME, // ホーム画面へ
     })
   }
 
   // 分析ボタンを押下した場合の処理
-  private handleSubmitAnalyse = (e: React.ChangeEvent<HTMLFormElement>) => {
+  private handleSubmitAnalyze = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault(); // 
     this.setState({
-      displayId: 2, // 分析画面へ
+      displayId: DisplayId.ANALYZE, // 分析画面へ
     })
   }
 
@@ -93,7 +96,7 @@ export default class Home extends React.Component<{}, HomeState> {
   public setErrrorId = (id: number) => {
     this.setState({
       errorId: id,
-      displayId: 0, // エラー画面へ
+      displayId: DisplayId.ERROR, // エラー画面へ
     })
   }
 
@@ -104,15 +107,15 @@ export default class Home extends React.Component<{}, HomeState> {
     // 画像のチェック数のカウント
     let count: number = 0;
     let checkedId: number = 0;
-    this.state.checkedImage.filter((value, index) => {
-      if(value === true) {
+    this.state.checkedImages.filter((value, index) => {
+      if (value === true) {
         count++;
         checkedId = index + 1;
       }
     })
-    const canAnalyse: boolean = count === 1 ? true : false;
+    const canAnalyze: boolean = count === 1 ? true : false;
 
-    if (displayId === 1) {
+    if (displayId === DisplayId.HOME) {
       // ホーム画面
       return (
         <div>
@@ -129,7 +132,7 @@ export default class Home extends React.Component<{}, HomeState> {
               />
               <button type="submit"
                 className="display_button"
-                disabled={isInputUrl}
+                disabled={!isInputUrl}
               >
                 表示
             </button>
@@ -142,21 +145,21 @@ export default class Home extends React.Component<{}, HomeState> {
                 <ImageArea
                   images={images}
                   onClick={(i) => this.handleClick(i)}
-                  checkedImage={this.state.checkedImage}
+                  checkedImages={this.state.checkedImages}
                 />
                 :
                 <div></div>
             }
           </div>
           {/* 分析ボタン */}
-          <div className="analyse_button">
-            <form onSubmit={this.handleSubmitAnalyse}>
-              <button disabled={!canAnalyse}>分析</button>
+          <div className="analyze_button">
+            <form onSubmit={this.handleSubmitAnalyze}>
+              <button disabled={!canAnalyze}>分析</button>
             </form>
           </div>
         </div>
       )
-    } else if (displayId === 2) {
+    } else if (displayId === DisplayId.ANALYZE) {
       // 分析画面
       return (
         <AnalysResult
@@ -166,7 +169,7 @@ export default class Home extends React.Component<{}, HomeState> {
           setErrorId={this.setErrrorId}
         />
       )
-    } else if (displayId === 0) {
+    } else if (displayId === DisplayId.ERROR) {
       // エラー画面
       return (
         <Error

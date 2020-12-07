@@ -4,7 +4,7 @@ export class Util {
 
     // 
     static isInput(str: string) {
-        if (!str) { // urlが入力済
+        if (str) { // urlが入力済
             return true;
         } else { // urlが未入力
             return false;
@@ -12,7 +12,7 @@ export class Util {
     }
 
     // urlで指定した画像が存在するか判定する
-    static exitImage(str: string) {
+    static imageExists(str: string) {
         return new Promise((resolve) => {
             const img = new Image();
             img.onload = () => { 

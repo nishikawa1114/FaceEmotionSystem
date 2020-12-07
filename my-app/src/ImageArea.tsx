@@ -1,15 +1,11 @@
 import React from 'react';
 import './index.css';
 import { ImageInfo } from './ImageInfo';
-
-interface Image {
-    id: number;
-    url: string;
-}
+import { Image } from './types';
 
 interface BoardProps {
     images: Array<Image>;
-    checkedImage: Array<boolean>
+    checkedImages: Array<boolean>
     onClick: (i: number) => void;
 }
 
@@ -21,7 +17,7 @@ export class ImageArea extends React.Component<BoardProps>  {
             <ImageInfo
                 image={this.props.images[i]}
                 onClick={() => this.props.onClick(i)}
-                checked={this.props.checkedImage[i]}
+                checked={this.props.checkedImages[i]}
             />
         );
     }

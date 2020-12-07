@@ -1,11 +1,6 @@
 import React from 'react';
 import './index.css';
-
-interface Image {
-    id: number;
-    url: string;
-}
-
+import { Image } from './types';
 
 interface ImageInfoState {
     id: number
@@ -33,14 +28,14 @@ export class ImageInfo extends React.Component<ImageInfoProps, ImageInfoState> {
 
     // URLから日付を返す
     getDate(str: string) {
-        let strDate = String(str.match(/\d{4}\/\d{2}\/\d{2}/));
+        const strDate = String(str.match(/\d{4}\/\d{2}\/\d{2}/));
         return strDate;
     }
 
     // URLからユーザー名を返す
     getName(str: string) {
-        let temp: string = String(str.split('images/').pop());
-        let name: string = String(temp.split('/').shift());
+        const temp: string = String(str.split('images/').pop());
+        const name: string = String(temp.split('/').shift());
         return name;
     }
 
