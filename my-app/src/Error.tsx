@@ -16,7 +16,7 @@ export class Error extends React.Component<errorProps> {
         }else if (this.props.errorId === 2) {
             errorMessage = '分析結果が取得できませんでした';
         } else {
-            errorMessage = '予期しないエラー'
+            errorMessage = '予期しないエラーが発生しました'
         }
 
         return (
