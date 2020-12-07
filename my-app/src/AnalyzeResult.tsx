@@ -15,11 +15,11 @@ interface AnalyzeProps {
     setErrorId: (id: number) => void;
 }
 
-interface AnalysResultState {
+interface AnalyzeResultState {
     emotion: Emotion;
 }
 
-export class AnalysResult extends React.Component<AnalyzeProps, AnalysResultState> {
+export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultState> {
 
     private constructor(props: AnalyzeProps) {
         super(props);

@@ -4,9 +4,10 @@ import { ImageArea } from './ImageArea';
 import './index.css';
 import { Util } from './Util';
 import { Error } from './Error';
-import { AnalysResult } from './AnalyzeResult';
+import { AnalyzeResult } from './AnalyzeResult';
 import { Image } from './types';
 import { ErrorId } from './types';
+import { Home } from './Home'
 
 interface HomeState {
   inputUrl: string; // フォームに入力されたurl
@@ -22,7 +23,7 @@ enum DisplayId {
   ERROR
 }
 
-export default class Home extends React.Component<{}, HomeState> {
+export default class Index extends React.Component<{}, HomeState> {
   constructor(props: {}) {
     super(props);
     this.state = {
@@ -101,6 +102,7 @@ export default class Home extends React.Component<{}, HomeState> {
   }
 
   public render() {
+
     const isInputUrl: boolean = Util.isInput(this.state.inputUrl); // URLの入力済確認
     const images = this.state.images;
     const displayId = this.state.displayId;
@@ -118,51 +120,22 @@ export default class Home extends React.Component<{}, HomeState> {
     if (displayId === DisplayId.HOME) {
       // ホーム画面
       return (
-        <div>
-          <header>
-            <h1>Face Emotion System</h1>
-          </header>
-          {/* URL入力フォーム，表示ボタン */}
-          <div className="url_form">
-            <form onSubmit={this.handleSubmit}>
-              <input type="text" name="url"
-                placeholder="URLを入力してください"
-                value={this.state.inputUrl}
-                onChange={this.handleChange}
-              />
-              <button type="submit"
-                className="display_button"
-                disabled={!isInputUrl}
-              >
-                表示
-            </button>
-            </form>
-          </div>
-          {/* 画像表示領域 */}
-          <div className="images">
-            {
-              images ?
-                <ImageArea
-                  images={images}
-                  onClick={(i) => this.handleClick(i)}
-                  checkedImages={this.state.checkedImages}
-                />
-                :
-                <div></div>
-            }
-          </div>
-          {/* 分析ボタン */}
-          <div className="analyze_button">
-            <form onSubmit={this.handleSubmitAnalyze}>
-              <button disabled={!canAnalyze}>分析</button>
-            </form>
-          </div>
-        </div>
+        <Home
+          inputUrl={this.state.inputUrl}
+          isInputUrl={isInputUrl}
+          images={this.state.images}
+          checkedImages={this.state.checkedImages}
+          canAnalyze={canAnalyze}
+          handleSubmit={this.handleSubmit}
+          handleChange={this.handleChange}
+          handleClick={this.handleClick}
+          handleSubmitAnalyze={this.handleSubmitAnalyze}
+        />
       )
     } else if (displayId === DisplayId.ANALYZE) {
       // 分析画面
       return (
-        <AnalysResult
+        <AnalyzeResult
           checkedimage={images[checkedId - 1]}
           onSubmit={this.handleSubmitToHome}
           onClick={() => { }}
@@ -184,7 +157,7 @@ export default class Home extends React.Component<{}, HomeState> {
 // ========================================
 
 ReactDOM.render(
-  <Home />,
+  <Index />,
   document.getElementById('root')
 );
 
