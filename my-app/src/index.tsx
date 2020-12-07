@@ -103,18 +103,18 @@ export default class Index extends React.Component<{}, IndexState> {
   public render() {
 
     const isInputUrl: boolean = Util.isInput(this.state.inputUrl); // URLの入力済確認
-    const images = this.state.images;
-    const displayId = this.state.displayId;
+    const images: Array<Image> = this.state.images;
+    const displayId:number = this.state.displayId;
     // 画像のチェック数のカウント
-    let count: number = 0;
+    let countChecked: number = 0;
     let checkedId: number = 0;
-    this.state.checkedImages.filter((value, index) => {
+    this.state.checkedImages.forEach((value, index) => {
       if (value === true) {
-        count++;
+        countChecked++;
         checkedId = index + 1;
       }
     })
-    const canAnalyze: boolean = count === 1 ? true : false;
+    const canAnalyze: boolean = countChecked === 1 ? true : false;
 
     if (displayId === DisplayId.HOME) {
       // ホーム画面

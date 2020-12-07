@@ -37,14 +37,14 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
         }
     }
 
-    private analyzeImage = async (str: string) => {
-        const emotion = await Analyzer.analyze(str);
+    private analyzeImage = async (imageUrl: string) => {
+        const emotion = await Analyzer.analyze(imageUrl);
         return emotion;
     }
 
     public async componentDidMount() {
         this.analyzeImage(this.props.checkedimage.url).then((response: any) => {
-            // 分析結果が空の場合
+            // 画像の分析ができない場合、APIにアクセスできない場合
             if (!Object.keys(response).length) {
                 this.props.setErrorId(ErrorId.ERROR_ANALYZE_RESULT_EMPTY);
                 return;

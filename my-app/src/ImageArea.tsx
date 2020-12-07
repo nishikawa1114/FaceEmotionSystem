@@ -25,7 +25,6 @@ export class ImageArea extends React.Component<BoardProps>  {
     }
 
     public render() {
-        const length = this.props.images.length;
         // 全ての画像を表示する
         return (
             <div className="image_area">

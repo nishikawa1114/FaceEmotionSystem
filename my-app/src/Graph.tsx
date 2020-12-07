@@ -11,7 +11,7 @@ export class Graph extends React.Component<GraphProps> {
 
     render() {
 
-        const data = [
+        const emotionData = [
             {
                 subject: 'anger', A: this.props.emotion.anger, fullMark: 1,
             },
@@ -41,7 +41,7 @@ export class Graph extends React.Component<GraphProps> {
         return (
             <div>
                 <div>
-                    <RadarChart outerRadius={100} width={400} height={300} data={data}>
+                    <RadarChart outerRadius={100} width={400} height={300} data={emotionData}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey="subject" />
                         <PolarRadiusAxis angle={90} domain={[0, 1]} />
