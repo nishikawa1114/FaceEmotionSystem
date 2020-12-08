@@ -14,11 +14,13 @@ export class ImageArea extends React.Component<BoardProps>  {
     // それぞれの画像を表示する
     private renderImageInfo(i: number) {
         return (
-            <ImageInfo
-                image={this.props.images[i]}
-                onClick={() => this.props.onClick(i)}
-                checked={this.props.checkedImages[i]}
-            />
+            <div key={this.props.images[i].id}>
+                <ImageInfo
+                    image={this.props.images[i]}
+                    onClick={() => this.props.onClick(i)}
+                    checked={this.props.checkedImages[i]}
+                />
+            </div>
         );
     }
 

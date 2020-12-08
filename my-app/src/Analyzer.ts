@@ -1,17 +1,14 @@
-'use strict';
-
 import fetch from 'node-fetch';
 require('dotenv').config();
 
 export class Analyzer {
 
-    public static analyze(str: string) {
+    public static analyze(imageUrl: string) {
 
         // Add a valid subscription key and endpoint to your environment variables.
         const subscriptionKey = String(process.env.REACT_APP_FACE_SUBSCRIPTION_KEY);
         const endpoint = String(process.env.REACT_APP_FACE_ENDPOINT) + '/face/v1.0/detect';
         // Optionally, replace with your own image URL (for example a .jpg or .png URL).
-        const imageUrl = str;
 
         const queryParams = {    // Face API に渡すパラメータ
             "detectionModel": "detection_01",

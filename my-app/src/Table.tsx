@@ -20,7 +20,7 @@ export class Table extends React.Component<TableProps> {
                     </tr>
                     {Object.entries(this.props.emotion).map(([key, value]) => (
 
-                        <tr>
+                        <tr key={key}>
                             <td className="emotion">{key}</td>
                             <td className="emotion_value">{value}</td>
                         </tr>

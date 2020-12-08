@@ -1,18 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ImageArea } from './ImageArea';
 import './index.css';
 import { Util } from './Util';
 import { Error } from './Error';
-import { AnalysResult } from './AnalyzeResult';
+import { AnalyzeResult } from './AnalyzeResult';
 import { Image } from './types';
 import { ErrorId } from './types';
 import { Home } from './Home'
 
-interface HomeState {
+interface IndexState {
   inputUrl: string; // フォームに入力されたurl
   images: Array<Image> // 表示している画像のリスト
-  checkedImages: Array<boolean>
+  checkedImages: Array<boolean> // 画像のチェック状態
   errorId: number; // 1:画像が存在しない, 2:分析結果が取得できない, 0:エラーなし
   displayId: number; // 1:ホーム画面, 2:分析結果画面, 0:エラー画面
 }
@@ -23,7 +22,7 @@ enum DisplayId {
   ERROR
 }
 
-export default class Index extends React.Component<{}, HomeState> {
+export class Index extends React.Component<{}, IndexState> {
   constructor(props: {}) {
     super(props);
     this.state = {
@@ -39,9 +38,9 @@ export default class Index extends React.Component<{}, HomeState> {
   private handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { images, checkedImages } = this.state;
-    const exit = await Util.exitImage(this.state.inputUrl);
+    const imageExists = await Util.imageExists(this.state.inputUrl);
 
-    if (!exit) { // 画像が存在しない場合
+    if (!imageExists) { // 画像が存在しない場合
       this.setState({
         errorId: ErrorId.ERROR_IMAGE_NOT_EXIST,
         displayId: DisplayId.ERROR,
@@ -103,26 +102,24 @@ export default class Index extends React.Component<{}, HomeState> {
 
   public render() {
 
-    const isInputUrl: boolean = Util.isInput(this.state.inputUrl); // URLの入力済確認
-    const images = this.state.images;
-    const displayId = this.state.displayId;
+    const images: Array<Image> = this.state.images;
+    const displayId:number = this.state.displayId;
     // 画像のチェック数のカウント
-    let count: number = 0;
+    let countChecked: number = 0;
     let checkedId: number = 0;
-    this.state.checkedImages.filter((value, index) => {
+    this.state.checkedImages.forEach((value, index) => {
       if (value === true) {
-        count++;
+        countChecked++;
         checkedId = index + 1;
       }
     })
-    const canAnalyze: boolean = count === 1 ? true : false;
+    const canAnalyze: boolean = countChecked === 1 ? true : false;
 
     if (displayId === DisplayId.HOME) {
       // ホーム画面
       return (
         <Home
           inputUrl={this.state.inputUrl}
-          isInputUrl={isInputUrl}
           images={this.state.images}
           checkedImages={this.state.checkedImages}
           canAnalyze={canAnalyze}
@@ -135,7 +132,7 @@ export default class Index extends React.Component<{}, HomeState> {
     } else if (displayId === DisplayId.ANALYZE) {
       // 分析画面
       return (
-        <AnalysResult
+        <AnalyzeResult
           checkedimage={images[checkedId - 1]}
           onSubmit={this.handleSubmitToHome}
           onClick={() => { }}
@@ -158,7 +155,7 @@ export default class Index extends React.Component<{}, HomeState> {
 
 ReactDOM.render(
   <Index />,
-  document.getElementById('root')
+  document.getElementById('root') || document.createElement('div') // for testing purposes
 );
 
 

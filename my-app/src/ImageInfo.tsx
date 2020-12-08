@@ -47,6 +47,7 @@ export class ImageInfo extends React.Component<ImageInfoProps, ImageInfoState> {
                     src={this.props.image.url}
                     className="image"
                     onClick={this.props.onClick}
+                    alt={this.props.image.url}
                 />
                 <form>
                     <input

@@ -3,8 +3,8 @@ import './index.css';
 export class Util {
 
     // 
-    static isInput(str: string) {
-        if (str) { // urlが入力済
+    static isInput(inputStr: string) {
+        if (inputStr) { // urlが入力済
             return true;
         } else { // urlが未入力
             return false;
@@ -12,7 +12,7 @@ export class Util {
     }
 
     // urlで指定した画像が存在するか判定する
-    static exitImage(str: string) {
+    static imageExists(imageUrl: string) {
         return new Promise((resolve) => {
             const img = new Image();
             img.onload = () => { 
@@ -21,7 +21,7 @@ export class Util {
             img.onerror = () => {
                 resolve(false);
             }
-            img.src = str;
+            img.src = imageUrl;
         });
     }
 }

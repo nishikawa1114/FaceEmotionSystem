@@ -1,5 +1,6 @@
 import React from 'react';
 import './index.css';
+import { ErrorId } from './types';
 
 interface errorProps {
     errorId: number;
@@ -11,12 +12,12 @@ export class Error extends React.Component<errorProps> {
     render() {
 
         let errorMessage: string;
-        if (this.props.errorId === 1) {
+        if (this.props.errorId === ErrorId.ERROR_IMAGE_NOT_EXIST) {
             errorMessage = '画像が存在しません';
-        }else if (this.props.errorId === 2) {
+        }else if (this.props.errorId === ErrorId.ERROR_ANALYZE_RESULT_EMPTY) {
             errorMessage = '分析結果が取得できませんでした';
         } else {
-            errorMessage = '予期しないエラー'
+            errorMessage = '予期しないエラーが発生しました'
         }
 
         return (
