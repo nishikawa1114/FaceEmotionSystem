@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`display initial page 1`] = `
+<div>
+  <header>
+    <h1>
+      Face Emotion System
+    </h1>
+  </header>
+  <div
+    className="url_form"
+  >
+    <form
+      onSubmit={[Function]}
+    >
+      <input
+        name="url"
+        onChange={[Function]}
+        placeholder="URLを入力してください"
+        type="text"
+        value=""
+      />
+      <button
+        className="display_button"
+        disabled={true}
+        type="submit"
+      >
+        表示
+      </button>
+    </form>
+  </div>
+  <div
+    className="images"
+  >
+    <div
+      className="image_area"
+    />
+  </div>
+  <div
+    className="analyze_button"
+  >
+    <form
+      onSubmit={[Function]}
+    >
+      <button
+        disabled={true}
+      >
+        分析
+      </button>
+    </form>
+  </div>
+</div>
+`;

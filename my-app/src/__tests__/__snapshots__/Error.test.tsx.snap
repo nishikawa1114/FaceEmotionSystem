@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`error analyze 1`] = `
+exports[`Error test error analyze 1`] = `
 <div>
   <header>
     <h1>
@@ -26,7 +26,7 @@ exports[`error analyze 1`] = `
 </div>
 `;
 
-exports[`error no image 1`] = `
+exports[`Error test error no image 1`] = `
 <div>
   <header>
     <h1>
@@ -52,7 +52,7 @@ exports[`error no image 1`] = `
 </div>
 `;
 
-exports[`snapshot test 1`] = `
+exports[`Error test no error 1`] = `
 <div>
   <header>
     <h1>
@@ -63,33 +63,7 @@ exports[`snapshot test 1`] = `
     className="error_message"
   >
     <h2>
-      予期しないエラー
-    </h2>
-    <form
-      onSubmit={[Function]}
-    >
-      <button
-        type="submit"
-      >
-        ホーム画面へ戻る
-      </button>
-    </form>
-  </div>
-</div>
-`;
-
-exports[`snapshot test 2`] = `
-<div>
-  <header>
-    <h1>
-      Face Emotion System
-    </h1>
-  </header>
-  <div
-    className="error_message"
-  >
-    <h2>
-      画像が存在しません
+      予期しないエラーが発生しました
     </h2>
     <form
       onSubmit={[Function]}
