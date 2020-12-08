@@ -35,7 +35,7 @@ describe("Util.ts test", () =>{
     // existImage()
     // urlの画像が存在する
     test("exist image", () => {
-        Util.exitImage("https://nishikawa.blob.core.windows.net/images/steve/2020/10/15/01.jpg?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D")
+        Util.imageExists("https://nishikawa.blob.core.windows.net/images/steve/2020/10/15/01.jpg?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D")
             .then(response => {
                 expect(response).toEqual(true);
             })
@@ -43,7 +43,7 @@ describe("Util.ts test", () =>{
 
     // urlの画像が存在しない
     test("not exist image", () => {
-        Util.exitImage("https://nishikawa.blob.core.windows.net/images/nishikawa/2020/10/10/10.jpg?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D")
+        Util.imageExists("https://nishikawa.blob.core.windows.net/images/nishikawa/2020/10/10/10.jpg?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D")
          .then(response => {
             expect(response).toEqual(false);
         })
@@ -51,7 +51,7 @@ describe("Util.ts test", () =>{
 
     // urlが空文字列
     test("no url", () => {
-        const noUrl = Util.exitImage("")
+        const noUrl = Util.imageExists("")
             .then(response => {
                 expect(noUrl).toEqual(false);
             })
@@ -59,7 +59,7 @@ describe("Util.ts test", () =>{
 
     // urlが全角文字列
     test("url fullwidth", () => {
-        const urlFullWidth = Util.exitImage("あいうえお")
+        const urlFullWidth = Util.imageExists("あいうえお")
             .then(response => {
                 expect(urlFullWidth).toEqual(false);
             })

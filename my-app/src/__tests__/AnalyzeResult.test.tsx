@@ -1,33 +1,44 @@
 import { create } from "react-test-renderer";
 import React from "react";
-import { AnalysResult } from './../AnalyzeResult';
-import { Emotion } from './../types';
+import { AnalyzeResult } from './../AnalyzeResult';
+import { Analyzer } from "./../Analyzer";
 
-import * as AnalyzerClass from './../Analyzer'
-
-jest.mock('./../Analyzer');
-const AnalyzerClassMock = AnalyzerClass.Analyzer as unknown as jest.Mock;
-
-it("snapshot test", () => {
-    const emotionValue: Emotion = {
-        anger: 0.1,
-        contempt: 0.1,
-        disgust: 0.1,
-        fear: 0.1,
-        happiness: 0.1,
-        neutral: 0.1,
-        sadness: 0.1,
-        surprise: 0.1,
-    }
-    // const analyzeSpy = jest.spyOn(AnalyzerClass, 'analyze').mockReturnValueOnce(emotionValue);
-    AnalyzerClassMock.mockImplementationOnce(() => {
-        return {
-            data: 1,
-            analyze: (): => {
-                return emotionValue;
+describe("should display analyze result.", () => {
+    let spy: jest.SpyInstance<Promise<any>, [str: string]>;
+    beforeEach(() => {
+        spy = jest.spyOn(Analyzer, 'analyze').mockImplementationOnce(
+            (s: string): Promise<any> => Promise.resolve(
+                {
+                    anger: 0.1,
+                    contempt: 0.2,
+                    disgust: 0.3,
+                    fear: 0.4,
+                    happiness: 0.5,
+                    neutral: 0.6,
+                    sadness: 0.7,
+                    surprise: 0,
+                }
+            )
+        );
+    });
+    it("display analyze result", (done) => {
+        const img = { id: 1, url: "dummy_url/images/steve/2020/10/15/01.jpg" };
+        const tree = create(
+            <AnalyzeResult
+                checkedimage={img}
+                onClick={() => { }}
+                onSubmit={() => { }}
+                setErrorId={() => { }}
+            />
+        );
+        expect(spy).toBeCalledTimes(1)
+        setTimeout(() => {
+            try {
+                done();
+                expect(tree.toJSON()).toMatchSnapshot();
+            } catch (error) {
+                return
             }
-        }
+        }, 5000);
     })
-
-    expect(AnalyzerClassMock)
 })
