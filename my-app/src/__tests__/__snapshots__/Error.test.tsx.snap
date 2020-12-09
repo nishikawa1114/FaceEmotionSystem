@@ -77,3 +77,29 @@ exports[`Error test no error 1`] = `
   </div>
 </div>
 `;
+
+exports[`Error test other error 1`] = `
+<div>
+  <header>
+    <h1>
+      Face Emotion System
+    </h1>
+  </header>
+  <div
+    className="error_message"
+  >
+    <h2>
+      予期しないエラーが発生しました
+    </h2>
+    <form
+      onSubmit={[Function]}
+    >
+      <button
+        type="submit"
+      >
+        ホーム画面へ戻る
+      </button>
+    </form>
+  </div>
+</div>
+`;
