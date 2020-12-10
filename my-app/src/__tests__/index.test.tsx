@@ -4,7 +4,7 @@ import { create } from "react-test-renderer";
 import { Index } from "../index";
 
 // 初期画面のテスト
-test("display initial page", () => {
+it("display initial page", () => {
     const tree = create(
         <Index />
     ).toJSON();
