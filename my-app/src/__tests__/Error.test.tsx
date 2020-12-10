@@ -11,6 +11,9 @@ describe("Error test", () => {
             />
         ).toJSON();
         expect(tree2).toMatchSnapshot();
+        if(tree2) {
+            expect(JSON.stringify(tree2)).toContain("画像が存在しません");
+        }
     })
 
     it("error analyze", () => {
@@ -21,6 +24,9 @@ describe("Error test", () => {
             />
         ).toJSON();
         expect(tree3).toMatchSnapshot();
+        if(tree3) {
+            expect(JSON.stringify(tree3)).toContain("分析結果が取得できませんでした");            
+        }
     })
 
     it("other error", () => {
@@ -31,5 +37,8 @@ describe("Error test", () => {
             />
         ).toJSON();
         expect(tree).toMatchSnapshot();
+        if (tree) {
+            expect(JSON.stringify(tree)).toContain("予期しないエラーが発生しました");
+        }
     })
 })
