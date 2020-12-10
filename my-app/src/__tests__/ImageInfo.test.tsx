@@ -32,6 +32,31 @@ describe("checked test", () => {
     })
 })
 
+describe("display test", () => {
+    it("shold display name steve", () => {
+        const tree = create(
+            <ImageInfo
+                image={img}
+                onClick={() => { }}
+                checked={true}
+            />
+        ).toJSON();
+        expect(JSON.stringify(tree)).toContain("steve");
+    })
+
+    it("shold display date 2020/10/15", () => {
+        const tree = create(
+            <ImageInfo
+                image={img}
+                onClick={() => { }}
+                checked={true}
+            />
+        ).toJSON();
+        expect(JSON.stringify(tree)).toContain("2020/10/15");
+    })
+
+})
+
 describe("funcotino test", () => {
     const props = {
         image: img,
