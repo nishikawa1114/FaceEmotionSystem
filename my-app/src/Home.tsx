@@ -23,6 +23,7 @@ export class Home extends React.Component<HomeProps> {
     const isInputUrl: boolean = Util.isInput(this.props.inputUrl); // URLの入力済確認
 
 
+
         return (
             <div>
                 <header>
