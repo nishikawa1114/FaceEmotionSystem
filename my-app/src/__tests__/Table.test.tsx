@@ -14,7 +14,7 @@ const emotions: Emotion = {
     surprise: 0,
 }
 
-it("ImageInfo test", () => {
+it("table test", () => {
     const tree = create(
         <Table
             emotion={emotions}
