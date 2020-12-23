@@ -23,7 +23,7 @@ enum DisplayId {
 }
 
 
-export class Index extends React.Component<{}, IndexState> {n
+export class Index extends React.Component<{}, IndexState> {
   constructor(props: {}) {
     super(props);
     this.state = {

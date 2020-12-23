@@ -6,7 +6,6 @@ import { Util } from './Util';
 
 interface HomeProps {
     inputUrl: string;
-    isInputUrl: boolean;
     images: Array<Image>;
     checkedImages: Array<boolean>
     canAnalyze: boolean;
