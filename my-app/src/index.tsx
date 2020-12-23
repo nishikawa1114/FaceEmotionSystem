@@ -22,7 +22,8 @@ enum DisplayId {
   ERROR
 }
 
-export default class Index extends React.Component<{}, IndexState> {
+
+export class Index extends React.Component<{}, IndexState> {
   constructor(props: {}) {
     super(props);
     this.state = {
@@ -102,7 +103,6 @@ export default class Index extends React.Component<{}, IndexState> {
 
   public render() {
 
-    const isInputUrl: boolean = Util.isInput(this.state.inputUrl); // URLの入力済確認
     const images: Array<Image> = this.state.images;
     const displayId:number = this.state.displayId;
     // 画像のチェック数のカウント
@@ -121,7 +121,6 @@ export default class Index extends React.Component<{}, IndexState> {
       return (
         <Home
           inputUrl={this.state.inputUrl}
-          isInputUrl={isInputUrl}
           images={this.state.images}
           checkedImages={this.state.checkedImages}
           canAnalyze={canAnalyze}
@@ -157,7 +156,7 @@ export default class Index extends React.Component<{}, IndexState> {
 
 ReactDOM.render(
   <Index />,
-  document.getElementById('root')
+  document.getElementById('root') || document.createElement('div') // for testing purposes
 );
 
 

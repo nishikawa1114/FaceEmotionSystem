@@ -2,10 +2,10 @@ import React from 'react';
 import './index.css';
 import { Image } from './types';
 import { ImageArea } from './ImageArea';
+import { Util } from './Util';
 
 interface HomeProps {
     inputUrl: string;
-    isInputUrl: boolean;
     images: Array<Image>;
     checkedImages: Array<boolean>
     canAnalyze: boolean;
@@ -19,6 +19,8 @@ interface HomeProps {
 export class Home extends React.Component<HomeProps> {
 
     public render() {
+  
+    const isInputUrl: boolean = Util.isInput(this.props.inputUrl); // URLの入力済確認
 
         return (
             <div>
@@ -35,7 +37,8 @@ export class Home extends React.Component<HomeProps> {
                         />
                         <button type="submit"
                             className="display_button"
-                            disabled={!this.props.isInputUrl}
+                            disabled={!isInputUrl}
+
                         >
                             表示
                 </button>
