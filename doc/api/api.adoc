@@ -28,8 +28,9 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 ** application/json
 
 ==== body
-* url (string)
-** 分析する画像のURL
+* 必須
+** url (string)
+*** 分析する画像のURL
 
 === レスポンス
 * 成功時
