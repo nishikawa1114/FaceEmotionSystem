@@ -505,10 +505,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist data-line-31">
 <ul>
 <li class="data-line-31">
-<p>url (string)</p>
+<p>必須</p>
 <div class="ulist data-line-32">
 <ul>
 <li class="data-line-32">
+<p>url (string)</p>
+<div class="ulist data-line-33">
+<ul>
+<li class="data-line-33">
 <p>分析する画像のURL</p>
 </li>
 </ul>
@@ -516,25 +520,31 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </div>
+</li>
+</ul>
 </div>
 </div>
-<div class="sect2 data-line-34">
+</div>
+<div class="sect2 data-line-35">
 <h3 id="_レスポンス">レスポンス</h3>
-<div class="ulist data-line-35">
-<ul>
-<li class="data-line-35">
-<p>成功時</p>
 <div class="ulist data-line-36">
 <ul>
 <li class="data-line-36">
+<p>成功時</p>
+<div class="ulist data-line-37">
+<ul>
+<li class="data-line-37">
 <p>200</p>
 </li>
+<li class="data-line-38">
+<p>下表に記載されているキーを含むオブジェクトの配列が返却される</p>
+</li>
 </ul>
 </div>
 </li>
 </ul>
 </div>
-<table class="tableblock frame-all grid-all stretch data-line-39">
+<table class="tableblock frame-all grid-all stretch data-line-41">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 80%;">
@@ -547,30 +557,70 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FaceId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">FaceId (String)</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>検出された顔の識別子</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">faceRectangle</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">faceRectangle (Object)</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>画像上の顔の位置の矩形領域</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>top (int)</p>
+</li>
+<li>
+<p>left (int)</p>
+</li>
+<li>
+<p>width (int)</p>
+</li>
+<li>
+<p>height (int)</p>
+</li>
+</ul>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">faceAttributes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">faceAttributes (Object)</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>顔の属性</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>emotion</p>
+<p>emotion (Object)</p>
 <div class="ulist">
 <ul>
 <li>
-<p>感情値</p>
+<p>感情の強さ。[0,1]の間の数値。</p>
+</li>
+<li>
+<p>neutral (double)</p>
+</li>
+<li>
+<p>anger (double)</p>
+</li>
+<li>
+<p>contempt (double)</p>
+</li>
+<li>
+<p>disgust (double)</p>
+</li>
+<li>
+<p>fear (double)</p>
+</li>
+<li>
+<p>happiness (double)</p>
+</li>
+<li>
+<p>sadness (double)</p>
+</li>
+<li>
+<p>surprise (double)</p>
 </li>
 </ul>
 </div>
@@ -580,14 +630,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 </tbody>
 </table>
-<div class="ulist data-line-57">
+<div class="ulist data-line-73">
 <ul>
-<li class="data-line-57">
+<li class="data-line-73">
 <p>失敗時</p>
 </li>
 </ul>
 </div>
-<table class="tableblock frame-all grid-all stretch data-line-60">
+<table class="tableblock frame-all grid-all stretch data-line-76">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -596,21 +646,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">ステータス</th>
-<th class="tableblock halign-left valign-top">code</th>
+<th class="tableblock halign-left valign-top">error</th>
 <th class="tableblock halign-left valign-top">説明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BadArgument</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">requese body is invalid</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>パラメータが未入力、または不正な場合</p>
+<p>パラメータが未入力、または不正な場合<br>
+画像内に顔が検出されない場合</p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">415</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">UnsupportedMediaType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">media type is invalid</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>サポートされていないメディアタイプの場合</p>
 </div>
@@ -631,14 +682,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Internal Server Error</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Face API response is error</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>AzureFaceAPIからエラーが返却された場合</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>details (Object)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Azure Face API からのレスポンス内容</p>
+</li>
+<li>
+<p>code (String)</p>
+</li>
+<li>
+<p>message (String)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">503</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BadGateway</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Face API server unavalable</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>AzureFaceAPIサーバーに問題があった場合</p>
 </div></div></td>
@@ -646,14 +717,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tbody>
 </table>
 </div>
-<div class="sect2 data-line-87">
+<div class="sect2 data-line-109">
 <h3 id="_リクエストサンプル">リクエストサンプル</h3>
-<div class="sidebarblock data-line-88">
+<div class="sidebarblock data-line-110">
 <div class="content">
-<div class="paragraph data-line-89">
+<div class="paragraph data-line-111">
 <p>HTTP</p>
 </div>
-<div class="literalblock data-line-90">
+<div class="literalblock data-line-112">
 <div class="content">
 <pre>POST /face/emotion
 Content-Type: application/json
@@ -663,31 +734,31 @@ Content-Type: application/json
 }</pre>
 </div>
 </div>
-<div class="paragraph data-line-99">
+<div class="paragraph data-line-121">
 <p>curl</p>
 </div>
-<div class="literalblock data-line-100">
+<div class="literalblock data-line-122">
 <div class="content">
 <pre>curl -X POST
  -H "Content-Type: application/json"
- -d '{"url":"https://example.jpg"}'
+ -d '{"url": "https://example.jpg"}'
  https://example/face/emotion</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="sect2 data-line-109">
+<div class="sect2 data-line-131">
 <h3 id="_レスポンスサンプル">レスポンスサンプル</h3>
-<div class="paragraph data-line-110">
+<div class="paragraph data-line-132">
 <p>成功時</p>
 </div>
-<div class="sidebarblock data-line-111">
+<div class="sidebarblock data-line-133">
 <div class="content">
-<div class="paragraph data-line-112">
+<div class="paragraph data-line-134">
 <p>HTTP</p>
 </div>
-<div class="literalblock data-line-113">
+<div class="literalblock data-line-135">
 <div class="content">
 <pre>HTTP/1.1 200
 Content-Type: application/json
@@ -697,23 +768,23 @@ Date: Thu, 24 Dec 2020 04:32:36 GMT
 
 [
 	{
-		"faceId":"c3900448-51d1-42f9-952b-041f9ef24cb4",
+		"faceId": "c3900448-51d1-42f9-952b-041f9ef24cb4",
 		"faceRectangle": {
-			"top":165,"
-			left":658,"
-			width":220,"
-			height":220
+			"top": 165,
+			"left": 658,
+			"width": 220,
+			"height": 220
 		},
 		"faceAttributes": {
 			"emotion": {
-				"anger":0.0,
-				"contempt":0.001,
-				"disgust":0.0,
-				"fear":0.0,
-				"happiness":0.0,
-				"neutral":0.97,
-				"sadness":0.028,
-				"surprise":0.0
+				"anger": 0.0,
+				"contempt": 0.001,
+				"disgust": 0.0,
+				"fear": 0.0,
+				"happiness": 0.0,
+				"neutral": 0.97,
+				"sadness": 0.028,
+				"surprise": 0.0
 			}
 		}
 	}
@@ -722,38 +793,38 @@ Date: Thu, 24 Dec 2020 04:32:36 GMT
 </div>
 </div>
 </div>
-<div class="paragraph data-line-146">
+<div class="paragraph data-line-168">
 <p>失敗時<br>
 パラメータを渡さなかった場合</p>
 </div>
-<div class="sidebarblock data-line-148">
+<div class="sidebarblock data-line-170">
 <div class="content">
-<div class="paragraph data-line-149">
+<div class="paragraph data-line-171">
 <p>HTTP</p>
 </div>
-<div class="literalblock data-line-150">
+<div class="literalblock data-line-172">
 <div class="content">
-<pre>{
-    "error": {
-        "code": "BadArgument",
-        "message": "Request body is invalid."
-    }
+<pre>HTTP/1.1 400 Bad Request
+Content-Type: application/json; charset=utf-8
+
+{
+    "error": "Request body is invalid."
 }</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="paragraph data-line-160">
+<div class="paragraph data-line-182">
 <p>Azure Face APIからエラーが返された場合</p>
 </div>
-<div class="sidebarblock data-line-161">
+<div class="sidebarblock data-line-183">
 <div class="content">
-<div class="paragraph data-line-162">
+<div class="paragraph data-line-184">
 <p>HTTP</p>
 </div>
-<div class="literalblock data-line-163">
+<div class="literalblock data-line-185">
 <div class="content">
-<pre>HTTP/1.1 400 Bad Request
+<pre>HTTP/1.1 500  Internal Server Error
 Content-Type: application/json; charset=utf-8
 
 {
@@ -768,6 +839,26 @@ Content-Type: application/json; charset=utf-8
 </div>
 </div>
 </div>
+<div class="paragraph data-line-200">
+<p>Azure Face APIサーバーエラーの場合</p>
+</div>
+<div class="sidebarblock data-line-201">
+<div class="content">
+<div class="paragraph data-line-202">
+<p>HTTP</p>
+</div>
+<div class="literalblock data-line-203">
+<div class="content">
+<pre>HTTP/1.1 503  Service Unavailable
+Content-Type: application/json; charset=utf-8
+
+{
+    "error": "Face API Server Unavalable."
+}</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -775,7 +866,7 @@ Content-Type: application/json; charset=utf-8
 <div id="footer">
 <div id="footer-text">
 Version 1.0 2020-12-24<br>
-Last updated 2021-01-05 10:47:49 +0900
+Last updated 2021-01-06 12:07:33 +0900
 </div>
 </div>
 </body>
