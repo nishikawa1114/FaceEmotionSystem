@@ -42,17 +42,31 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 |キー 
 |説明 
 
-|FaceId
+|FaceId (String)
 |検出された顔の識別子
 
-|faceRectangle
+|faceRectangle (Object)
 |画像上の顔の位置の矩形領域
 
-|faceAttributes
+** top (int)
+** left (int)
+** width (int)
+** height (int)
+
+|faceAttributes (Object)
 |顔の属性
 
-* emotion
+* emotion (Object)
 ** 感情の強さ。[0,1]の間の数値。
+
+** neutral (double)
+** anger (double)
+** contempt (double)
+** disgust (double)
+** fear (double)
+** happiness (double)
+** sadness (double)
+** surprise (double)
 
 |===
 
