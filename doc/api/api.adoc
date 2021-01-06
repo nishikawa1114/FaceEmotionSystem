@@ -35,6 +35,7 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 === レスポンス
 * 成功時
 ** 200
+** 下表に記載されているキーを含むオブジェクトの配列が返却される
 
 [cols="1,4a" options="header"]
 |===
@@ -51,7 +52,7 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 |顔の属性
 
 * emotion
-** 感情値
+** 感情の強さ。[0,1]の間の数値。
 
 |===
 
@@ -79,7 +80,7 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 |AzureFaceAPIからエラーが返却された場合
 
 |503
-|BadGateway
+|Service Unavailable
 |AzureFaceAPIサーバーに問題があった場合
 
 |===
@@ -122,10 +123,10 @@ Date: Thu, 24 Dec 2020 04:32:36 GMT
 	{
 		"faceId":"c3900448-51d1-42f9-952b-041f9ef24cb4",
 		"faceRectangle": {
-			"top":165,"
-			left":658,"
-			width":220,"
-			height":220
+			"top":165,
+			"left":658,
+			"width":220,
+			"height":220
 		},
 		"faceAttributes": {
 			"emotion": {
