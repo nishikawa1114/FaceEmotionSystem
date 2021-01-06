@@ -42,7 +42,7 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 |キー 
 |説明 
 
-|FaceId (String)
+|faceId (String)
 |検出された顔の識別子
 
 |faceRectangle (Object)
