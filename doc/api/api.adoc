@@ -203,7 +203,7 @@ Content-Type: application/json; charset=utf-8
 
 {
 	"error": "Face API response is error.",
-	"detailes": {
+	"details": {
 		"code": "BadArgument",
 		"message": "Request body is invalid."            
 	}
