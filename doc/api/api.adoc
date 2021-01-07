@@ -79,9 +79,24 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 |説明 
 
 |400
-|requese body is invalid
-|パラメータが未入力、または不正な場合 + 
-画像内に顔が検出されない場合
+|request body is invalid
+|パラメータが未入力、または不正な場合
+
+
+|
+|face not detected
+|画像内に顔が検出されない場合
+
+|
+|Face API response is error
+|Face APIから400または429エラーが返却された場合 +
+画像形式がサポートされていない場合など +
+詳しくは https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236[FaceAPI公式リファレンス] を参照
+
+* details (Object)
+** Azure Face API からのレスポンス内容
+** code (String)
+** message (String)
 
 |415
 |media type is invalid
@@ -92,7 +107,7 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 
 |500
 |Face API response is error
-|AzureFaceAPIからエラーが返却された場合
+|AzureFaceAPIから400, 429以外のステータスが返却された場合
 
 * details (Object)
 ** Azure Face API からのレスポンス内容
@@ -174,7 +189,7 @@ HTTP/1.1 400 Bad Request
 Content-Type: application/json; charset=utf-8
 
 {
-    "error": "Request body is invalid."
+    "error": "request body is invalid."
 }
 ....
 ****
@@ -183,16 +198,15 @@ Azure Face APIからエラーが返された場合
 ****
 HTTP
 ....
-HTTP/1.1 500  Internal Server Error
+HTTP/1.1 400 Bad Request
 Content-Type: application/json; charset=utf-8
 
 {
-    "error": {
-        "detailes": {
-            "code": "BadArgument",
-            "message": "Request body is invalid."            
-        }
-    }
+    "error": "Face API response is error.",
+	"detailes": {
+		"code": "BadArgument",
+		"message": "Request body is invalid."            
+	}
 }
 ....
 ****
@@ -205,7 +219,7 @@ HTTP/1.1 503  Service Unavailable
 Content-Type: application/json; charset=utf-8
 
 {
-    "error": "Face API Server Unavalable."
+    "error": "Face API server unavalable."
 }
 ....
 ****

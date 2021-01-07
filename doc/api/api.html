@@ -653,10 +653,45 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">400</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">requese body is invalid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">request body is invalid</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>パラメータが未入力、または不正な場合<br>
-画像内に顔が検出されない場合</p>
+<p>パラメータが未入力、または不正な場合</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">face not detected</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>画像内に顔が検出されない場合</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Face API response is error</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Face APIから400または429エラーが返却された場合<br>
+画像形式がサポートされていない場合など<br>
+詳しくは <a href="https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236">FaceAPI公式リファレンス</a> を参照</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>details (Object)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Azure Face API からのレスポンス内容</p>
+</li>
+<li>
+<p>code (String)</p>
+</li>
+<li>
+<p>message (String)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div></div></td>
 </tr>
 <tr>
@@ -684,7 +719,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Face API response is error</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>AzureFaceAPIからエラーが返却された場合</p>
+<p>AzureFaceAPIから400, 429以外のステータスが返却された場合</p>
 </div>
 <div class="ulist">
 <ul>
@@ -717,14 +752,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tbody>
 </table>
 </div>
-<div class="sect2 data-line-109">
+<div class="sect2 data-line-124">
 <h3 id="_リクエストサンプル">リクエストサンプル</h3>
-<div class="sidebarblock data-line-110">
+<div class="sidebarblock data-line-125">
 <div class="content">
-<div class="paragraph data-line-111">
+<div class="paragraph data-line-126">
 <p>HTTP</p>
 </div>
-<div class="literalblock data-line-112">
+<div class="literalblock data-line-127">
 <div class="content">
 <pre>POST /face/emotion
 Content-Type: application/json
@@ -734,10 +769,10 @@ Content-Type: application/json
 }</pre>
 </div>
 </div>
-<div class="paragraph data-line-121">
+<div class="paragraph data-line-136">
 <p>curl</p>
 </div>
-<div class="literalblock data-line-122">
+<div class="literalblock data-line-137">
 <div class="content">
 <pre>curl -X POST
  -H "Content-Type: application/json"
@@ -748,17 +783,17 @@ Content-Type: application/json
 </div>
 </div>
 </div>
-<div class="sect2 data-line-131">
+<div class="sect2 data-line-146">
 <h3 id="_レスポンスサンプル">レスポンスサンプル</h3>
-<div class="paragraph data-line-132">
+<div class="paragraph data-line-147">
 <p>成功時</p>
 </div>
-<div class="sidebarblock data-line-133">
+<div class="sidebarblock data-line-148">
 <div class="content">
-<div class="paragraph data-line-134">
+<div class="paragraph data-line-149">
 <p>HTTP</p>
 </div>
-<div class="literalblock data-line-135">
+<div class="literalblock data-line-150">
 <div class="content">
 <pre>HTTP/1.1 200
 Content-Type: application/json
@@ -793,67 +828,66 @@ Date: Thu, 24 Dec 2020 04:32:36 GMT
 </div>
 </div>
 </div>
-<div class="paragraph data-line-168">
+<div class="paragraph data-line-183">
 <p>失敗時<br>
 パラメータを渡さなかった場合</p>
 </div>
-<div class="sidebarblock data-line-170">
+<div class="sidebarblock data-line-185">
 <div class="content">
-<div class="paragraph data-line-171">
+<div class="paragraph data-line-186">
 <p>HTTP</p>
 </div>
-<div class="literalblock data-line-172">
+<div class="literalblock data-line-187">
 <div class="content">
 <pre>HTTP/1.1 400 Bad Request
 Content-Type: application/json; charset=utf-8
 
 {
-    "error": "Request body is invalid."
+    "error": "request body is invalid."
 }</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="paragraph data-line-182">
+<div class="paragraph data-line-197">
 <p>Azure Face APIからエラーが返された場合</p>
 </div>
-<div class="sidebarblock data-line-183">
+<div class="sidebarblock data-line-198">
 <div class="content">
-<div class="paragraph data-line-184">
+<div class="paragraph data-line-199">
 <p>HTTP</p>
 </div>
-<div class="literalblock data-line-185">
+<div class="literalblock data-line-200">
 <div class="content">
-<pre>HTTP/1.1 500  Internal Server Error
+<pre>HTTP/1.1 400 Bad Request
 Content-Type: application/json; charset=utf-8
 
 {
-    "error": {
-        "detailes": {
-            "code": "BadArgument",
-            "message": "Request body is invalid."
-        }
-    }
+    "error": "Face API response is error.",
+	"detailes": {
+		"code": "BadArgument",
+		"message": "Request body is invalid."
+	}
 }</pre>
 </div>
 </div>
 </div>
 </div>
-<div class="paragraph data-line-200">
+<div class="paragraph data-line-214">
 <p>Azure Face APIサーバーエラーの場合</p>
 </div>
-<div class="sidebarblock data-line-201">
+<div class="sidebarblock data-line-215">
 <div class="content">
-<div class="paragraph data-line-202">
+<div class="paragraph data-line-216">
 <p>HTTP</p>
 </div>
-<div class="literalblock data-line-203">
+<div class="literalblock data-line-217">
 <div class="content">
 <pre>HTTP/1.1 503  Service Unavailable
 Content-Type: application/json; charset=utf-8
 
 {
-    "error": "Face API Server Unavalable."
+    "error": "Face API server unavalable."
 }</pre>
 </div>
 </div>
@@ -866,7 +900,7 @@ Content-Type: application/json; charset=utf-8
 <div id="footer">
 <div id="footer-text">
 Version 1.0 2020-12-24<br>
-Last updated 2021-01-06 12:16:56 +0900
+Last updated 2021-01-07 10:48:00 +0900
 </div>
 </div>
 </body>
