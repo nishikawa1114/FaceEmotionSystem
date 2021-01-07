@@ -79,16 +79,16 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 |説明 
 
 |400
-|request body is invalid
+|request body is invalid.
 |パラメータが未入力、または不正な場合
 
 
 |
-|face not detected
+|face not detected.
 |画像内に顔が検出されない場合
 
 |
-|Face API response is error
+|Face API response is error.
 |Face APIから400または429エラーが返却された場合 +
 画像形式がサポートされていない場合など +
 詳しくは https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236[FaceAPI公式リファレンス] を参照
@@ -99,14 +99,14 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 ** message (String)
 
 |415
-|media type is invalid
+|media type is invalid.
 |サポートされていないメディアタイプの場合
 
 * サポートされているメディアタイプ
 ** application/json
 
 |500
-|Face API response is error
+|Face API response is error.
 |AzureFaceAPIから400, 429以外のステータスが返却された場合
 
 * details (Object)
@@ -115,7 +115,7 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 ** message (String)
 
 |503
-|Face API server unavalable
+|Face API server unavalable.
 |AzureFaceAPIサーバーに問題があった場合
 
 |===
