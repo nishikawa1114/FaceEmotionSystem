@@ -16,33 +16,35 @@ package "API" {
         }
     }
 
+    package "Response" {
+        class Response {
+            createErrorResponse(): ErrorResponse
+            createFaceApiErrorResponse(): FaceApiErrorResponse
+            createSuccessResponse(): ResultData[]
+        }
 
-    Class Response {
-        createErrorResponse(): ErrorResponse
-        createFaceApiErrorResponse(): FaceApiErrorResponse
-        createSuccessResponse(): ResultData[]
+        class ErrorResponse {
+        }
+
+        class ErrorStatus {
+            error: string
+        }
+        note bottom: このAPIからのエラー文
+
+        class FaceApiErrorResponse {
+            errorStatus: ErrorStatus
+            details: FaceApiError
+        }
+
+        class FaceApiError {
+            code: string
+            message: string
+        }
+        note bottom: FaceAPIからのエラー内容
     }
 
-    class ErrorResponse {
-    }
 
-    class ErrorStatus {
-        error: string
-    }
-    note bottom: このAPIからのエラー文
-
-    class FaceApiErrorResponse {
-        errorStatus: ErrorStatus
-        details: FaceApiError
-    }
-
-    class FaceApiError {
-        code: string
-        message: string
-    }
-    note bottom: FaceAPIからのエラー内容
-
-    package "データ型定義" {
+    package "Model" {
         class ResultData {
             faceId: string
             faceRectangle: FaceRectangle
