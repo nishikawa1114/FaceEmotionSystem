@@ -1,0 +1,55 @@
+@startuml
+title FaceEmotionAnalyzer API
+
+actor ユーザー
+participant FaceEmotionController
+participant ErrorController
+participant Response
+actor FaceAPI
+
+ユーザー ->> FaceEmotionController: 画像分析をリクエスト\nPOST 画像URL
+
+
+alt リクエストパラメータが正しい場合
+    FaceEmotionController ->> FaceAPI: 画像分析をリクエスト\nPOST 画像URL
+    FaceEmotionController <<-- FaceAPI: レスポンス(JSON)
+    note left: 分析結果 or エラー
+
+    alt 分析結果が取得できた場合
+        FaceEmotionController -> Response: 正常時のレスポンス生成\n createSuccessResponse(Object data)
+        FaceEmotionController <-- Response: 分析結果\n resultData: ResultData[]
+        ユーザー <<- FaceEmotionController: 分析結果\n resultData: ResultData[] (JSON))
+    else 顔が検出されなかった場合
+        FaceEmotionController -> ErrorController: 例外 NotDetectedException をスロー
+        ErrorController -> Response: エラー時のレスポンス生成\n createErrorResponse(Ecxeption ex)
+        ErrorController <-- Response: errorResponse: ErrorResponse
+        ユーザー <<-- ErrorController: エラー"face not detected."
+        note left : ユーザー側はエラーメッセージにて\nエラーをハンドリング
+    else レスポンスがエラーの場合
+        FaceEmotionController -> ErrorController: 例外 FaceApiException をスロー
+        ErrorController -> Response: エラー時のレスポンス生成\n createFaceApiErrorResponse(Ecxeption ex)
+        ErrorController <-- Response: FaceApiErrorResponse: FaceApiErrorResponse
+        ユーザー <<-- ErrorController: エラー"Face API response is error."
+    else FaceAPIサーバーエラー
+        FaceEmotionController -> ErrorController: 例外をスロー
+        ErrorController -> Response: エラー時のレスポンス生成\n createFaceApiErrorResponse(Ecxeption ex)
+        ErrorController <-- Response: FaceApiErrorResponse: FaceApiErrorResponse
+        ユーザー <<-- ErrorController: エラー"Face API server unavalable."
+    end
+
+
+else リクエストパラメータが未入力、または不正な場合
+    FaceEmotionController -> ErrorController: 例外 InvalidRequestBodyExceptio をスロー
+    ErrorController -> Response: エラー時のレスポンス生成\n createErrorResponse(Ecxeption ex)
+    ErrorController <-- Response: errorResponse: ErrorResponse
+    ユーザー <-- ErrorController: エラー"request body is invalid."
+
+else メディアタイプが不正の場合
+    FaceEmotionController -> ErrorController: 例外 InvalidMediaTypeException をスロー
+    ErrorController -> Response: エラー時のレスポンス生成\n createErrorResponse(Ecxeption ex)
+    ErrorController <-- Response: errorResponse: ErrorResponse
+    ユーザー <<-- ErrorController: エラー"media type is invalid."
+
+end
+
+@enduml

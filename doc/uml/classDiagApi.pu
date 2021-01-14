@@ -1,0 +1,95 @@
+@startuml Face Emotion Analyser API
+
+' サーバーサイド
+package "API" {
+
+    package "Controller" {
+        class FaceEmotionController {
+            POST analyze()
+        }
+
+        class ErrorController {
+            handleNotDetectedException()
+            handleFaceApiException()
+            handleInvalidRequestBodyException()
+            handleInvalidMediaTypeException()
+        }
+    }
+
+
+    Class Response {
+        createErrorResponse(): ErrorResponse
+        createFaceApiErrorResponse(): FaceApiErrorResponse
+        createSuccessResponse(): ResultData[]
+    }
+
+    class ErrorResponse {
+        errorStataus: ErrorStatus
+    }
+
+    class ErrorStatus {
+        error: string
+    }
+    note bottom: このAPIからのエラー文
+
+    class FaceApiErrorResponse {
+        errorStatus: ErrorStatus
+        details: FaceApiError
+    }
+
+    class FaceApiError {
+        code: string
+        message: string
+    }
+    note bottom: FaceAPIからのエラー内容
+
+    package "データ型定義" {
+        class ResultData {
+            faceId: string
+            faceRectangle: FaceRectangle
+            faceAttributes: FaceAttrFibutes
+        }
+        note right: 成功時に返却する
+
+        class FaceRectangle {
+            top: double
+            left: double
+            width: double
+            height: double
+        }
+
+        class FaceAttributes {
+            emotion: Emotion
+        }
+
+        class Emotion {
+            neutral: double
+            anger : double
+            contempt: double
+            disgust: double
+            fear: double
+            happinessL: double
+            sadness: double
+            surprise: double
+        }
+    }
+
+}
+
+ResultData "1" o.. "1" FaceRectangle
+ResultData "1" o.. "1" FaceAttributes
+FaceAttributes "1" o.. "1" Emotion
+
+FaceEmotionController ..> ResultData
+FaceEmotionController ..> ErrorController
+
+FaceEmotionController ..> Response
+ErrorController ..> Response
+Response ..> ErrorResponse
+Response ..> FaceApiErrorResponse
+ErrorResponse ..> ErrorStatus
+FaceApiErrorResponse ..> FaceApiError
+FaceApiErrorResponse ..> ErrorStatus
+Response ..> ResultData
+
+@enduml
