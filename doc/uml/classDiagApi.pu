@@ -24,7 +24,6 @@ package "API" {
     }
 
     class ErrorResponse {
-        errorStataus: ErrorStatus
     }
 
     class ErrorStatus {
@@ -47,7 +46,7 @@ package "API" {
         class ResultData {
             faceId: string
             faceRectangle: FaceRectangle
-            faceAttributes: FaceAttrFibutes
+            faceAttributes: FaceAttributes
         }
         note right: 成功時に返却する
 
@@ -68,7 +67,7 @@ package "API" {
             contempt: double
             disgust: double
             fear: double
-            happinessL: double
+            happiness: double
             sadness: double
             surprise: double
         }
