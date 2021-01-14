@@ -42,7 +42,7 @@ else リクエストパラメータが未入力、または不正な場合
     FaceEmotionController -> ErrorController: 例外 InvalidRequestBodyException をスロー
     ErrorController -> Response: エラー時のレスポンス生成\n createErrorResponse(Ecxeption ex)
     ErrorController <-- Response: errorResponse: ErrorResponse
-    ユーザー <-- ErrorController: エラー"request body is invalid."
+    ユーザー <<-- ErrorController: エラー"request body is invalid."
 
 else メディアタイプが不正の場合
     FaceEmotionController -> ErrorController: 例外 InvalidMediaTypeException をスロー
