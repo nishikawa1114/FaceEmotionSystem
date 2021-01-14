@@ -24,6 +24,7 @@ package "API" {
         }
 
         class ErrorResponse {
+            errorStatus: ErrorStatus
         }
 
         class ErrorStatus {
