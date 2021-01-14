@@ -9,8 +9,19 @@ actor FaceAPI
 
 ユーザー ->> FaceEmotionController: 画像分析をリクエスト\nPOST 画像URL
 
+alt メディアタイプが不正の場合
+    FaceEmotionController -> ErrorController: 例外 InvalidMediaTypeException をスロー
+    ErrorController -> Response: エラー時のレスポンス生成\n createErrorResponse(Ecxeption ex)
+    ErrorController <-- Response: errorResponse: ErrorResponse
+    ユーザー <<-- ErrorController: エラー"media type is invalid."
 
-alt リクエストパラメータが正しい場合
+else リクエストパラメータが未入力、または不正な場合
+    FaceEmotionController -> ErrorController: 例外 InvalidRequestBodyException をスロー
+    ErrorController -> Response: エラー時のレスポンス生成\n createErrorResponse(Ecxeption ex)
+    ErrorController <-- Response: errorResponse: ErrorResponse
+    ユーザー <<-- ErrorController: エラー"request body is invalid."
+
+else リクエストパラメータが正しい場合
     FaceEmotionController ->> FaceAPI: 画像分析をリクエスト\nPOST 画像URL
     FaceEmotionController <<-- FaceAPI: レスポンス(JSON)
     note left: 分析結果 or エラー
@@ -38,17 +49,7 @@ alt リクエストパラメータが正しい場合
     end
 
 
-else リクエストパラメータが未入力、または不正な場合
-    FaceEmotionController -> ErrorController: 例外 InvalidRequestBodyException をスロー
-    ErrorController -> Response: エラー時のレスポンス生成\n createErrorResponse(Ecxeption ex)
-    ErrorController <-- Response: errorResponse: ErrorResponse
-    ユーザー <<-- ErrorController: エラー"request body is invalid."
 
-else メディアタイプが不正の場合
-    FaceEmotionController -> ErrorController: 例外 InvalidMediaTypeException をスロー
-    ErrorController -> Response: エラー時のレスポンス生成\n createErrorResponse(Ecxeption ex)
-    ErrorController <-- Response: errorResponse: ErrorResponse
-    ユーザー <<-- ErrorController: エラー"media type is invalid."
 
 end
 
