@@ -1,0 +1,225 @@
+= FaceEmotionAnalyzer API
+Ryosuke Nishikawa
+v1.0 2020-12-24
+:doctype: book
+:toc: left
+:toclevels: 1
+:toc-title: 目次
+:sectnumlevels: 3
+:icons: font
+
+本APIは、OJT課題で作成する画像に映っている顔の感情を分析し、その結果を表示するWebアプリケーションで使用するAPIである。
+
+== 画像を分析する
+
+=== HTTPメソッド
+POST
+
+=== URI
+{エンドポイント}/face/emotion
+
+=== 説明
+URLで指定された画像に映った人物の表情の分析をAzureFaceAPIに依頼し、受け取った結果を返却する。
+
+=== パラメータ
+
+==== header
+* Content-Type
+** application/json
+
+==== body
+* 必須
+** url (string)
+*** 分析する画像のURL
+
+=== レスポンス
+* 成功時
+** 200
+** 下表に記載されているキーを含むオブジェクトの配列が返却される
+
+[cols="1,4a" options="header"]
+|===
+|キー 
+|説明 
+
+|faceId (String)
+|検出された顔の識別子
+
+|faceRectangle (Object)
+|画像上の顔の位置の矩形領域
+
+** top (int)
+** left (int)
+** width (int)
+** height (int)
+
+|faceAttributes (Object)
+|顔の属性
+
+* emotion (Object)
+** 感情の強さ。[0,1]の間の数値。
+
+** neutral (double)
+** anger (double)
+** contempt (double)
+** disgust (double)
+** fear (double)
+** happiness (double)
+** sadness (double)
+** surprise (double)
+
+|===
+
+* 失敗時
+
+[cols="1,1,3a" options="header"]
+|===
+|ステータス
+|error
+|説明 
+
+|400
+|request body is invalid.
+|パラメータが未入力、または不正な場合
+
+
+|
+|face not detected.
+|画像内に顔が検出されない場合
+
+|
+|Face API response is error.
+|Face APIから400または429エラーが返却された場合 +
+画像形式がサポートされていない場合など +
+詳しくは https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236[FaceAPI公式リファレンス] を参照
+
+* details (Object)
+** Azure Face API からのレスポンス内容
+** code (String)
+** message (String)
+
+|415
+|media type is invalid.
+|サポートされていないメディアタイプの場合
+
+* サポートされているメディアタイプ
+** application/json
+
+|500
+|Face API response is error.
+|AzureFaceAPIから400, 429以外のステータスが返却された場合
+
+* details (Object)
+** Azure Face API からのレスポンス内容
+** code (String)
+** message (String)
+
+|503
+|Face API server unavalable.
+|AzureFaceAPIサーバーに問題があった場合
+
+|===
+
+
+=== リクエストサンプル
+****
+HTTP
+....
+POST /face/emotion 
+Content-Type: application/json
+
+{
+	"url": "https://example.jpg"
+}
+....
+
+curl
+....
+curl -X POST 
+ -H "Content-Type: application/json"
+ -d '{"url": "https://example.jpg"}'
+ https://example/face/emotion
+....
+****
+
+
+=== レスポンスサンプル
+成功時
+****
+HTTP
+....
+HTTP/1.1 200
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 24 Dec 2020 04:32:36 GMT
+
+
+[
+	{
+		"faceId": "c3900448-51d1-42f9-952b-041f9ef24cb4",
+		"faceRectangle": {
+			"top": 165,
+			"left": 658,
+			"width": 220,
+			"height": 220
+		},
+		"faceAttributes": {
+			"emotion": {
+				"anger": 0.0,
+				"contempt": 0.001,
+				"disgust": 0.0,
+				"fear": 0.0,
+				"happiness": 0.0,
+				"neutral": 0.97,
+				"sadness": 0.028,
+				"surprise": 0.0
+			}	
+		}
+	}
+]
+....
+****
+
+失敗時 +
+パラメータを渡さなかった場合
+****
+HTTP
+....
+HTTP/1.1 400 Bad Request 
+Content-Type: application/json; charset=utf-8
+
+{
+	"error": "request body is invalid."
+}
+....
+****
+
+Azure Face APIからエラーが返された場合
+****
+HTTP
+....
+HTTP/1.1 400 Bad Request
+Content-Type: application/json; charset=utf-8
+
+{
+	"error": "Face API response is error.",
+	"details": {
+		"code": "BadArgument",
+		"message": "Request body is invalid."            
+	}
+}
+....
+****
+
+Azure Face APIサーバーエラーの場合
+****
+HTTP
+....
+HTTP/1.1 503  Service Unavailable
+Content-Type: application/json; charset=utf-8
+
+{
+	"error": "Face API server unavalable."
+}
+....
+****
