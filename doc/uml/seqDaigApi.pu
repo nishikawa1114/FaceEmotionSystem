@@ -10,13 +10,13 @@ actor FaceAPI
 ユーザー ->> FaceEmotionController: 画像分析をリクエスト\nPOST 画像URL
 
 alt メディアタイプが不正の場合
-    FaceEmotionController -> ErrorController: 例外 InvalidMediaTypeException をスロー
+    FaceEmotionController -> ErrorController: handleInvalidMediaTypeException()
     ErrorController -> Response: エラー時のレスポンス生成\n createErrorResponse(Ecxeption ex)
     ErrorController <-- Response: errorResponse: ErrorResponse
     ユーザー <<-- ErrorController: エラー"media type is invalid."
 
 else リクエストパラメータが未入力、または不正な場合
-    FaceEmotionController -> ErrorController: 例外 InvalidRequestBodyException をスロー
+    FaceEmotionController -> ErrorController: handleInvalidRequestBodyException()
     ErrorController -> Response: エラー時のレスポンス生成\n createErrorResponse(Ecxeption ex)
     ErrorController <-- Response: errorResponse: ErrorResponse
     ユーザー <<-- ErrorController: エラー"request body is invalid."
@@ -31,26 +31,22 @@ else リクエストパラメータが正しい場合
         FaceEmotionController <-- Response: 分析結果\n resultData: ResultData[]
         ユーザー <<- FaceEmotionController: 分析結果\n resultData: ResultData[] (JSON))
     else 顔が検出されなかった場合
-        FaceEmotionController -> ErrorController: 例外 NotDetectedException をスロー
+        FaceEmotionController -> ErrorController: handleNotDetectedException()
         ErrorController -> Response: エラー時のレスポンス生成\n createErrorResponse(Ecxeption ex)
         ErrorController <-- Response: errorResponse: ErrorResponse
         ユーザー <<-- ErrorController: エラー"face not detected."
         note left : ユーザー側はエラーメッセージにて\nエラーをハンドリング
     else レスポンスがエラーの場合
-        FaceEmotionController -> ErrorController: 例外 FaceApiException をスロー
+        FaceEmotionController -> ErrorController: handleFaceApiException()
         ErrorController -> Response: エラー時のレスポンス生成\n createFaceApiErrorResponse(Ecxeption ex)
         ErrorController <-- Response: FaceApiErrorResponse: FaceApiErrorResponse
         ユーザー <<-- ErrorController: エラー"Face API response is error."
     else FaceAPIサーバーエラー
-        FaceEmotionController -> ErrorController: 例外をスロー
+        FaceEmotionController -> ErrorController: handleException()
         ErrorController -> Response: エラー時のレスポンス生成\n createFaceApiErrorResponse(Ecxeption ex)
         ErrorController <-- Response: FaceApiErrorResponse: FaceApiErrorResponse
         ユーザー <<-- ErrorController: エラー"Face API server unavalable."
     end
 
-
-
-
 end
-
 @enduml

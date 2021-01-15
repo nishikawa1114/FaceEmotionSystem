@@ -1,4 +1,4 @@
-@startuml Face Emotion Analyser API
+@startuml Face Emotion Analyzer API
 
 ' サーバーサイド
 package "API" {
