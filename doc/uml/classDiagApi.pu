@@ -1,0 +1,97 @@
+@startuml Face Emotion Analyzer API
+
+' サーバーサイド
+package "API" {
+
+    package "Controller" {
+        class FaceEmotionController {
+            POST analyze()
+        }
+
+        class ErrorController {
+            handleNotDetectedException()
+            handleFaceApiException()
+            handleInvalidRequestBodyException()
+            handleInvalidMediaTypeException()
+        }
+    }
+
+    package "Response" {
+        class Response {
+            createErrorResponse(): ErrorResponse
+            createFaceApiErrorResponse(): FaceApiErrorResponse
+            createSuccessResponse(): ResultData[]
+        }
+
+        class ErrorResponse {
+            errorStatus: ErrorStatus
+        }
+
+        class ErrorStatus {
+            error: string
+        }
+        note bottom: このAPIからのエラー文
+
+        class FaceApiErrorResponse {
+            errorStatus: ErrorStatus
+            details: FaceApiError
+        }
+
+        class FaceApiError {
+            code: string
+            message: string
+        }
+        note bottom: FaceAPIからのエラー内容
+    }
+
+
+    package "Model" {
+        class ResultData {
+            faceId: string
+            faceRectangle: FaceRectangle
+            faceAttributes: FaceAttributes
+        }
+        note right: 成功時に返却する
+
+        class FaceRectangle {
+            top: double
+            left: double
+            width: double
+            height: double
+        }
+
+        class FaceAttributes {
+            emotion: Emotion
+        }
+
+        class Emotion {
+            neutral: double
+            anger : double
+            contempt: double
+            disgust: double
+            fear: double
+            happiness: double
+            sadness: double
+            surprise: double
+        }
+    }
+
+}
+
+ResultData "1" o.. "1" FaceRectangle
+ResultData "1" o.. "1" FaceAttributes
+FaceAttributes "1" o.. "1" Emotion
+
+FaceEmotionController ..> ResultData
+FaceEmotionController ..> ErrorController
+
+FaceEmotionController ..> Response
+ErrorController ..> Response
+Response ..> ErrorResponse
+Response ..> FaceApiErrorResponse
+ErrorResponse ..> ErrorStatus
+FaceApiErrorResponse ..> FaceApiError
+FaceApiErrorResponse ..> ErrorStatus
+Response ..> ResultData
+
+@enduml
