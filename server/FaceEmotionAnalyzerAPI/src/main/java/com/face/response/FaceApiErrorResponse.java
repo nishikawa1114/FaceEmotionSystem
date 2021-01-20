@@ -1,19 +1,43 @@
 package com.face.response;
 
-public class FaceApiErrorResponse extends ErrorStatus {
-		private FaceApiError faceApiError;
+public class FaceApiErrorResponse{
+//		private FaceApiError details;
+//		private ErrorStatus errorStatus;
+//		
+//		public FaceApiErrorResponse(ErrorStatus errorStatus, FaceApiError details) {
+//			this.details = details;
+//			this.errorStatus = errorStatus;
+//		}
+//
+//		public FaceApiError getDetails() {
+//			return details;
+//		}
+//
+//		public void setDetails(FaceApiError details) {
+//			this.details = details;
+//		}
+//
+//		public ErrorStatus getErrorStatus() {
+//			return errorStatus;
+//		}
+//
+//		public void setErrorStatus(ErrorStatus errorStatus) {
+//			this.errorStatus = errorStatus;
+//		}
+		
+		private FaceApiError error;
 
-		public FaceApiErrorResponse(String error, FaceApiError faceApiError) {
-			super(error);
-			this.faceApiError = faceApiError;
+		public FaceApiErrorResponse(FaceApiError error) {
+			super();
+			this.error = error;
 		}
 
-		public FaceApiError getFaceApiError() {
-			return faceApiError;
+		public FaceApiError getError() {
+			return error;
 		}
 
-		public void setFaceApiError(FaceApiError faceApiError) {
-			this.faceApiError = faceApiError;
+		public void setError(FaceApiError error) {
+			this.error = error;
 		}
 	
 		

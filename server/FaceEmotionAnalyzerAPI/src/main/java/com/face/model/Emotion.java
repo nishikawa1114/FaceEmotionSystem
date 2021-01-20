@@ -3,25 +3,25 @@ package com.face.model;
 public class Emotion {
 	private double neutral;
 	private double anger;
-	private double contermpt;
+	private double contempt;
 	private double disgust;
 	private double fear;
 	private double happiness;
 	private double sadness;
 	private double surprise;
-	
-	public Emotion(double neutral, double anger, double contermpt, double disgust, double fear, double happiness,
-			double sadness, double surprise) {
-		super();
-		this.neutral = neutral;
-		this.anger = anger;
-		this.contermpt = contermpt;
-		this.disgust = disgust;
-		this.fear = fear;
-		this.happiness = happiness;
-		this.sadness = sadness;
-		this.surprise = surprise;
-	}
+
+//	public Emotion(double neutral, double anger, double contempt, double disgust, double fear, double happiness,
+//			double sadness, double surprise) {
+//		super();
+//		this.neutral = neutral;
+//		this.anger = anger;
+//		this.contempt = contempt;
+//		this.disgust = disgust;
+//		this.fear = fear;
+//		this.happiness = happiness;
+//		this.sadness = sadness;
+//		this.surprise = surprise;
+//	}
 
 	public double getNeutral() {
 		return neutral;
@@ -39,12 +39,12 @@ public class Emotion {
 		this.anger = anger;
 	}
 
-	public double getContermpt() {
-		return contermpt;
+	public double getContempt() {
+		return contempt;
 	}
 
-	public void setContermpt(double contermpt) {
-		this.contermpt = contermpt;
+	public void setContempt(double contempt) {
+		this.contempt = contempt;
 	}
 
 	public double getDisgust() {

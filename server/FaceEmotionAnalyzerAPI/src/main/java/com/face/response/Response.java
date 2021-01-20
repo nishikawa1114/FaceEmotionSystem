@@ -8,4 +8,9 @@ public class Response {
 		ErrorResponse errorResponse = new ErrorResponse(new ErrorStatus(ex.getMessage()));
         return errorResponse;
 	}
+	
+	public static ErrorResponse createFaceApiErrorResponse(Exception ex) {
+		ErrorResponse errorResponse = new ErrorResponse(new ErrorStatus(ex.getMessage()));
+        return errorResponse;
+	}
 }

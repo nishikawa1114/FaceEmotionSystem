@@ -6,13 +6,13 @@ public class FaceRectangle {
 	private int width;
 	private int height;
 	
-	public FaceRectangle(int top, int left, int width, int height) {
-		super();
-		this.top = top;
-		this.left = left;
-		this.width = width;
-		this.height = height;
-	}
+//	public FaceRectangle(int top, int left, int width, int height) {
+//		super();
+//		this.top = top;
+//		this.left = left;
+//		this.width = width;
+//		this.height = height;
+//	}
 
 	public int getTop() {
 		return top;

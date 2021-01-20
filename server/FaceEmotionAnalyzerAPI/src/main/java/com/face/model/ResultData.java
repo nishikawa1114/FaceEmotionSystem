@@ -2,18 +2,17 @@ package com.face.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ResultData {
 	private String faceId;
 	private FaceRectangle faceRectangle;
 	private FaceAttributes faceAttributes;
 	
-	public ResultData(String faceId, FaceRectangle faceRectangle, FaceAttributes faceAttributes) {
-		super();
-		this.faceId = faceId;
-		this.faceRectangle = faceRectangle;
-		this.faceAttributes = faceAttributes;
-	}
+//	public ResultData(String faceId, FaceRectangle faceRectangle, FaceAttributes faceAttributes) {
+//		super();
+//		this.faceId = faceId;
+//		this.faceRectangle = faceRectangle;
+//		this.faceAttributes = faceAttributes;
+//	}
 
 	public String getFaceId() {
 		return faceId;

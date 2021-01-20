@@ -21,13 +21,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.face.model.Param;
 import com.face.model.ResultData;
+import com.face.response.FaceApiException;
+import com.face.response.NotDetectedException;
 import com.face.response.Response;
 
 @RestController
+@RequestMapping("/face")
 public class FaceEmotionController {
 	
 	private final RestTemplate restTemplate = new RestTemplate();
@@ -40,7 +45,7 @@ public class FaceEmotionController {
 
 	// FaceAPIの JSON を一度オブジェクトにしてから返却
     // 画像URLを指定する
-    @PostMapping(value = "/face/emotion")
+    @PostMapping(value = "/emotion")
     public  Object[] emotion(	@RequestBody Param url,
     							@RequestHeader("Content-Type") String value) { // 画像URLをString型で受け取る
     	
@@ -52,31 +57,40 @@ public class FaceEmotionController {
         
         Map<String, String> map= new HashMap<>();
         String imgUrl = url.getUrl();
-        map.put("url", imgUrl + "?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D");
+        map.put("url", imgUrl + "?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3");
         HttpEntity<Object> request = new HttpEntity<Object>(map, headers);
         
         // メディアタイプが不正の場合
-        // 
-        // cmdに{"timestamp":"2021-01-19T07:26:26.788+00:00","status":500,"error":"Internal Server Error","message":"","path":"/face/emotion"}
-        // のように、返却される。InvalidMediaTypeException→ValidationExceptionに変更すれば、ErrorResponseがcmdに返却される
         if (!value.equals("application/json")) {
-        	throw new InvalidMediaTypeException(value, imgUrl);
+        	throw new InvalidMediaTypeException("media type is invalid.", imgUrl);
         }
         // パラメータが不正な場合
-        //
-        // POSTパラメータを-d '{"url": "https://nishikawa.blob.core.windows.net/images/steve/2020/10/15/01.jpg"}'と指定してもエラーになっている
+        if (url.url == null) {
+        	throw new ValidationException("request body is invalid.");
+        }
 
-//        ResultData[] response = null;
-//        ResponseEntity<List<ResultData>> response = restTemplate.exchange(queryUrl,HttpMethod.POST,request,new ParameterizedTypeReference<List<ResultData>>(){});
-        Object[] response =  restTemplate.postForObject(queryUrl, request, Object[].class);
+        ResultData[] response = null;
+		try {
+			response = restTemplate.postForObject(queryUrl, request, ResultData[].class);
+		} catch (HttpClientErrorException e) {
+			// Face APIがエラーの場合
+			e.printStackTrace();
+			if (e.getRawStatusCode() == 400 || e.getRawStatusCode() == 429) {
+				throw new FaceApiException(e.getResponseBodyAsString());
+			} else {
+				throw new FaceApiException("Face API response is error.");
+			}
+		} catch (RestClientException e) {
+			
+		}
+        
+        // 顔が検出されなかった場合
+       if (response.length == 0) {
+    	   throw new NotDetectedException("face not detected.");
+       }
+        
         return response;
-        // オブジェクトに格納する部分がうまくいっていない…
-        // Object型で実行すれば、正しく返却できる
 
     }
     
-    
-    
-
-
 }
