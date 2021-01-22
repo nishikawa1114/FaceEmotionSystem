@@ -37,17 +37,11 @@ public class FaceEmotionController {
 	private String endPoint;
 
 	@PostMapping(value = "/emotion")
-	public ResultData[] analyze(@RequestBody Param url, @RequestHeader("Content-Type") String type) {
+	public ResultData[] analyze(@RequestBody Param url) {
 
 		ResultData[] response = null;
 
 		try {
-
-			// メディアタイプが不正の場合
-				// 現在正常に動作していない。
-			if (!type.equals("application/json")) {
-				throw new InvalidMediaTypeException("media type is invalid.", type);
-			}
 			// パラメータが不正な場合
 			if (url.url == null) {
 				throw new ValidationException("request body is invalid.");

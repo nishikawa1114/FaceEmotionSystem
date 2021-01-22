@@ -5,12 +5,15 @@ import javax.validation.ValidationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.InvalidMediaTypeException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.face.response.ErrorResponse;
-import com.face.response.FaceApiError;
 import com.face.response.FaceApiErrorResponse;
 import com.face.response.FaceApiException;
 import com.face.response.FaceApiInvalidRequestException;
@@ -21,14 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestControllerAdvice
-public class ErrorController {
-
-	// メディアタイプが不正の場合の例外処理
-	@ExceptionHandler(InvalidMediaTypeException.class)
-	@ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-	public ErrorResponse handleInvalidMediaTypeException(HttpServletRequest req, InvalidMediaTypeException ex) {
-		return Response.createErrorResponse(ex);
-	}
+public class ErrorController extends ResponseEntityExceptionHandler {
 
 	// POSTパラメータが不正の場合の例外処理
 	@ExceptionHandler(ValidationException.class)
@@ -47,8 +43,8 @@ public class ErrorController {
 	// FaceAPIから400,429エラーが返却された場合の処理
 	@ExceptionHandler(FaceApiInvalidRequestException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public FaceApiErrorResponse handleFaceApiInvalidRequestBodyException(HttpServletRequest req, FaceApiInvalidRequestException ex)
-			throws JsonMappingException, JsonProcessingException {
+	public FaceApiErrorResponse handleFaceApiInvalidRequestBodyException(HttpServletRequest req,
+			FaceApiInvalidRequestException ex) throws JsonMappingException, JsonProcessingException {
 		return Response.createFaceApiErrorResponse(ex);
 	}
 
@@ -66,6 +62,13 @@ public class ErrorController {
 	public FaceApiErrorResponse handleFaceApiException(HttpServletRequest req, FaceApiServerException ex)
 			throws JsonMappingException, JsonProcessingException {
 		return Response.createFaceApiErrorResponse(ex);
+	}
+
+	// メディアタイプが不正の場合の例外処理
+	@Override
+	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex,
+			org.springframework.http.HttpHeaders headers, HttpStatus status, WebRequest request) {
+		return new ResponseEntity<>(new ErrorResponse("media type is invalid."), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
 	}
 
 }

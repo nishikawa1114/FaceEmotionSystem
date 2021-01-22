@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true) 
 public class FaceApiErrorResponse{
 		
+		@JsonProperty("error")
 		private String message;
+
 		private FaceApiError details;
 
 		@JsonProperty("details")
@@ -19,7 +21,6 @@ public class FaceApiErrorResponse{
 			this.details = error;
 		}
 		
-		@JsonProperty("error")
 		public String getMessage() {
 			return message;
 		}
