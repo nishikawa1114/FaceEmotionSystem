@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Response {	
 	
 	public static ErrorResponse createErrorResponse(Exception ex) {
-		ErrorResponse errorResponse = new ErrorResponse(new ErrorStatus(ex.getMessage()));
+		ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
         return errorResponse;
 	}
 	

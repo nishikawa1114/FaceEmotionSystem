@@ -1,19 +1,20 @@
 package com.face.response;
 
 public class ErrorResponse {
-	private ErrorStatus errorStatus;
 
-	public ErrorResponse(ErrorStatus errorStatus) {
+	private String error;
+	
+	public ErrorResponse(String error) {
 		super();
-		this.errorStatus = errorStatus;
+		this.error = error;
 	}
 
-	public ErrorStatus getErrorStatus() {
-		return errorStatus;
+	public String getError() {
+		return error;
 	}
 
-	public void setErrorStatus(ErrorStatus errorStatus) {
-		this.errorStatus = errorStatus;
+	public void setError(String error) {
+		this.error = error;
 	}
 	
 	

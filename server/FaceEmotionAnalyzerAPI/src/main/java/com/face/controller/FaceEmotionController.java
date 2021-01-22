@@ -1,40 +1,28 @@
 package com.face.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.face.model.Param;
 import com.face.model.ResultData;
-import com.face.response.FaceApiError;
-import com.face.response.FaceApiErrorResponse;
 import com.face.response.FaceApiException;
+import com.face.response.FaceApiInvalidRequestException;
+import com.face.response.FaceApiServerException;
 import com.face.response.NotDetectedException;
-import com.face.response.Response;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/face")
@@ -46,18 +34,17 @@ public class FaceEmotionController {
 	private String subcscriptiponKey;
 
 	@Value("${END_POINT_FACE_API}")
-	private String faceUrl;
+	private String endPoint;
 
-	// FaceAPIの JSON を一度オブジェクトにしてから返却
-	// 画像URLを指定する
 	@PostMapping(value = "/emotion")
-	public ResultData[] emotion(@RequestBody Param url, @RequestHeader("Content-Type") String type) throws JsonProcessingException { // 画像URLをString型で受け取る
+	public ResultData[] analyze(@RequestBody Param url, @RequestHeader("Content-Type") String type) {
 
 		ResultData[] response = null;
 
 		try {
 
 			// メディアタイプが不正の場合
+				// 現在正常に動作していない。
 			if (!type.equals("application/json")) {
 				throw new InvalidMediaTypeException("media type is invalid.", type);
 			}
@@ -66,25 +53,27 @@ public class FaceEmotionController {
 				throw new ValidationException("request body is invalid.");
 			}
 
+			// ヘッダ設定
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			headers.add("Ocp-Apim-Subscription-Key", subcscriptiponKey);
-
-			String queryUrl = faceUrl + "?detectionModel=detection_01&returnFaceAttributes=emotion&returnFaceId=true";
-
+			// ボディ設定
+			// 画像URL と 分析項目を指定
+			String queryUrl = endPoint + "?detectionModel=detection_01&returnFaceAttributes=emotion&returnFaceId=true";
 			Map<String, String> map = new HashMap<>();
-			String imgUrl = url.getUrl();
-			map.put("url", imgUrl
+			map.put("url", url.getUrl()
 					+ "?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D");
 			HttpEntity<Object> request = new HttpEntity<Object>(map, headers);
-
+			// FaceAPIと通信
 			response = restTemplate.postForObject(queryUrl, request, ResultData[].class);
 		} catch (HttpClientErrorException e) {
-			// Face APIがエラーの場合			
+			// FaceAPIがエラーの場合
 			if (e.getRawStatusCode() == 400 || e.getRawStatusCode() == 429) {
 				throw new FaceApiException(e.getResponseBodyAsString());
 			} else if (e.getRawStatusCode() == 503) {
-				throw new FaceApiException("Face API server unavalable.");
+				throw new FaceApiServerException("Face API server unavalable.");
+			} else {
+				throw new FaceApiInvalidRequestException("Face API response is error.");
 			}
 		}
 
@@ -96,6 +85,5 @@ public class FaceEmotionController {
 		return response;
 
 	}
-
 
 }

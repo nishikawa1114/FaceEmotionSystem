@@ -10,19 +10,6 @@ public class Emotion {
 	private double sadness;
 	private double surprise;
 
-//	public Emotion(double neutral, double anger, double contempt, double disgust, double fear, double happiness,
-//			double sadness, double surprise) {
-//		super();
-//		this.neutral = neutral;
-//		this.anger = anger;
-//		this.contempt = contempt;
-//		this.disgust = disgust;
-//		this.fear = fear;
-//		this.happiness = happiness;
-//		this.sadness = sadness;
-//		this.surprise = surprise;
-//	}
-
 	public double getNeutral() {
 		return neutral;
 	}
