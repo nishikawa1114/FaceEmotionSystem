@@ -1,5 +1,6 @@
-package com.face.response;
+package com.face.model;
 
+import com.face.response.FaceApiErrorResponseDetail;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,15 +10,15 @@ public class FaceApiErrorResponse{
 		@JsonProperty("error")
 		private String message;
 
-		private FaceApiError details;
+		private FaceApiErrorResponseDetail details;
 
 		@JsonProperty("details")
-		public FaceApiError getDetails() {
+		public FaceApiErrorResponseDetail getDetails() {
 			return details;
 		}
 
 		@JsonProperty("error")
-		public void setDetails(FaceApiError error) {
+		public void setDetails(FaceApiErrorResponseDetail error) {
 			this.details = error;
 		}
 		

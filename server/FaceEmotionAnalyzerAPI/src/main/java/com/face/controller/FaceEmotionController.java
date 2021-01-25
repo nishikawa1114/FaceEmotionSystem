@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.face.model.Param;
+import com.face.model.ImageInfo;
 import com.face.model.ResultData;
 import com.face.response.FaceApiException;
 import com.face.response.FaceApiInvalidRequestException;
@@ -37,7 +37,7 @@ public class FaceEmotionController {
 	private String endPoint;
 
 	@PostMapping(value = "/emotion")
-	public ResultData[] analyze(@RequestBody Param url) {
+	public ResultData[] analyze(@RequestBody ImageInfo url) {
 
 		ResultData[] response = null;
 

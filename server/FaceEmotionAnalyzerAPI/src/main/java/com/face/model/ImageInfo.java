@@ -1,6 +1,6 @@
 package com.face.model;
 
-public class Param {
+public class ImageInfo {
 	public String url;
 	
 	public void setUrl(String url) {

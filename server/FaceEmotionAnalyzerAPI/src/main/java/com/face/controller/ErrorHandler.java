@@ -13,31 +13,31 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.face.response.ErrorResponse;
-import com.face.response.FaceApiErrorResponse;
+import com.face.model.ErrorResponse;
+import com.face.model.FaceApiErrorResponse;
 import com.face.response.FaceApiException;
 import com.face.response.FaceApiInvalidRequestException;
 import com.face.response.FaceApiServerException;
 import com.face.response.NotDetectedException;
-import com.face.response.Response;
+import com.face.response.ResponseFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestControllerAdvice
-public class ErrorController extends ResponseEntityExceptionHandler {
+public class ErrorHandler extends ResponseEntityExceptionHandler {
 
 	// POSTパラメータが不正の場合の例外処理
 	@ExceptionHandler(ValidationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorResponse handleInvalidRequestBodyException(HttpServletRequest req, ValidationException ex) {
-		return Response.createErrorResponse(ex);
+		return ResponseFactory.createErrorResponse(ex);
 	}
 
 	// 顔が検出されなかった場合の例外処理
 	@ExceptionHandler(NotDetectedException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorResponse handleNotDetectedException(HttpServletRequest req, NotDetectedException ex) {
-		return Response.createErrorResponse(ex);
+		return ResponseFactory.createErrorResponse(ex);
 	}
 
 	// FaceAPIから400,429エラーが返却された場合の処理
@@ -45,7 +45,7 @@ public class ErrorController extends ResponseEntityExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public FaceApiErrorResponse handleFaceApiInvalidRequestBodyException(HttpServletRequest req,
 			FaceApiInvalidRequestException ex) throws JsonMappingException, JsonProcessingException {
-		return Response.createFaceApiErrorResponse(ex);
+		return ResponseFactory.createFaceApiErrorResponse(ex);
 	}
 
 	// FaceAPIから400,429以外のエラーが返却された場合の処理
@@ -53,7 +53,7 @@ public class ErrorController extends ResponseEntityExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public FaceApiErrorResponse handleFaceApiException(HttpServletRequest req, FaceApiException ex)
 			throws JsonMappingException, JsonProcessingException {
-		return Response.createFaceApiErrorResponse(ex);
+		return ResponseFactory.createFaceApiErrorResponse(ex);
 	}
 
 	// FaceAPIからサーバーエラーが返却された場合の処理
@@ -61,7 +61,7 @@ public class ErrorController extends ResponseEntityExceptionHandler {
 	@ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
 	public FaceApiErrorResponse handleFaceApiException(HttpServletRequest req, FaceApiServerException ex)
 			throws JsonMappingException, JsonProcessingException {
-		return Response.createFaceApiErrorResponse(ex);
+		return ResponseFactory.createFaceApiErrorResponse(ex);
 	}
 
 	// メディアタイプが不正の場合の例外処理

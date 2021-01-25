@@ -1,4 +1,4 @@
-package com.face.response;
+package com.face.model;
 
 public class ErrorResponse {
 

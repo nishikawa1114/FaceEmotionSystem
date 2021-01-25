@@ -3,7 +3,7 @@ package com.face.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true) 
-public class FaceApiError {
+public class FaceApiErrorResponseDetail {
 	private String code;
 	private String message;
 
