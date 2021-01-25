@@ -37,8 +37,8 @@ public class FaceEmotionController {
 	@Value("${END_POINT_FACE_API}")
 	private String endPoint;
 	
-	final String  QUERY_URL = endPoint + "?detectionModel=detection_01&returnFaceAttributes=emotion&returnFaceId=true"; // FaceAPIへの分析項目をクエリパラメータで指定
-
+	final String QUERY_URL = endPoint + "?detectionModel=detection_01&returnFaceAttributes=emotion&returnFaceId=true"; // FaceAPIへの分析項目をクエリパラメータで指定
+	final String IMAGE_QUERY_STR = "?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D"; // サーバー上に置かれている画像にアクセスするために必要なクエリ文字列。処理には関係なし。
 	@PostMapping(value = "/emotion")
 	public ResultData[] analyze(@RequestBody ImageInfo url) throws Exception {
 
@@ -53,9 +53,9 @@ public class FaceEmotionController {
 		headers.add("Ocp-Apim-Subscription-Key", subcscriptiponKey);
 		// ボディ設定
 		// 画像URL と 分析項目を指定
-		String imageQueryStr = "?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D"; // サーバー上に置かれている画像にアクセスするために必要なクエリ文字列。処理には関係なし。
+		
 		Map<String, String> map = new HashMap<>();
-		map.put("url", url.getUrl() + imageQueryStr);
+		map.put("url", url.getUrl() + IMAGE_QUERY_STR);
 		HttpEntity<Object> request = new HttpEntity<Object>(map, headers);
 
 		ResultData[] response = null;
