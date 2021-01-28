@@ -13,7 +13,6 @@ import com.face.model.ErrorResponse;
 import com.face.model.FaceApiErrorResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -23,46 +22,39 @@ class ResponseFactoryTest {
 	@Autowired
 	ResponseFactory target;
 
-	
+	// レスポンス {"error":"test error"} を期待
 	@Test
 	void testCreateErrorResponse() {
 		
-		String expectedErrorMessage = "test error";
+		String expectedErrorMessage = "test error"; // このAPIから返されるエラー文
 		
 		Exception ex = new NotDetectedException(expectedErrorMessage);
 		// 実行
 		ErrorResponse response = ResponseFactory.createErrorResponse(ex);
-		
-		ErrorResponse expected = new ErrorResponse(expectedErrorMessage);
 		// 比較
-		assertThat(response.getError()).isEqualTo(expected.getError());
+		assertThat(response.getError()).isEqualTo(expectedErrorMessage);
 	}
 
 
+
+	// レスポンス {"error":"Face API response is error.",
+	//          "detail":{"code":"BadArgument",
+	//                    "message":"Request body is invalid."}} を期待
 	@Test
 	void testCreateFaceApiErrorResponse() throws JsonMappingException, JsonProcessingException {
 		
-		String expectedErrorMessage = "test error";
-		String expetedDetailCode = "BadArgument";
-		String expectedDetailMessage = "Request body is invalid.";
+		String expectedErrorMessage = "Face API response is error."; // このAPIから返されるエラー文
+		String expetedDetailCode = "BadArgument"; // FaceAPIからのレスポンス
+		String expectedDetailMessage = "Request body is invalid."; // FaceAPIからのレスポンス
 		
-		Exception ex = new FaceApiInvalidRequestException(expectedErrorMessage);
-		
-		ObjectMapper mapper = new ObjectMapper();
-		FaceApiErrorResponse err = mapper.readValue(ex.getMessage(), FaceApiErrorResponse.class);
-		err.setMessage("{ \"error\": { \"code\": \"" + expetedDetailCode + "\", \"message\": \"" + expectedDetailMessage + "\"} }");
+		String FaceApiErrMessage = "{\"error\":{\"code\":\"" + expetedDetailCode + "\",\"message\":\"" + expectedDetailMessage + "\"}}"; // FaceAPIから返却されるエラーの想定
+		Exception ex = new FaceApiException(FaceApiErrMessage);
 		// 実行
 		FaceApiErrorResponse response = ResponseFactory.createFaceApiErrorResponse(ex);
-		
-		FaceApiErrorResponse expected = new FaceApiErrorResponse();
-		expected.setMessage(expectedErrorMessage);
-		FaceApiErrorResponseDetail aaa = new FaceApiErrorResponseDetail();
-		aaa.setCode(expetedDetailCode);
-		aaa.setMessage(expectedDetailMessage);
-		expected.setDetails(aaa);
 		// 比較
-		assertThat(response.getMessage()).isEqualTo(expected.getMessage());
-		assertThat(response.getDetails()).isEqualTo(expected.getDetails());
+		assertThat(response.getMessage()).isEqualTo(expectedErrorMessage);
+		assertThat(response.getDetails().getCode()).isEqualTo(expetedDetailCode);
+		assertThat(response.getDetails().getMessage()).isEqualTo(expectedDetailMessage);
 	}
 
 }
