@@ -22,20 +22,21 @@ import com.face.model.ErrorMessage;
 import com.face.model.ImageInfo;
 import com.face.model.ResultData;
 import com.face.response.FaceApiException;
+import com.face.response.FaceApiInvalidRequestException;
 import com.face.response.FaceApiServerException;
 import com.face.response.NotDetectedException;
 
 @RestController
 @RequestMapping("/face")
 public class FaceEmotionController {
-	
+
 	@Bean
 	public RestTemplate restTemplate() {
-	    return new RestTemplate();
+		return new RestTemplate();
 	}
 
 	@Autowired
-    private RestTemplate restTemplate;
+	private RestTemplate restTemplate;
 
 	@Value("${SUBSCRIPTION_KEY}")
 	private String subcscriptiponKey;
@@ -59,7 +60,7 @@ public class FaceEmotionController {
 		// 画像URL と 分析項目を指定
 		String queryUrl = endPoint + "?detectionModel=detection_01&returnFaceAttributes=emotion&returnFaceId=true";
 		String imageQueryStr = "?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D"; // サーバー上に置かれている画像にアクセスするために必要なクエリ文字列。処理には関係なし。
-		
+
 		Map<String, String> map = new HashMap<>();
 		map.put("url", url.getUrl() + imageQueryStr);
 		HttpEntity<Object> request = new HttpEntity<Object>(map, headers);
@@ -71,11 +72,11 @@ public class FaceEmotionController {
 		} catch (HttpClientErrorException e) {
 			// FaceAPIがエラーの場合
 			if (e.getRawStatusCode() == 400 || e.getRawStatusCode() == 429) {
-				throw new FaceApiException(e.getResponseBodyAsString());
+				throw new FaceApiInvalidRequestException(e.getResponseBodyAsString());
 			} else {
-				throw new FaceApiServerException(e.getResponseBodyAsString());
+				throw new FaceApiException(e.getResponseBodyAsString());
 			}
-		}catch (HttpServerErrorException e) {
+		} catch (HttpServerErrorException e) {
 			// FaceAPIがエラーの場合
 			if (e.getRawStatusCode() == 503) {
 				throw new FaceApiServerException(e.getResponseBodyAsString());

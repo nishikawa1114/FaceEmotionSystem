@@ -50,7 +50,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
 	// FaceAPI‚©‚ç400,429ˆÈŠO‚ÌƒGƒ‰[‚ª•Ô‹p‚³‚ê‚½ê‡‚Ìˆ—
 	@ExceptionHandler(FaceApiException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public FaceApiErrorResponse handleFaceApiException(HttpServletRequest req, FaceApiException ex)
 			throws JsonMappingException, JsonProcessingException {
 		return ResponseFactory.createFaceApiErrorResponse(ex);
