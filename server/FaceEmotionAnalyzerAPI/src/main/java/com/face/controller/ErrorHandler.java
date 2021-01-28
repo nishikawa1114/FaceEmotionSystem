@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.face.model.ErrorMassage;
+import com.face.model.ErrorMessage;
 import com.face.model.ErrorResponse;
 import com.face.model.FaceApiErrorResponse;
 import com.face.response.FaceApiException;
@@ -69,7 +68,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex,
 			org.springframework.http.HttpHeaders headers, HttpStatus status, WebRequest request) {
-		return new ResponseEntity<>(new ErrorResponse(ErrorMassage.MEDIA_TYPE_ERROR), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+		return new ResponseEntity<>(new ErrorResponse(ErrorMessage.MEDIA_TYPE_ERROR), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
 	}
 
 	// ÇªÇÃëºÇÃÉGÉâÅ[ÇÃèÍçá

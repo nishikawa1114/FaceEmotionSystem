@@ -9,17 +9,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.face.model.ErrorMassage;
+import com.face.model.ErrorMessage;
 import com.face.model.ImageInfo;
 import com.face.model.ResultData;
 import com.face.response.FaceApiException;
@@ -36,7 +34,6 @@ public class FaceEmotionController {
 	    return new RestTemplate();
 	}
 
-//	private final RestTemplate restTemplate = new RestTemplate();
 	@Autowired
     private RestTemplate restTemplate;
 
@@ -51,7 +48,7 @@ public class FaceEmotionController {
 
 		// パラメータが不正な場合
 		if (url.getUrl() == null || url.getUrl().isEmpty()) {
-			throw new ValidationException(ErrorMassage.REQUEST_BODY_ERROR);
+			throw new ValidationException(ErrorMessage.REQUEST_BODY_ERROR);
 		}
 
 		// ヘッダ設定
@@ -76,12 +73,12 @@ public class FaceEmotionController {
 			if (e.getRawStatusCode() == 400 || e.getRawStatusCode() == 429) {
 				throw new FaceApiException(e.getResponseBodyAsString());
 			} else if (e.getRawStatusCode() == 503) {
-				throw new FaceApiServerException(ErrorMassage.FACE_API_SERVER_UNABLABLE_ERROR);
+				throw new FaceApiServerException(ErrorMessage.FACE_API_SERVER_UNABLABLE_ERROR);
 			} else {
-				throw new FaceApiInvalidRequestException(ErrorMassage.FACE_API_RESPONSE_ERROR);
+				throw new FaceApiInvalidRequestException(ErrorMessage.FACE_API_RESPONSE_ERROR);
 			}
 		} catch (Exception e) {
-			throw new Exception(ErrorMassage.UNEXPECTED_ERROR);
+			throw new Exception(ErrorMessage.UNEXPECTED_ERROR);
 		}
 
 		// 顔が検出されなかった場合

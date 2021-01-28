@@ -2,6 +2,7 @@ package com.face.response;
 
 import org.springframework.stereotype.Component;
 
+import com.face.model.ErrorMessage;
 import com.face.model.ErrorResponse;
 import com.face.model.FaceApiErrorResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,7 +21,7 @@ public class ResponseFactory {
        
 		ObjectMapper mapper = new ObjectMapper();
 		FaceApiErrorResponse err = mapper.readValue(ex.getMessage(), FaceApiErrorResponse.class);
-		err.setMessage("Face API response is error.");
+		err.setMessage(ErrorMessage.FACE_API_RESPONSE_ERROR);
 		return err;
 	}
 }

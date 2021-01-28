@@ -1,6 +1,6 @@
 package com.face.model;
 
-public class ErrorMassage {
+public class ErrorMessage {
 
 	public final static String REQUEST_BODY_ERROR = "request body is invalid.";
 	public final static String MEDIA_TYPE_ERROR = "media type is invalid.";
