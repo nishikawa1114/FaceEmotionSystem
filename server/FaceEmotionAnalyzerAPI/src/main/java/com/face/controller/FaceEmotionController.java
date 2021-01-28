@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.face.model.ErrorMessage;
 import com.face.model.ImageInfo;
 import com.face.model.ResultData;
 import com.face.response.FaceApiException;
-import com.face.response.FaceApiInvalidRequestException;
 import com.face.response.FaceApiServerException;
 import com.face.response.NotDetectedException;
 
@@ -72,10 +72,15 @@ public class FaceEmotionController {
 			// FaceAPIがエラーの場合
 			if (e.getRawStatusCode() == 400 || e.getRawStatusCode() == 429) {
 				throw new FaceApiException(e.getResponseBodyAsString());
-			} else if (e.getRawStatusCode() == 503) {
-				throw new FaceApiServerException(ErrorMessage.FACE_API_SERVER_UNABLABLE_ERROR);
 			} else {
-				throw new FaceApiInvalidRequestException(ErrorMessage.FACE_API_RESPONSE_ERROR);
+				throw new FaceApiServerException(e.getResponseBodyAsString());
+			}
+		}catch (HttpServerErrorException e) {
+			// FaceAPIがエラーの場合
+			if (e.getRawStatusCode() == 503) {
+				throw new FaceApiServerException(e.getResponseBodyAsString());
+			} else {
+				throw new Exception(ErrorMessage.UNEXPECTED_ERROR);
 			}
 		} catch (Exception e) {
 			throw new Exception(ErrorMessage.UNEXPECTED_ERROR);

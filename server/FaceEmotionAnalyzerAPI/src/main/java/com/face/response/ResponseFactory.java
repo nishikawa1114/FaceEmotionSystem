@@ -21,7 +21,17 @@ public class ResponseFactory {
        
 		ObjectMapper mapper = new ObjectMapper();
 		FaceApiErrorResponse err = mapper.readValue(ex.getMessage(), FaceApiErrorResponse.class);
+		
 		err.setMessage(ErrorMessage.FACE_API_RESPONSE_ERROR);
+		return err;
+	}
+	
+	public static FaceApiErrorResponse createFaceApiServerError(Exception ex) throws JsonMappingException, JsonProcessingException {
+	       
+		ObjectMapper mapper = new ObjectMapper();
+		FaceApiErrorResponse err = mapper.readValue(ex.getMessage(), FaceApiErrorResponse.class);
+		
+		err.setMessage(ErrorMessage.FACE_API_SERVER_UNABLABLE_ERROR);
 		return err;
 	}
 }

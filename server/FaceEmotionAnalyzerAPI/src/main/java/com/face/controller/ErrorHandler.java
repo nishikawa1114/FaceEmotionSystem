@@ -61,7 +61,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 	@ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
 	public FaceApiErrorResponse handleFaceApiException(HttpServletRequest req, FaceApiServerException ex)
 			throws JsonMappingException, JsonProcessingException {
-		return ResponseFactory.createFaceApiErrorResponse(ex);
+		return ResponseFactory.createFaceApiServerError(ex);
 	}
 
 	// メディアタイプが不正の場合の例外処理
