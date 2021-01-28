@@ -3,10 +3,9 @@ package com.face.controller;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
-
-import com.face.model.Emotion;
-import com.face.model.FaceAttributes;
-import com.face.model.FaceRectangle;
-import com.face.model.ResultData;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -47,39 +41,35 @@ class FaceEmotionControllerTest {
 	void testAnalyzSuccess() throws Exception {
 
 		// 返却されるレスポンス
-		Emotion emotion = new Emotion();
-		emotion.setAnger(0);
-		emotion.setContempt(0);
-		emotion.setDisgust(0);
-		emotion.setFear(0);
-		emotion.setHappiness(0);
-		emotion.setNeutral(0);
-		emotion.setSadness(0);
-		emotion.setSurprise(0);
-		FaceAttributes faceAttributes = new FaceAttributes();
-		faceAttributes.setEmotion(emotion);
-		FaceRectangle faceRectangle = new FaceRectangle();
-		faceRectangle.setTop(1);
-		faceRectangle.setLeft(2);
-		faceRectangle.setWidth(100);
-		faceRectangle.setHeight(200);
-		ResultData resultData = new ResultData();
-		resultData.setFaceId("580a572a-c529-4333-b93f-8429ebda8b18");
-		resultData.setFaceRectangle(faceRectangle);
-		resultData.setFaceAttributes(faceAttributes);
-		ResultData[] resultDatas = {resultData}; 
-		String str = resultDatas.toString();
-		
 		String jsonResponseBody = "[{\"faceId\":\"580a572a-c529-4333-b93f-8429ebda8b18\",\"faceRectangle\":{\"top\":128,\"left\":529,\"width\":109,\"height\":109},\"faceAttributes\":{\"emotion\":{\"anger\":0.0,\"contempt\":0.0,\"disgust\":0.0,\"fear\":0.0,\"happiness\":1.0,\"neutral\":0.0,\"sadness\":0.0,\"surprise\":0.0}}}]";
 		// FaceAPI通信のモック
 		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).ignoreExpectOrder(true)
 				.bufferContent().build();
-		mockServer.expect(method(HttpMethod.POST)).andRespond(withStatus(HttpStatus.OK).body(jsonResponseBody));
+		mockServer.expect(method(HttpMethod.POST)).andRespond(withSuccess(jsonResponseBody, MediaType.APPLICATION_JSON));
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"url\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/01.jpg\"}"))
+				.andDo(print())
 				.andExpect(status().isOk());
-//				.andExpect(content().json(jsonResponseBody));
+	}
+	
+	// 成功時のテスト 画像に複数人移っている場合
+	// レスポンス HTTPステータス200を期待
+	@Test
+	void testAnalyzSuccess2() throws Exception {
+
+		// 返却されるレスポンス
+		String jsonResponseBody = "[{\"faceId\":\"580a572a-c529-4333-b93f-8429ebda8b18\",\"faceRectangle\":{\"top\":128,\"left\":529,\"width\":109,\"height\":109},\"faceAttributes\":{\"emotion\":{\"anger\":0.0,\"contempt\":0.0,\"disgust\":0.0,\"fear\":0.0,\"happiness\":1.0,\"neutral\":0.0,\"sadness\":0.0,\"surprise\":0.0}}},"
+								+ "{\"faceId\":\"580a572a-c529-4333-b93f-8429ebda8b18\",\"faceRectangle\":{\"top\":128,\"left\":529,\"width\":109,\"height\":109},\"faceAttributes\":{\"emotion\":{\"anger\":0.0,\"contempt\":0.0,\"disgust\":0.0,\"fear\":0.0,\"happiness\":1.0,\"neutral\":0.0,\"sadness\":0.0,\"surprise\":0.0}}}]";
+		// FaceAPI通信のモック
+		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).ignoreExpectOrder(true)
+				.bufferContent().build();
+		mockServer.expect(method(HttpMethod.POST)).andRespond(withSuccess(jsonResponseBody, MediaType.APPLICATION_JSON));
+
+		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
+				.content("{\"url\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/01.jpg\"}"))
+				.andDo(print())
+				.andExpect(status().isOk());
 	}
 
 	// 画像から顔が検出されない場合のテスト
@@ -93,9 +83,11 @@ class FaceEmotionControllerTest {
 				.bufferContent().build();
 		mockServer.expect(method(HttpMethod.POST)).andRespond(withSuccess().body(jsonResponseBody));
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
+		MvcResult  result = mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"url\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/01.jpg\"}"))
-				.andExpect(status().isBadRequest());
+				.andDo(print())
+				.andExpect(status().isBadRequest())
+				.andReturn();         
 	}
 
 	// POSTパラメータが不正の場合のテスト キー "url" → "uri"
@@ -104,6 +96,7 @@ class FaceEmotionControllerTest {
 	void testAnalyzeErrorinvalidBody() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"uri\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/02.jpg\"}"))
+				.andDo(print())
 				.andExpect(status().isBadRequest());
 	}
 
@@ -112,6 +105,7 @@ class FaceEmotionControllerTest {
 	@Test
 	void testAnalyzeNoEnterdBody() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON))
+				.andDo(print())
 				.andExpect(status().isBadRequest());
 	}
 
@@ -120,6 +114,7 @@ class FaceEmotionControllerTest {
 	@Test
 	void testAnalyzeErrorInvalidMediaType() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_PDF))
+				.andDo(print())
 				.andExpect(status().isUnsupportedMediaType());
 	}
 
@@ -138,6 +133,7 @@ class FaceEmotionControllerTest {
 		// 実行
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"url\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/01.jpg\"}"))
+				.andDo(print())
 				.andExpect(status().isBadRequest())
 				.andReturn();
 
@@ -160,6 +156,7 @@ class FaceEmotionControllerTest {
 		// 実行
 		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"url\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/01.jpg\"}"))
+				.andDo(print())
 				.andExpect(status().isBadRequest());
 
 		mockServer.verify();
@@ -179,6 +176,7 @@ class FaceEmotionControllerTest {
 		// 実行
 		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"url\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/01.jpg\"}"))
+				.andDo(print())
 				.andExpect(status().isInternalServerError());
 
 		mockServer.verify();
@@ -199,6 +197,7 @@ class FaceEmotionControllerTest {
 		// 実行
 		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"url\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/01.jpg\"}"))
+				.andDo(print())
 				.andExpect(status().isServiceUnavailable());
 
 		mockServer.verify();
