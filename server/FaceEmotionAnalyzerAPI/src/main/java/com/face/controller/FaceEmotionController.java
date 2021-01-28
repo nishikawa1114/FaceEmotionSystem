@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.validation.ValidationException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.InvalidMediaTypeException;
@@ -28,17 +30,22 @@ import com.face.response.NotDetectedException;
 @RestController
 @RequestMapping("/face")
 public class FaceEmotionController {
+	
+	@Bean
+	public RestTemplate restTemplate() {
+	    return new RestTemplate();
+	}
 
-	private final RestTemplate restTemplate = new RestTemplate();
+//	private final RestTemplate restTemplate = new RestTemplate();
+	@Autowired
+    private RestTemplate restTemplate;
 
 	@Value("${SUBSCRIPTION_KEY}")
 	private String subcscriptiponKey;
 
 	@Value("${END_POINT_FACE_API}")
 	private String endPoint;
-	
-	final String QUERY_URL = endPoint + "?detectionModel=detection_01&returnFaceAttributes=emotion&returnFaceId=true"; // FaceAPIへの分析項目をクエリパラメータで指定
-	final String IMAGE_QUERY_STR = "?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D"; // サーバー上に置かれている画像にアクセスするために必要なクエリ文字列。処理には関係なし。
+
 	@PostMapping(value = "/emotion")
 	public ResultData[] analyze(@RequestBody ImageInfo url) throws Exception {
 
@@ -53,15 +60,17 @@ public class FaceEmotionController {
 		headers.add("Ocp-Apim-Subscription-Key", subcscriptiponKey);
 		// ボディ設定
 		// 画像URL と 分析項目を指定
+		String queryUrl = endPoint + "?detectionModel=detection_01&returnFaceAttributes=emotion&returnFaceId=true";
+		String imageQueryStr = "?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D"; // サーバー上に置かれている画像にアクセスするために必要なクエリ文字列。処理には関係なし。
 		
 		Map<String, String> map = new HashMap<>();
-		map.put("url", url.getUrl() + IMAGE_QUERY_STR);
+		map.put("url", url.getUrl() + imageQueryStr);
 		HttpEntity<Object> request = new HttpEntity<Object>(map, headers);
 
 		ResultData[] response = null;
 		try {
 			// FaceAPIと通信
-			response = restTemplate.postForObject(QUERY_URL, request, ResultData[].class);
+			response = restTemplate.postForObject(queryUrl, request, ResultData[].class);
 		} catch (HttpClientErrorException e) {
 			// FaceAPIがエラーの場合
 			if (e.getRawStatusCode() == 400 || e.getRawStatusCode() == 429) {

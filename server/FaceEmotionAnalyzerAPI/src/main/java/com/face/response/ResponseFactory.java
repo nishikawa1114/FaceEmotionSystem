@@ -1,11 +1,14 @@
 package com.face.response;
 
+import org.springframework.stereotype.Component;
+
 import com.face.model.ErrorResponse;
 import com.face.model.FaceApiErrorResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Component
 public class ResponseFactory {	
 	
 	public static ErrorResponse createErrorResponse(Exception ex) {
