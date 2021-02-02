@@ -12,6 +12,14 @@ public class FaceApiErrorResponseDetail {
 		return code;
 	}
 
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	public String getMessage() {
 		return message;
 	}
