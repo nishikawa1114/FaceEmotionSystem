@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.face.model.ErrorMessage;
+import com.face.model.ErrorMassage;
 import com.face.model.ErrorResponse;
 import com.face.model.FaceApiErrorResponse;
 import com.face.response.FaceApiException;
@@ -50,7 +51,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
 	// FaceAPIから400,429以外のエラーが返却された場合の処理
 	@ExceptionHandler(FaceApiException.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public FaceApiErrorResponse handleFaceApiException(HttpServletRequest req, FaceApiException ex)
 			throws JsonMappingException, JsonProcessingException {
 		return ResponseFactory.createFaceApiErrorResponse(ex);
@@ -61,14 +62,14 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 	@ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
 	public FaceApiErrorResponse handleFaceApiException(HttpServletRequest req, FaceApiServerException ex)
 			throws JsonMappingException, JsonProcessingException {
-		return ResponseFactory.createFaceApiServerError(ex);
+		return ResponseFactory.createFaceApiErrorResponse(ex);
 	}
 
 	// メディアタイプが不正の場合の例外処理
 	@Override
 	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex,
 			org.springframework.http.HttpHeaders headers, HttpStatus status, WebRequest request) {
-		return new ResponseEntity<>(new ErrorResponse(ErrorMessage.MEDIA_TYPE_ERROR), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+		return new ResponseEntity<>(new ErrorResponse(ErrorMassage.MEDIA_TYPE_ERROR), HttpStatus.UNSUPPORTED_MEDIA_TYPE);
 	}
 
 	// その他のエラーの場合

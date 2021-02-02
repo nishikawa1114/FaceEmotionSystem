@@ -16,7 +16,7 @@ public class FaceApiErrorResponse{
 		public FaceApiErrorResponseDetail getDetails() {
 			return details;
 		}
-		
+
 		@JsonProperty("error")
 		public void setDetails(FaceApiErrorResponseDetail error) {
 			this.details = error;
