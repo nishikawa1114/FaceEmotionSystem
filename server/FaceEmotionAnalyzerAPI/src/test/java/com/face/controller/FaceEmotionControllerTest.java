@@ -4,6 +4,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -85,8 +86,8 @@ class FaceEmotionControllerTest {
 
 		MvcResult  result = mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"url\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/01.jpg\"}"))
-				.andDo(print())
 				.andExpect(status().isBadRequest())
+				.andExpect(content().json("{\"error\":\"face not detected.\"}"))
 				.andReturn();         
 	}
 
@@ -96,7 +97,7 @@ class FaceEmotionControllerTest {
 	void testAnalyzeErrorinvalidBody() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"uri\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/02.jpg\"}"))
-				.andDo(print())
+				.andExpect(content().json("{\"error\":\"request body is invalid.\"}"))
 				.andExpect(status().isBadRequest());
 	}
 
@@ -104,8 +105,9 @@ class FaceEmotionControllerTest {
 	// レスポンス HTTPステータス400を期待
 	@Test
 	void testAnalyzeNoEnterdBody() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON))
-				.andDo(print())
+		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
+				.content("{}"))
+				.andExpect(content().json("{\"error\":\"request body is invalid.\"}"))	
 				.andExpect(status().isBadRequest());
 	}
 
@@ -114,7 +116,7 @@ class FaceEmotionControllerTest {
 	@Test
 	void testAnalyzeErrorInvalidMediaType() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_PDF))
-				.andDo(print())
+				.andExpect(content().json("{\"error\":\"media type is invalid.\"}"))
 				.andExpect(status().isUnsupportedMediaType());
 	}
 
@@ -125,6 +127,7 @@ class FaceEmotionControllerTest {
 
 		// 返却されるレスポンス
 		String jsonResponseBody = "{ \"error\": { \"code\": \"BadArgument\", \"message\": \"Request body is invalid.\"} }";
+		String expected = "{ \"error\":\"Face API response is error.\", \"details\":{ \"code\": \"BadArgument\", \"message\": \"Request body is invalid.\"} }";
 		// FaceAPI通信のモック
 		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).ignoreExpectOrder(true)
 				.bufferContent().build();
@@ -133,7 +136,7 @@ class FaceEmotionControllerTest {
 		// 実行
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"url\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/01.jpg\"}"))
-				.andDo(print())
+				.andExpect(content().json(expected))
 				.andExpect(status().isBadRequest())
 				.andReturn();
 
@@ -148,6 +151,7 @@ class FaceEmotionControllerTest {
 
 		// 返却されるレスポンス
 		String jsonResponseBody = "{ \"error\": { \"code\": \"BadArgument\", \"message\": \"Request body is invalid.\"} }";
+		String expected = "{ \"error\":\"Face API response is error.\", \"details\":{ \"code\": \"BadArgument\", \"message\": \"Request body is invalid.\"} }";
 		// FaceAPI通信のモック
 		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).ignoreExpectOrder(true)
 				.bufferContent().build();
@@ -156,7 +160,7 @@ class FaceEmotionControllerTest {
 		// 実行
 		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"url\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/01.jpg\"}"))
-				.andDo(print())
+				.andExpect(content().json(expected))
 				.andExpect(status().isBadRequest());
 
 		mockServer.verify();
@@ -169,6 +173,7 @@ class FaceEmotionControllerTest {
 
 		// 返却されるレスポンス
 		String jsonResponseBody = "{ \"error\": { \"code\": \"BadArgument\", \"message\": \"Request body is invalid.\"} }";
+		String expected = "{ \"error\":\"Face API response is error.\", \"details\":{ \"code\": \"BadArgument\", \"message\": \"Request body is invalid.\"} }";
 		// FaceAPI通信のモック
 		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).ignoreExpectOrder(true)
 				.bufferContent().build();
@@ -176,7 +181,7 @@ class FaceEmotionControllerTest {
 		// 実行
 		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"url\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/01.jpg\"}"))
-				.andDo(print())
+				.andExpect(content().json(expected))
 				.andExpect(status().isInternalServerError());
 
 		mockServer.verify();
@@ -189,6 +194,7 @@ class FaceEmotionControllerTest {
 
 		// 返却されるレスポンス
 		String jsonResponseBody = "{ \"error\": { \"code\": \"BadArgument\", \"message\": \"Request body is invalid.\"} }";
+		String expected = "{ \"error\":\"Face API server unavalable.\" }";
 		// FaceAPI通信のモック
 		MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).ignoreExpectOrder(true)
 				.bufferContent().build();
@@ -197,7 +203,7 @@ class FaceEmotionControllerTest {
 		// 実行
 		mockMvc.perform(MockMvcRequestBuilders.post("/face/emotion").contentType(MediaType.APPLICATION_JSON)
 				.content("{\"url\":\"https://nishikawa.blob.core.windows.net/images/sugimoto/2020/11/01/01.jpg\"}"))
-				.andDo(print())
+				.andExpect(content().json(expected))
 				.andExpect(status().isServiceUnavailable());
 
 		mockServer.verify();
