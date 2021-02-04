@@ -570,6 +570,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>画像を表示する。画像をクリックすることで選択、選択解除できる。<br>
 一列に4枚まで表示する。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>表示可能枚数上限：40枚</p>
+</li>
+</ul>
 </div></div></td>
 </tr>
 <tr>
@@ -587,6 +594,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <img src="img/analyzed.png" alt="analyzed" width="600">
 </div>
+</div>
+<div class="paragraph">
+<p>　分析結果に複数人のデータが含まれている場合、分析結果は縦に並んで人数分表示する。分析可能人数の上限を超えた人数が画像内に写っている場合、分析可能人数分のみ分析結果を表示する。その場合、分析する人物の選択はできない。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>分析可能人数上限：10人</p>
+</li>
+</ul>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -632,9 +649,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>分析結果に複数人のデータが含まれている場合、分析結果は縦に並んで全員分表示する。</p>
-</div>
 </div>
 <div class="sect3">
 <h4 id="_エラー画面">2.2.3. エラー画面</h4>
@@ -789,6 +803,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">概要</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>URLを入力して画像を表示する。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>表示可能枚数上限：40枚</p>
+</li>
+</ul>
 </div></div></td>
 </tr>
 <tr>
@@ -838,6 +859,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li>
 <p><span class="red">URLが正しくない場合</span> ⇒ <a href="#display-Err-1">Err-1へ移動</a></p>
 </li>
+<li>
+<p><span class="red">画像の表示枚数が表示可能枚数上限に達している場合</span> ⇒ <a href="#display-Err-2">Err-2へ移動</a></p>
+</li>
 </ul>
 </div>
 </li>
@@ -885,6 +909,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </li>
 </ul>
+</div>
+<div id="display-Err-2" class="ulist">
+<ul>
+<li>
+<p>Err-2 画像の表示枚数が表示可能枚数上限に達している場合</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>表示ボタン押下負荷</p>
+</li>
+</ol>
+</div>
+</li>
+</ul>
 </div></div></td>
 </tr>
 <tr>
@@ -924,6 +962,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">機能名称</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>画像を分析する</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>分析可能人数上限：10人</p>
+</li>
+</ul>
 </div></div></td>
 </tr>
 <tr>
@@ -1002,7 +1047,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </li>
 <li>
-<p>システムは画像の分析結果を表示する。分析結果に複数人のデータが含まれる場合にはすべての結果を表示する</p>
+<p>システムは画像の分析結果を表示する。分析結果に複数人のデータが含まれる場合には分析可能人数上限までの結果を表示する</p>
 </li>
 </ol>
 </div></div></td>
@@ -1117,7 +1162,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 1.0 2020-10-21<br>
-Last updated 2021-02-04 15:03:59 +0900
+Last updated 2021-02-04 15:51:22 +0900
 </div>
 </div>
 </body>
