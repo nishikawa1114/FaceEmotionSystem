@@ -1,8 +1,15 @@
 import { Analyzer } from "../Analyzer";
-// import fetchMock from 'fetch-mock';
 
-jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
-import fetchMock from 'node-fetch';
+jest.mock('node-fetch', () => require('fetch-mock').sandbox())
+// jest.mock('node-fetch', () => {
+//   const nodeFetch = jest.requireActual('node-fetch');
+//   const fetchMock = require('fetch-mock').sandbox();
+//   Object.assign(fetchMock.config, {
+//     fetch: nodeFetch
+//   });
+//   return fetchMock;
+// })
+import fetchMock from 'fetch-mock';
 
 describe("Analyzer test", () => {
 
@@ -34,7 +41,7 @@ describe("Analyzer test", () => {
         setTimeout(() => {
           try {
             done();
-            expect(response).toEqual({});
+            expect(response).toEqual([]);
           } catch (error) {
             return
           }
@@ -50,8 +57,7 @@ describe("Analyzer test", () => {
 
   it("mock test", async (done) => {
     fetchMock
-      .post(
-        // リクエスト
+      .mock(
         "*",
         // レスポンス
         {
@@ -67,7 +73,7 @@ describe("Analyzer test", () => {
 
             done();
             console.log("===================================");
-            console.log(response);
+            console.log(JSON.stringify(response));
             expect(response).toHaveProperty([
               "anger",
               "contempt",

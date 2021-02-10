@@ -1,8 +1,5 @@
-import fetch from 'node-fetch';
+// import fetch from 'node-fetch';
 require('dotenv').config();
-
-jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
-import fetchMock from 'node-fetch';
 
 export class Analyzer {
 
@@ -21,7 +18,7 @@ export class Analyzer {
 
         const queryString = new URLSearchParams(queryParams);
 
-        let fetch = require('node-fetch')
+        // let fetch = require('node-fetch')
         return fetch(endpoint + '?' + queryString, {  // パラメータparamsをURLに入れてFace API に渡す
             method: 'POST',
             headers: { 
