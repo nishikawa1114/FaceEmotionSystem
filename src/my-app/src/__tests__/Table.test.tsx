@@ -1,4 +1,4 @@
-import { Table } from "../Table";
+import { ResultTable } from "../ResultTable";
 import { create } from "react-test-renderer";
 import React from "react";
 import { Emotion } from "../types";
@@ -16,7 +16,7 @@ const emotions: Emotion = {
 
 it("table test", () => {
     const tree = create(
-        <Table
+        <ResultTable
             emotion={emotions}
         />
     ).toJSON();

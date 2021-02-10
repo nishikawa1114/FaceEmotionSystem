@@ -1,22 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './index.css';
 import { ImageInfo } from './ImageInfo';
 import { Analyzer } from './Analyzer';
-import { Graph } from './Graph';
-import { Table } from './Table';
-import { Image } from './types';
-import { Emotion } from './types';
+import { ImageUrl, ResultData } from './types';
 import { ErrorId } from './types';
+import { AnalyzedDetail } from './AnalyzedDetail';
+import { AppBar, Button, CardContent, Grid, Paper, Typography } from '@material-ui/core';
+import Toolbar from '@material-ui/core/Toolbar';
+import Card from '@material-ui/core/Card';
 
 interface AnalyzeProps {
-    checkedimage: Image;
+    checkedimage: ImageUrl;
     onSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void;
     onClick: () => void;
     setErrorId: (id: number) => void;
 }
 
 interface AnalyzeResultState {
-    emotion: Emotion;
+    resultData: Array<ResultData>;
 }
 
 export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultState> {
@@ -24,17 +25,21 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
     private constructor(props: AnalyzeProps) {
         super(props);
         this.state = {
-            emotion: {
-                anger: 0,
-                contempt: 0,
-                disgust: 0,
-                fear: 0,
-                happiness: 0,
-                neutral: 0,
-                sadness: 0,
-                surprise: 0,
-            },
+            resultData: []
         }
+    }
+
+    // URLから日付を返す
+    getDate = (str: string) => {
+        const strDate = String(str.match(/\d{4}\/\d{2}\/\d{2}/));
+        return strDate;
+    }
+
+    // URLからユーザー名を返す
+    getName = (str: string) => {
+        const temp: string = String(str.split('images/').pop());
+        const name: string = String(temp.split('/').shift());
+        return name;
     }
 
     private analyzeImage = async (imageUrl: string) => {
@@ -51,43 +56,65 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
             }
 
             this.setState({
-                emotion: response,
+                resultData: response,
             })
         })
     }
 
     public render() {
         return (
-            <div>
-                <header>
-                    <h1>Face Emotion System</h1>
-                </header>
-                <h2>分析結果</h2>
+            <div className="back">
 
-                <div className="result">
-                    <div className="hidden_box">
-                        <ImageInfo
-                            image={this.props.checkedimage}
-                            onClick={() => this.props.onClick()}
-                            checked={false}
-                        />
+                <AppBar className="title_bar">
+                    <Toolbar>
+                        <Typography variant="h6" color="inherit">
+                            Face Emotion System
+                        </Typography>
+                    </Toolbar>
+                    <Toolbar>
+                        <Typography variant="h6" color="inherit">
+                            分析結果
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+
+                <Toolbar />
+                <Toolbar />
+
+                <Grid className="image_info">
+                    ユーザー：{this.getName(this.props.checkedimage.url)} | 日付: {this.getDate(this.props.checkedimage.url)}
+                </Grid>
+
+                {this.state.resultData.length > 0 &&
+                    <div className="">
+                        {
+                            Array(this.state.resultData.length).fill(this.state.resultData).map((value, i: number) => {
+                                return (
+                                    <div>
+                                        <Grid container spacing={1}>
+                                            <Grid item className="analyze_grid_item">
+                                                <Card>
+                                                    <AnalyzedDetail
+                                                        img={this.props.checkedimage}
+                                                        resultData={value[i]}
+                                                        index={i}
+                                                    />
+                                                </Card>
+                                            </Grid>
+                                        </Grid>
+                                        <CardContent>
+
+                                        </CardContent>
+
+                                    </div>
+                                )
+                            })
+                        }
+
                     </div>
-
-                    <div className="graph">
-                        <Graph
-                            emotion={this.state.emotion}
-                        />
-                    </div>
-
-                    <div>
-                        <Table
-                            emotion={this.state.emotion}
-                        />
-                    </div>
-                </div>
-
+                }
                 <form onSubmit={this.props.onSubmit} className="home_button">
-                    <button type="submit">ホーム画面へ戻る</button>
+                    <Button type="submit" variant="contained" color="primary">ホーム画面へ戻る</Button>
                 </form>
             </div>
         )

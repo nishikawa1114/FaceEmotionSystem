@@ -4,13 +4,13 @@ import './index.css';
 import { Util } from './Util';
 import { Error } from './Error';
 import { AnalyzeResult } from './AnalyzeResult';
-import { Image } from './types';
+import { ImageUrl } from './types';
 import { ErrorId } from './types';
 import { Home } from './Home'
 
 interface IndexState {
   inputUrl: string; // フォームに入力されたurl
-  images: Array<Image> // 表示している画像のリスト
+  images: Array<ImageUrl> // 表示している画像のリスト
   checkedImages: Array<boolean> // 画像のチェック状態
   errorId: number; // 1:画像が存在しない, 2:分析結果が取得できない, 0:エラーなし
   displayId: number; // 1:ホーム画面, 2:分析結果画面, 0:エラー画面
@@ -103,7 +103,7 @@ export class Index extends React.Component<{}, IndexState> {
 
   public render() {
 
-    const images: Array<Image> = this.state.images;
+    const images: Array<ImageUrl> = this.state.images;
     const displayId:number = this.state.displayId;
     // 画像のチェック数のカウント
     let countChecked: number = 0;

@@ -2,7 +2,7 @@ import './index.css';
 
 export class Util {
 
-    // 
+    // URLの未入力を確認する
     static isInput(inputStr: string) {
         if (inputStr) { // urlが入力済
             return true;

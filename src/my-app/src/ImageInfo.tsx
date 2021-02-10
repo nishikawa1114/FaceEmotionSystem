@@ -1,6 +1,7 @@
+import { GridListTile, GridListTileBar } from '@material-ui/core';
 import React from 'react';
 import './index.css';
-import { Image } from './types';
+import { ImageUrl } from './types';
 
 interface ImageInfoState {
     id: number
@@ -10,7 +11,7 @@ interface ImageInfoState {
 }
 
 interface ImageInfoProps {
-    image: Image;
+    image: ImageUrl;
     checked: boolean;
     onClick: () => void;
 }
@@ -60,6 +61,13 @@ export class ImageInfo extends React.Component<ImageInfoProps, ImageInfoState> {
                 {/* ユーザー名,日付 */}
                 {this.state.name}<br />
                 {this.state.date}
+
+                <GridListTile key={this.props.image.url}>
+                    <img src={this.props.image.url} onClick={this.props.onClick} />
+                    <GridListTileBar
+                        title={this.state.name}
+                    />
+                </GridListTile>
             </div>
         )
     }

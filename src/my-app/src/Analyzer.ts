@@ -1,6 +1,9 @@
 import fetch from 'node-fetch';
 require('dotenv').config();
 
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox());
+import fetchMock from 'node-fetch';
+
 export class Analyzer {
 
     public static analyze(imageUrl: string) {
@@ -18,7 +21,7 @@ export class Analyzer {
 
         const queryString = new URLSearchParams(queryParams);
 
-        
+        let fetch = require('node-fetch')
         return fetch(endpoint + '?' + queryString, {  // パラメータparamsをURLに入れてFace API に渡す
             method: 'POST',
             headers: { 
@@ -35,11 +38,12 @@ export class Analyzer {
                 if (data.length === 0) {
                     return Object;
                 }
-                const emotion = data[0]['faceAttributes']['emotion'];
-                return emotion;
+                // const emotion = data[0]['faceAttributes']['emotion'];
+                const resuleData = data;
+                return resuleData;
             })
             .catch((error: any) => { // エラーの場合
-                console.log(error);
+                // console.log(error);
                 return Object;
             });
     }

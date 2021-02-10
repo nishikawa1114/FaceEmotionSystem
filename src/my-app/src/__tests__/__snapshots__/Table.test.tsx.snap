@@ -110,3 +110,193 @@ exports[`ImageInfo test 1`] = `
   </table>
 </div>
 `;
+
+exports[`table test 1`] = `
+<div
+  aria-label="a dense table"
+  className="MuiGrid-root MuiTable-root table"
+  role="table"
+>
+  <thead
+    className="MuiTableHead-root"
+    role={null}
+  >
+    <tr
+      className="MuiTableRow-root MuiTableRow-head"
+      role={null}
+    >
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter MuiTableCell-sizeSmall"
+        scope="col"
+      >
+        感情
+      </th>
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-head MuiTableCell-alignCenter MuiTableCell-sizeSmall"
+        scope="col"
+      >
+        値
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    className="MuiTableBody-root"
+    role={null}
+  >
+    <tr
+      className="MuiTableRow-root"
+      role={null}
+    >
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        role="cell"
+        scope="row"
+      >
+        anger
+      </th>
+      <td
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+      >
+        0.1
+      </td>
+    </tr>
+    <tr
+      className="MuiTableRow-root"
+      role={null}
+    >
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        role="cell"
+        scope="row"
+      >
+        contempt
+      </th>
+      <td
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+      >
+        0.2
+      </td>
+    </tr>
+    <tr
+      className="MuiTableRow-root"
+      role={null}
+    >
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        role="cell"
+        scope="row"
+      >
+        disgust
+      </th>
+      <td
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+      >
+        0.3
+      </td>
+    </tr>
+    <tr
+      className="MuiTableRow-root"
+      role={null}
+    >
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        role="cell"
+        scope="row"
+      >
+        fear
+      </th>
+      <td
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+      >
+        0.4
+      </td>
+    </tr>
+    <tr
+      className="MuiTableRow-root"
+      role={null}
+    >
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        role="cell"
+        scope="row"
+      >
+        happiness
+      </th>
+      <td
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+      >
+        0.5
+      </td>
+    </tr>
+    <tr
+      className="MuiTableRow-root"
+      role={null}
+    >
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        role="cell"
+        scope="row"
+      >
+        neutral
+      </th>
+      <td
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+      >
+        0.6
+      </td>
+    </tr>
+    <tr
+      className="MuiTableRow-root"
+      role={null}
+    >
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        role="cell"
+        scope="row"
+      >
+        sadness
+      </th>
+      <td
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+      >
+        0.07
+      </td>
+    </tr>
+    <tr
+      className="MuiTableRow-root"
+      role={null}
+    >
+      <th
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+        role="cell"
+        scope="row"
+      >
+        surprise
+      </th>
+      <td
+        aria-sort={null}
+        className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeSmall"
+      >
+        0
+      </td>
+    </tr>
+  </tbody>
+</div>
+`;

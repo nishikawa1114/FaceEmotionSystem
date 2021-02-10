@@ -1,12 +1,30 @@
 import React from 'react';
 import './index.css';
-import { Image } from './types';
+import { ImageUrl } from './types';
 import { ImageArea } from './ImageArea';
 import { Util } from './Util';
 
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import CameraIcon from '@material-ui/icons/PhotoCamera';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Link from '@material-ui/core/Link';
+import { TextField } from '@material-ui/core';
+
+
+
 interface HomeProps {
     inputUrl: string;
-    images: Array<Image>;
+    images: Array<ImageUrl>;
     checkedImages: Array<boolean>
     canAnalyze: boolean;
     handleSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void;
@@ -19,31 +37,31 @@ interface HomeProps {
 export class Home extends React.Component<HomeProps> {
 
     public render() {
-  
-    const isInputUrl: boolean = Util.isInput(this.props.inputUrl); // URLの入力済確認
+
+        // const classes = this.useStyles();
+
+        const isInputUrl: boolean = Util.isInput(this.props.inputUrl); // URLの入力済確認
 
         return (
-            <div>
-                <header>
-                    <h1>Face Emotion System</h1>
-                </header>
-                {/* URL入力フォーム，表示ボタン */}
-                <div className="url_form">
-                    <form onSubmit={this.props.handleSubmit}>
-                        <input type="text" name="url"
-                            placeholder="URLを入力してください"
-                            value={this.props.inputUrl}
-                            onChange={this.props.handleChange}
-                        />
-                        <button type="submit"
-                            className="display_button"
-                            disabled={!isInputUrl}
+            <div className="back">
+                <AppBar>
+                    <Toolbar>
+                        <Typography variant="h6" color="inherit">
+                            Face Emotion System
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Toolbar />
 
-                        >
-                            表示
-                </button>
+                {/* URL入力フォーム，表示ボタン */}
+                <Grid/>
+
+                <Grid className="input_area">
+                     <form onSubmit={this.props.handleSubmit} autoComplete="on">
+                        <TextField id="standard-basic" value={this.props.inputUrl} label="URLを入力してください" onChange={this.props.handleChange} className="url_form"/>
+                        <Button type="submit" disabled={!isInputUrl} variant="contained" color="primary" className="display_button">表示</Button>
                     </form>
-                </div>
+                </Grid>
                 {/* 画像表示領域 */}
                 <div className="images">
                     {
@@ -60,7 +78,8 @@ export class Home extends React.Component<HomeProps> {
                 {/* 分析ボタン */}
                 <div className="analyze_button">
                     <form onSubmit={this.props.handleSubmitAnalyze}>
-                        <button disabled={!this.props.canAnalyze}>分析</button>
+                        {/* <button disabled={!this.props.canAnalyze}>分析</button> */}
+                        <Button type="submit" disabled={!this.props.canAnalyze} variant="contained" color="primary">分析</Button>
                     </form>
                 </div>
             </div>
