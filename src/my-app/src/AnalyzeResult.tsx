@@ -7,6 +7,7 @@ import { AnalyzeDetail } from './AnalyzeDetail';
 import { AppBar, Button, CardContent, Grid, Paper, Typography } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import Card from '@material-ui/core/Card';
+import { url } from 'inspector';
 
 interface AnalyzeProps {
     checkedimage: ImageUrl;
@@ -30,14 +31,20 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
     }
 
     // URLから日付を返す
-    getDate = (str: string) => {
-        const strDate = String(str.match(/\d{4}\/\d{2}\/\d{2}/));
+    // 期待するURL
+    //  ~~~/images/(ユーザー名)/(年)/(月)/(日)/(画像ファイル名)~~~ の形
+    // ex) https://sample/images/nishikawa/2020/02/16/sample.jpg/~~~
+    getDate = (url: string) => {
+        let strDate = String(url.match(/\d{4}\/\d{2}\/\d{2}/));
         return strDate;
     }
 
     // URLからユーザー名を返す
-    getName = (str: string) => {
-        const temp: string = String(str.split('images/').pop());
+    // 期待するURL
+    // ~~~/images//(ユーザー名)/(年)/(月)/(日)/(画像ファイル名)~~~ の形
+    // ex) https://sample/images/nishikawa/2020/02/16/sample.jpg/~~~
+    getName = (url: string) => {
+        const temp: string = String(url.split('images/').pop());
         const name: string = String(temp.split('/').shift());
         return name;
     }
@@ -63,6 +70,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
     }
 
     public render() {
+        const MAX_LENGTH = 10;
         return (
             <div className="back">
 
