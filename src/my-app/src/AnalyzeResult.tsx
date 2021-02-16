@@ -23,7 +23,7 @@ interface AnalyzeResultState {
 // 分析結果画面を表示するコンポーネント
 export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultState> {
 
-    private constructor(props: AnalyzeProps) {
+    public constructor(props: AnalyzeProps) {
         super(props);
         this.state = {
             resultData: []
@@ -36,6 +36,9 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
     // ex) https://sample/images/nishikawa/2020/02/16/sample.jpg/~~~
     getDate = (url: string) => {
         let strDate = String(url.match(/\d{4}\/\d{2}\/\d{2}/));
+        if (strDate === "null") {
+            strDate = "-";
+        }
         return strDate;
     }
 
@@ -44,6 +47,11 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
     // ~~~/images//(ユーザー名)/(年)/(月)/(日)/(画像ファイル名)~~~ の形
     // ex) https://sample/images/nishikawa/2020/02/16/sample.jpg/~~~
     getName = (url: string) => {
+        const regex = /(images){1}\/.*\d{4}\/\d{2}\/\d{2}/;
+        let tmp = String(url.match(regex));
+        if (tmp === "null") { // images/~~ の後にユーザー名が来ることを想定しているため"images/"を確認
+            return "-";
+        }
         const temp: string = String(url.split('images/').pop());
         const name: string = String(temp.split('/').shift());
         return name;
@@ -71,6 +79,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
 
     public render() {
         const MAX_LENGTH = 10;
+
         return (
             <div className="back">
 
@@ -99,7 +108,8 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
                 {this.state.resultData.length > 0 &&
                     <div>
                         {
-                            Array(this.state.resultData.length).fill(this.state.resultData).map((value, i: number) => {
+
+                            Array(this.state.resultData.slice(0,10).length).fill(this.state.resultData.slice(0,10)).map((value, i: number) => {
                                 return (
                                     <div key={i}>
                                         <Grid container spacing={1}>

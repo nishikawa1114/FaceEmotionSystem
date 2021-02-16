@@ -2,6 +2,7 @@ import React from 'react';
 import './index.css';
 import { ImageUrl } from './types';
 import { Checkbox, GridList, GridListTile, GridListTileBar, IconButton, ListSubheader } from '@material-ui/core';
+import { url } from 'inspector';
 
 interface BoardProps {
     images: Array<ImageUrl>;
@@ -13,14 +14,31 @@ interface BoardProps {
 export class ImageArea extends React.Component<BoardProps>  {
 
     // URLから日付を返す
-    getDate = (str: string) => {
-        const strDate = String(str.match(/\d{4}\/\d{2}\/\d{2}/));
+    // 期待するURL
+    //  ~~~/images/(ユーザー名)/(年)/(月)/(日)/(画像ファイル名)~~~ の形
+    // ex) https://sample/images/nishikawa/2020/02/16/sample.jpg/~~~
+    getDate = (url: string) => {
+        let strDate = String(url.match(/\d{4}\/\d{2}\/\d{2}/));
+        if (strDate === "null") {
+            strDate = "-";
+        }
         return strDate;
     }
 
     // URLからユーザー名を返す
-    getName = (str: string) => {
-        const temp: string = String(str.split('images/').pop());
+    // 期待するURL
+    //  ~~~/images/(ユーザー名)/(年)/(月)/(日)/(画像ファイル名)~~~ の形
+    // ex) https://sample/images/nishikawa/2020/02/16/sample.jpg/~~~
+    getName = (url: string) => {
+        // if (!url.includes("/images/")) { // images/~~ の後にユーザー名が来ることを想定しているため"images/"を確認
+        //     return "-";
+        // }
+        const regex = /(images)\/.*\d{4}\/\d{2}\/\d{2}/;
+        let tmp = String(url.match(regex));
+        if (tmp === "null") { // images/~~ の後にユーザー名が来ることを想定しているため"images/"を確認
+            return "-";
+        }
+        const temp: string = String(url.split('images/').pop());
         const name: string = String(temp.split('/').shift());
         return name;
     }
@@ -28,6 +46,8 @@ export class ImageArea extends React.Component<BoardProps>  {
     public render() {
         // 全ての画像を表示する
         const length = this.props.images.length;
+        let imageCount = 0;
+
         return (
             <div className="image_area">
                 <GridList cols={4} key="image_list">

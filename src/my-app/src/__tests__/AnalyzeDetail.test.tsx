@@ -2,6 +2,9 @@ import { create } from "react-test-renderer";
 import React from "react";
 import { AnalyzeDetail } from '../AnalyzeDetail';
 import { ResultData } from '../types';
+import { Util } from "../Util";
+import { ImageUrl } from './../types';
+import { AnalyzeResult } from './../AnalyzeResult';
 
 describe("should display analyze result.", () => {
     // 分析結果の画像、グラフ、表が表示されているかテスト
@@ -38,3 +41,4 @@ describe("should display analyze result.", () => {
         expect(tree).toMatchSnapshot();
     })
 })
+
