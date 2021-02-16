@@ -1,31 +1,88 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`display initial page 1`] = `
-<div>
-  <header>
-    <h1>
-      Face Emotion System
-    </h1>
+<div
+  className="back"
+>
+  <header
+    className="MuiPaper-root MuiAppBar-root MuiAppBar-positionFixed MuiAppBar-colorPrimary mui-fixed MuiPaper-elevation4"
+  >
+    <div
+      className="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+    >
+      <h6
+        className="MuiTypography-root MuiTypography-h6 MuiTypography-colorInherit"
+      >
+        Face Emotion System
+      </h6>
+    </div>
   </header>
   <div
-    className="url_form"
+    className="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+  />
+  <div
+    className="MuiGrid-root"
+  />
+  <div
+    className="MuiGrid-root input_area"
   >
     <form
+      autoComplete="on"
       onSubmit={[Function]}
     >
-      <input
-        name="url"
-        onChange={[Function]}
-        placeholder="URLを入力してください"
-        type="text"
-        value=""
-      />
+      <div
+        className="MuiFormControl-root MuiTextField-root url_form"
+      >
+        <label
+          className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
+          data-shrink={false}
+          htmlFor="standard-basic"
+          id="standard-basic-label"
+        >
+          URLを入力してください
+        </label>
+        <div
+          className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiInput-input"
+            disabled={false}
+            id="standard-basic"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
       <button
-        className="display_button"
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained display_button MuiButton-containedPrimary Mui-disabled Mui-disabled"
         disabled={true}
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={-1}
         type="submit"
       >
-        表示
+        <span
+          className="MuiButton-label"
+        >
+          表示
+        </span>
       </button>
     </form>
   </div>
@@ -34,7 +91,16 @@ exports[`display initial page 1`] = `
   >
     <div
       className="image_area"
-    />
+    >
+      <ul
+        className="MuiGridList-root"
+        style={
+          Object {
+            "margin": -2,
+          }
+        }
+      />
+    </div>
   </div>
   <div
     className="analyze_button"
@@ -43,9 +109,27 @@ exports[`display initial page 1`] = `
       onSubmit={[Function]}
     >
       <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary Mui-disabled Mui-disabled"
         disabled={true}
+        onBlur={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={-1}
+        type="submit"
       >
-        分析
+        <span
+          className="MuiButton-label"
+        >
+          分析
+        </span>
       </button>
     </form>
   </div>

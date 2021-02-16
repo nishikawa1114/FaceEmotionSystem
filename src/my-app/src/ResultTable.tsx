@@ -9,6 +9,7 @@ interface TableProps {
     emotion: Emotion;
 }
 
+// 分析結果のemotionの表を表示するコンポーネント
 export class ResultTable extends React.Component<TableProps> {
 
     render() {
@@ -22,9 +23,9 @@ export class ResultTable extends React.Component<TableProps> {
                         <TableCell align="center">値</TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody key="emotion">
                     {Object.entries(this.props.emotion).map(([key, value]) => (
-                        <TableRow>
+                        <TableRow key={key}>
                             <TableCell component="th" scope="row">{key}</TableCell>
                             <TableCell align="right">{value}</TableCell>
                         </TableRow>

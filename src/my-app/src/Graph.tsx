@@ -7,6 +7,7 @@ interface GraphProps {
     emotion: Emotion;
 }
 
+// 分析結果のemotionのグラフを表示するコンポーネント
 export class Graph extends React.Component<GraphProps> {
 
     render() {

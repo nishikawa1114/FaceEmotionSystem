@@ -3,21 +3,11 @@ import './index.css';
 import { ImageUrl } from './types';
 import { ImageArea } from './ImageArea';
 import { Util } from './Util';
-
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 import { TextField } from '@material-ui/core';
 
 
@@ -34,12 +24,10 @@ interface HomeProps {
 
 }
 
+// ホーム画面(最初の画面)を表示するコンポーネント
 export class Home extends React.Component<HomeProps> {
 
     public render() {
-
-        // const classes = this.useStyles();
-
         const isInputUrl: boolean = Util.isInput(this.props.inputUrl); // URLの入力済確認
 
         return (
@@ -78,7 +66,6 @@ export class Home extends React.Component<HomeProps> {
                 {/* 分析ボタン */}
                 <div className="analyze_button">
                     <form onSubmit={this.props.handleSubmitAnalyze}>
-                        {/* <button disabled={!this.props.canAnalyze}>分析</button> */}
                         <Button type="submit" disabled={!this.props.canAnalyze} variant="contained" color="primary">分析</Button>
                     </form>
                 </div>

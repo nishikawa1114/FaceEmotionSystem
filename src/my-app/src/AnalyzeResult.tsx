@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import './index.css';
-import { ImageInfo } from './ImageInfo';
 import { Analyzer } from './Analyzer';
 import { ImageUrl, ResultData } from './types';
 import { ErrorId } from './types';
-import { AnalyzedDetail } from './AnalyzedDetail';
+import { AnalyzeDetail } from './AnalyzeDetail';
 import { AppBar, Button, CardContent, Grid, Paper, Typography } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import Card from '@material-ui/core/Card';
@@ -20,6 +19,7 @@ interface AnalyzeResultState {
     resultData: Array<ResultData>;
 }
 
+// 分析結果画面を表示するコンポーネント
 export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultState> {
 
     private constructor(props: AnalyzeProps) {
@@ -42,6 +42,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
         return name;
     }
 
+    // utlの画像を分析する
     private analyzeImage = async (imageUrl: string) => {
         const emotion = await Analyzer.analyze(imageUrl);
         return emotion;
@@ -81,23 +82,25 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
                 <Toolbar />
                 <Toolbar />
 
+                {/* 画像のユーザー名と日付を表示 */}
                 <Grid className="image_info">
                     ユーザー：{this.getName(this.props.checkedimage.url)} | 日付: {this.getDate(this.props.checkedimage.url)}
                 </Grid>
 
+                {/* 分析結果を表示 */}
                 {this.state.resultData.length > 0 &&
-                    <div className="">
+                    <div>
                         {
                             Array(this.state.resultData.length).fill(this.state.resultData).map((value, i: number) => {
                                 return (
-                                    <div>
+                                    <div key={i}>
                                         <Grid container spacing={1}>
                                             <Grid item className="analyze_grid_item">
                                                 <Card>
-                                                    <AnalyzedDetail
+                                                    <AnalyzeDetail
                                                         img={this.props.checkedimage}
                                                         resultData={value[i]}
-                                                        index={i}
+                                                        id={i}
                                                     />
                                                 </Card>
                                             </Grid>
@@ -113,6 +116,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
 
                     </div>
                 }
+                {/* ホームへ戻るボタンの表示 */}
                 <form onSubmit={this.props.onSubmit} className="home_button">
                     <Button type="submit" variant="contained" color="primary">ホーム画面へ戻る</Button>
                 </form>

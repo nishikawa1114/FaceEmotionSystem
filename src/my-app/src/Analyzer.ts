@@ -3,6 +3,7 @@ require('dotenv').config();
 
 export class Analyzer {
 
+    // 画像に映る表情の分析を依頼、結果を返す
     public static analyze(imageUrl: string) {
 
         // Add a valid subscription key and endpoint to your environment variables.
@@ -40,7 +41,6 @@ export class Analyzer {
                 return resuleData;
             })
             .catch((error: any) => { // エラーの場合
-                // console.log(error);
                 return Object;
             });
     }

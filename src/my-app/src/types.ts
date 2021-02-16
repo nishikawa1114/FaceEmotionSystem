@@ -25,12 +25,14 @@ export interface FaceRectangle {
     height: number;
 }
 
+// 分析結果のデータ型
 export interface ResultData {
     faceID: string;
     faceRectangle: FaceRectangle;
     faceAttributes: FaceAttributes;
 }
 
+// エラーID
 export enum ErrorId {
     NOT_ERROR,
     ERROR_IMAGE_NOT_EXIST,
