@@ -19,7 +19,7 @@ export class AnalyzeDetail extends React.Component<DetailProps>  {
         const image = new Image();
         image.src = this.props.img.url;
         image.onload = () => {
-            // 画像から分析滝対象の人物の顔を切り取って表示する
+            // 画像から分析対象の人物の顔を切り取って表示する
             // 分析領域のみを切り取ると顔の中心のみがアップの画像になるため頭全体が表示されやすくするために縦横2倍の領域を切り取ることとした。
             context!.drawImage(
                 image,

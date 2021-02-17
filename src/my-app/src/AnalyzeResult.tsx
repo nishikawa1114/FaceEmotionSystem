@@ -57,7 +57,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
         return name;
     }
 
-    // utlの画像を分析する
+    // urlの画像を分析する
     private analyzeImage = async (imageUrl: string) => {
         const emotion = await Analyzer.analyze(imageUrl);
         return emotion;
@@ -78,7 +78,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
     }
 
     public render() {
-        const MAX_LENGTH = 10;
+        const MAX_ANALYSIS_DISPLAY_LENGTH = 10;
 
         return (
             <div className="back">
@@ -109,7 +109,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
                     <div>
                         {
 
-                            Array(this.state.resultData.slice(0,10).length).fill(this.state.resultData.slice(0,10)).map((value, i: number) => {
+                            Array(this.state.resultData.slice(0, MAX_ANALYSIS_DISPLAY_LENGTH).length).fill(this.state.resultData.slice(0,10)).map((value, i: number) => {
                                 return (
                                     <div key={i}>
                                         <Grid container spacing={1}>

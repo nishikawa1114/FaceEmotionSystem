@@ -4,7 +4,7 @@ jest.mock('node-fetch', () => require('fetch-mock').sandbox())
 import fetchMock from 'fetch-mock';
 
 describe("Analyzer test", () => {
-  // 一人が映った画像の分析結果を受け取るテスト
+  // 一人が写った画像の分析結果を受け取るテスト
   it("success one person", async (done) => {
     fetchMock
       .mock(
@@ -276,7 +276,7 @@ describe("Analyzer test", () => {
     fetchMock.restore();
   });
 
-// 一人も映っていない画像の分析結果を受け取るテスト
+// 一人も写っていない画像の分析結果を受け取るテスト
   it("zero person", async (done) => {
     fetchMock
       .mock(

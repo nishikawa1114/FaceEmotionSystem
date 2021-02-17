@@ -4,7 +4,7 @@ import { AnalyzeResult } from './../AnalyzeResult';
 import { Analyzer } from "./../Analyzer";
 import { ImageUrl } from "../types";
 
-// 複数人映る画像の分析結果が表示できているかテスト
+// 複数人写る画像の分析結果が表示できているかテスト
 describe("should display analyze results.", () => {
     let spy: jest.SpyInstance<Promise<any>, [str: string]>;
 
