@@ -76,7 +76,7 @@ describe("Analyzer test", () => {
     fetchMock.restore();
   });
 
-  // 複数人移った画像の分析結果を受け取るテスト
+  // 複数人写った画像の分析結果を受け取るテスト
   it("success four person", async (done) => {
     fetchMock
       .mock(
