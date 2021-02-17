@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './index.css';
 import { Analyzer } from './Analyzer';
 import { ImageUrl, ResultData } from './types';
 import { ErrorId } from './types';
 import { AnalyzeDetail } from './AnalyzeDetail';
-import { AppBar, Button, CardContent, Grid, Paper, Typography } from '@material-ui/core';
+import { AppBar, Button, CardContent, Grid, Typography } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import Card from '@material-ui/core/Card';
-import { url } from 'inspector';
 
 interface AnalyzeProps {
     checkedimage: ImageUrl;
@@ -30,15 +29,29 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
         }
     }
 
+    // 期待するURLの形であるかのチェック
+    // 期待するURL
+    //  ~~~/images/(ユーザー名)/(年)/(月)/(日)/(画像ファイル名)~~~ の形
+    // ex) https://sample/images/nishikawa/2020/02/16/sample.jpg/~~~
+    validateUrl(url: string) {
+        const regex = /(images){1}\/.*\d{4}\/\d{2}\/\d{2}/;
+        const str = String(url.match(regex));
+        if (str === "null") {
+            return false;
+        }
+
+        return true;
+    }
+
     // URLから日付を返す
     // 期待するURL
     //  ~~~/images/(ユーザー名)/(年)/(月)/(日)/(画像ファイル名)~~~ の形
     // ex) https://sample/images/nishikawa/2020/02/16/sample.jpg/~~~
     getDate = (url: string) => {
-        let strDate = String(url.match(/\d{4}\/\d{2}\/\d{2}/));
-        if (strDate === "null") {
-            strDate = "-";
+        if (!this.validateUrl(url)) {
+            return "-";
         }
+        let strDate = String(url.match(/\d{4}\/\d{2}\/\d{2}/));
         return strDate;
     }
 
@@ -47,9 +60,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
     // ~~~/images//(ユーザー名)/(年)/(月)/(日)/(画像ファイル名)~~~ の形
     // ex) https://sample/images/nishikawa/2020/02/16/sample.jpg/~~~
     getName = (url: string) => {
-        const regex = /(images){1}\/.*\d{4}\/\d{2}\/\d{2}/;
-        let tmp = String(url.match(regex));
-        if (tmp === "null") { // images/~~ の後にユーザー名が来ることを想定しているため"images/"を確認
+        if (!this.validateUrl(url)) { // images/~~ の後にユーザー名が来ることを想定しているため"images/"を確認
             return "-";
         }
         const temp: string = String(url.split('images/').pop());
@@ -109,7 +120,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
                     <div>
                         {
 
-                            Array(this.state.resultData.slice(0, MAX_ANALYSIS_DISPLAY_LENGTH).length).fill(this.state.resultData.slice(0,10)).map((value, i: number) => {
+                            Array(this.state.resultData.slice(0, MAX_ANALYSIS_DISPLAY_LENGTH).length).fill(this.state.resultData.slice(0, 10)).map((value, i: number) => {
                                 return (
                                     <div key={i}>
                                         <Grid container spacing={1}>
