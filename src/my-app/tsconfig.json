@@ -18,9 +18,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    // 暗黙のany型をエラーにしない
+    "noImplicitAny": false
   },
   "include": [
-    "src", "setupFiles.js"
+    "src",
+    "setupFiles.js"
   ]
 }

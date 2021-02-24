@@ -1,5 +1,18 @@
-.url_form {
-  margin: 20px;
+body {
+  background-color: azure;
+}
+
+.title_bar {
+  padding: 0;
+}
+
+.input_area {
+  margin: auto;
+}
+
+.url_form .display_button {
+  margin: auto;
+  padding: 20px;
 }
 
 .image_area {
@@ -7,7 +20,8 @@
 }
 
 .analyze_button {
-  width: 800px;
+  margin: 20px;
+  margin-right: 0px;
   text-align: right; 
 }
 
@@ -18,14 +32,14 @@
 }
 
 img.image {
-  max-width: 150px;
-  height: 100px;
+  margin: 20px 0px;
+  z-index: 0;
 }
 
 .image_checkbox {
   position: absolute;
   top: 10px;
-  right: 50px;
+  right: 10px;
 }
 
 .error_message {
@@ -63,17 +77,21 @@ img.image {
   text-align: left;
 }
 
-th {
-  border:1px solid black;
-}
-
-td {
-  text-align:right;
-  border:1px solid black; 
+.table_root {
+  width: 60px;
 }
 
 
 .home_button {
-  width: 800px;
+  width: 990px;
   text-align: right; 
+}
+
+.image_info {
+  width: 950px;
+  text-align: right;
+}
+
+.analyze_grid_item {
+  min-width: 1000px;
 }

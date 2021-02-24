@@ -1,42 +1,74 @@
 import React from 'react';
 import './index.css';
-import { ImageInfo } from './ImageInfo';
 import { Analyzer } from './Analyzer';
-import { Graph } from './Graph';
-import { Table } from './Table';
-import { Image } from './types';
-import { Emotion } from './types';
+import { ImageUrl, ResultData } from './types';
 import { ErrorId } from './types';
+import { AnalyzeDetail } from './AnalyzeDetail';
+import { AppBar, Button, CardContent, Grid, Typography } from '@material-ui/core';
+import Toolbar from '@material-ui/core/Toolbar';
+import Card from '@material-ui/core/Card';
 
 interface AnalyzeProps {
-    checkedimage: Image;
+    checkedimage: ImageUrl;
     onSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void;
     onClick: () => void;
     setErrorId: (id: number) => void;
 }
 
 interface AnalyzeResultState {
-    emotion: Emotion;
+    resultData: Array<ResultData>;
 }
 
+// 分析結果画面を表示するコンポーネント
 export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultState> {
 
-    private constructor(props: AnalyzeProps) {
+    public constructor(props: AnalyzeProps) {
         super(props);
         this.state = {
-            emotion: {
-                anger: 0,
-                contempt: 0,
-                disgust: 0,
-                fear: 0,
-                happiness: 0,
-                neutral: 0,
-                sadness: 0,
-                surprise: 0,
-            },
+            resultData: []
         }
     }
 
+    // 期待するURLの形であるかのチェック
+    // 期待するURL
+    //  ~~~/images/(ユーザー名)/(年)/(月)/(日)/(画像ファイル名)~~~ の形
+    // ex) https://sample/images/nishikawa/2020/02/16/sample.jpg/~~~
+    validateUrl(url: string) {
+        const regex = /(images){1}\/.*\d{4}\/\d{2}\/\d{2}/;
+        const str = String(url.match(regex));
+        if (str === "null") {
+            return false;
+        }
+
+        return true;
+    }
+
+    // URLから日付を返す
+    // 期待するURL
+    //  ~~~/images/(ユーザー名)/(年)/(月)/(日)/(画像ファイル名)~~~ の形
+    // ex) https://sample/images/nishikawa/2020/02/16/sample.jpg/~~~
+    getDate = (url: string) => {
+        if (!this.validateUrl(url)) {
+            return "-";
+        }
+        let strDate = String(url.match(/\d{4}\/\d{2}\/\d{2}/));
+        return strDate;
+    }
+
+    // URLからユーザー名を返す
+    // 期待するURL
+    // ~~~/images//(ユーザー名)/(年)/(月)/(日)/(画像ファイル名)~~~ の形
+    // ex) https://sample/images/nishikawa/2020/02/16/sample.jpg/~~~
+    getName = (url: string) => {
+        if (!this.validateUrl(url)) { // images/~~ の後にユーザー名が来ることを想定しているため"images/"を確認
+            return "-";
+        }
+        const temp: string = String(url.split('images/').pop());
+        const name: string = String(temp.split('/').shift());
+        return name;
+    }
+
+    // urlの画像を分析する
     private analyzeImage = async (imageUrl: string) => {
         const emotion = await Analyzer.analyze(imageUrl);
         return emotion;
@@ -51,43 +83,71 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
             }
 
             this.setState({
-                emotion: response,
+                resultData: response,
             })
         })
     }
 
     public render() {
+        const MAX_ANALYSIS_DISPLAY_LENGTH = 10;
+
         return (
-            <div>
-                <header>
-                    <h1>Face Emotion System</h1>
-                </header>
-                <h2>分析結果</h2>
+            <div className="back">
 
-                <div className="result">
-                    <div className="hidden_box">
-                        <ImageInfo
-                            image={this.props.checkedimage}
-                            onClick={() => this.props.onClick()}
-                            checked={false}
-                        />
-                    </div>
+                <AppBar className="title_bar">
+                    <Toolbar>
+                        <Typography variant="h6" color="inherit">
+                            Face Emotion System
+                        </Typography>
+                    </Toolbar>
+                    <Toolbar>
+                        <Typography variant="h6" color="inherit">
+                            分析結果
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
 
-                    <div className="graph">
-                        <Graph
-                            emotion={this.state.emotion}
-                        />
-                    </div>
+                <Toolbar />
+                <Toolbar />
 
+                {/* 画像のユーザー名と日付を表示 */}
+                <Grid className="image_info">
+                    ユーザー：{this.getName(this.props.checkedimage.url)} | 日付: {this.getDate(this.props.checkedimage.url)}
+                </Grid>
+
+                {/* 分析結果を表示 */}
+                {this.state.resultData.length > 0 &&
                     <div>
-                        <Table
-                            emotion={this.state.emotion}
-                        />
-                    </div>
-                </div>
+                        {
 
+                            Array(this.state.resultData.slice(0, MAX_ANALYSIS_DISPLAY_LENGTH).length).fill(this.state.resultData.slice(0, 10)).map((value, i: number) => {
+                                return (
+                                    <div key={i}>
+                                        <Grid container spacing={1}>
+                                            <Grid item className="analyze_grid_item">
+                                                <Card>
+                                                    <AnalyzeDetail
+                                                        img={this.props.checkedimage}
+                                                        resultData={value[i]}
+                                                        id={i}
+                                                    />
+                                                </Card>
+                                            </Grid>
+                                        </Grid>
+                                        <CardContent>
+
+                                        </CardContent>
+
+                                    </div>
+                                )
+                            })
+                        }
+
+                    </div>
+                }
+                {/* ホームへ戻るボタンの表示 */}
                 <form onSubmit={this.props.onSubmit} className="home_button">
-                    <button type="submit">ホーム画面へ戻る</button>
+                    <Button type="submit" variant="contained" color="primary">ホーム画面へ戻る</Button>
                 </form>
             </div>
         )

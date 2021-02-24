@@ -7,6 +7,7 @@ interface errorProps {
     onSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void;
 }
 
+// エラー画面を表示するコンポーネント
 export class Error extends React.Component<errorProps> {
 
     render() {

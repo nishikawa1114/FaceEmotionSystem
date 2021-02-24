@@ -1,8 +1,9 @@
-import fetch from 'node-fetch';
+// import fetch from 'node-fetch';
 require('dotenv').config();
 
 export class Analyzer {
 
+    // 画像に映る表情の分析を依頼、結果を返す
     public static analyze(imageUrl: string) {
 
         // Add a valid subscription key and endpoint to your environment variables.
@@ -18,7 +19,7 @@ export class Analyzer {
 
         const queryString = new URLSearchParams(queryParams);
 
-        
+        // let fetch = require('node-fetch')
         return fetch(endpoint + '?' + queryString, {  // パラメータparamsをURLに入れてFace API に渡す
             method: 'POST',
             headers: { 
@@ -35,11 +36,11 @@ export class Analyzer {
                 if (data.length === 0) {
                     return Object;
                 }
-                const emotion = data[0]['faceAttributes']['emotion'];
-                return emotion;
+                // const emotion = data[0]['faceAttributes']['emotion'];
+                const resuleData = data;
+                return resuleData;
             })
             .catch((error: any) => { // エラーの場合
-                console.log(error);
                 return Object;
             });
     }
