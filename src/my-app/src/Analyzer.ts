@@ -22,13 +22,16 @@ export class Analyzer {
         // let fetch = require('node-fetch')
         return fetch(endpoint + '?' + queryString, {  // パラメータparamsをURLに入れてFace API に渡す
             method: 'POST',
-            headers: { 
+            headers: {
                 'Ocp-Apim-Subscription-Key': subscriptionKey,   // Face API サブスクリプションキー
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({'url': imageUrl}) // Face API に渡したい画像のURL
+            body: JSON.stringify({ 'url': imageUrl }) // Face API に渡したい画像のURL
         })
-            .then((response: { json: () => any; }) => {
+            .then((response) => {
+                if (!response.ok) {
+                    throw Error();
+                }
                 return response.json(); // Promiseを返す
             })
             .then((data: { [x: string]: { [x: string]: any; }; }[]) => { // JSONデータ

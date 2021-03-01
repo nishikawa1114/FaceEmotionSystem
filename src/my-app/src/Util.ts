@@ -24,4 +24,5 @@ export class Util {
             img.src = imageUrl;
         });
     }
+
 }

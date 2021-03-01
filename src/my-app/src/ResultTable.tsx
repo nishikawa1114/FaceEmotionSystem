@@ -1,4 +1,4 @@
-import { Grid, Paper, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Grid, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import React from 'react';
 import './index.css';

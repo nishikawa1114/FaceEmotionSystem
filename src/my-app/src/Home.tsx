@@ -24,11 +24,16 @@ interface HomeProps {
 
 }
 
+interface HomeState {
+    canDisplayImage: boolean;
+}
+
 // ホーム画面(最初の画面)を表示するコンポーネント
-export class Home extends React.Component<HomeProps> {
+export class Home extends React.Component<HomeProps, HomeState> {
 
     public render() {
         const isInputUrl: boolean = Util.isInput(this.props.inputUrl); // URLの入力済確認
+        const isMaxImages: boolean = this.props.images.length >= 40;
 
         return (
             <div className="back">
@@ -47,7 +52,7 @@ export class Home extends React.Component<HomeProps> {
                 <Grid className="input_area">
                      <form onSubmit={this.props.handleSubmit} autoComplete="on">
                         <TextField id="standard-basic" value={this.props.inputUrl} label="URLを入力してください" onChange={this.props.handleChange} className="url_form"/>
-                        <Button type="submit" disabled={!isInputUrl} variant="contained" color="primary" className="display_button">表示</Button>
+                        <Button type="submit" disabled={!isInputUrl || isMaxImages} variant="contained" color="primary" className="display_button">表示</Button>
                     </form>
                 </Grid>
                 {/* 画像表示領域 */}
