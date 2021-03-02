@@ -1,8 +1,7 @@
 import React from 'react';
 import './index.css';
 import { ImageUrl } from './types';
-import { Checkbox, GridList, GridListTile, GridListTileBar, IconButton, ListSubheader } from '@material-ui/core';
-import { url } from 'inspector';
+import { Checkbox, GridList, GridListTile, GridListTileBar } from '@material-ui/core';
 
 interface BoardProps {
     images: Array<ImageUrl>;
@@ -46,13 +45,12 @@ export class ImageArea extends React.Component<BoardProps>  {
     public render() {
         // 全ての画像を表示する
         const length = this.props.images.length;
-        let imageCount = 0;
 
         return (
             <div className="image_area">
                 <GridList cols={4} key="image_list">
                     {
-                        Array(length).fill(this.props.images).map((value, i: number) => (
+                        Array(length).fill(this.props.images).map((value, i: number) => (                            
                             <GridListTile key={i}>
                                 <img src={value[i].url} onClick={() => this.props.onClick(i)} className="image" key={i} />
                                 {/* 画像のユーザー名と日付を表示 */}

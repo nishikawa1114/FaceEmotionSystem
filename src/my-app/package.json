@@ -67,6 +67,9 @@
     "testEnvironment": "node",
     "setupFiles": [
       "./setupJest.js"
-    ]
+    ],
+    "moduleNameMapper": {
+      "src(.*)$": "<rootDir>/src/$1"
+    }
   }
 }

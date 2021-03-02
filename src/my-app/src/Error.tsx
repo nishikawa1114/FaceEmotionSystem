@@ -1,6 +1,8 @@
 import React from 'react';
 import './index.css';
 import { ErrorId } from './types';
+import { AppBar, Button, Typography } from '@material-ui/core';
+import Toolbar from '@material-ui/core/Toolbar';
 
 interface errorProps {
     errorId: number;
@@ -23,13 +25,18 @@ export class Error extends React.Component<errorProps> {
 
         return (
             <div>
-                <header>
-                    <h1>Face Emotion System</h1>
-                </header>
+                <AppBar>
+                    <Toolbar>
+                        <Typography variant="h6" color="inherit">
+                            Face Emotion System
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Toolbar />
                 <div className="error_message">
                     <h2>{errorMessage}</h2>
                     <form onSubmit={this.props.onSubmit}>
-                        <button type="submit">ホーム画面へ戻る</button>
+                        <Button type="submit" variant="contained" color="primary">ホーム画面へ戻る</Button>
                     </form>
                 </div>
             </div>
