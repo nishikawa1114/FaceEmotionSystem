@@ -19,7 +19,8 @@ POST
 {エンドポイント}/face/emotion
 
 === 説明
-URLで指定された画像に映った人物の表情の分析をAzureFaceAPIに依頼し、受け取った結果を返却する。
+URLで指定された画像に映った人物の表情の分析をAzureFaceAPIに依頼し、結果を返却する。 +
+レスポンスには、画像に写る各個人の分析データと全員の平均値のデータが含まれる。
 
 === パラメータ
 
@@ -35,8 +36,50 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 === レスポンス
 * 成功時
 ** 200
-** 下表に記載されているキーを含むオブジェクトの配列が返却される
+** 下表に記載されているキーを含むオブジェクトが返却される
 
+.成功時のレスポンスオブジェクト
+[cols="1,4a" options="header"]
+|===
+|キー 
+|説明 
+
+|total(int)
+|分析された人数
+
+|mean(Ojbect)
+|画像に写る全員の分析データの平均値
+
+|person(Object[])
+|画像に写る各個人の分析データの配列
+
+|===
+
+."mean"オブジェクト
+[cols="1,4a" options="header"]
+|===
+|キー 
+|説明 
+
+|faceAttributes (Object)
+|顔の属性
+
+* emotion (Object)
+** 感情の強さ。[0,1]の間の数値。
+
+** neutral (double)
+** anger (double)
+** contempt (double)
+** disgust (double)
+** fear (double)
+** happiness (double)
+** sadness (double)
+** surprise (double)
+
+|===
+
+
+."person"オブジェクト
 [cols="1,4a" options="header"]
 |===
 |キー 
@@ -72,6 +115,7 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 
 * 失敗時
 
+.ステータスとエラー内容
 [cols="1,1,3a" options="header"]
 |===
 |ステータス
@@ -145,6 +189,8 @@ curl -X POST
 
 === レスポンスサンプル
 成功時
+
+* 分析人数が一人の場合
 ****
 HTTP
 ....
@@ -154,15 +200,9 @@ Transfer-Encoding: chunked
 Date: Thu, 24 Dec 2020 04:32:36 GMT
 
 
-[
-	{
-		"faceId": "c3900448-51d1-42f9-952b-041f9ef24cb4",
-		"faceRectangle": {
-			"top": 165,
-			"left": 658,
-			"width": 220,
-			"height": 220
-		},
+{
+	"total": 1,
+	"mean": { 
 		"faceAttributes": {
 			"emotion": {
 				"anger": 0.0,
@@ -173,15 +213,116 @@ Date: Thu, 24 Dec 2020 04:32:36 GMT
 				"neutral": 0.97,
 				"sadness": 0.028,
 				"surprise": 0.0
-			}	
+			}
 		}
-	}
-]
+	},
+	"person": 
+	[
+		{
+			"faceId": "c3900448-51d1-42f9-952b-041f9ef24cb4",
+			"faceRectangle": {
+				"top": 165,
+				"left": 658,
+				"width": 220,
+				"height": 220
+			},
+			"faceAttributes": {
+				"emotion": {
+					"anger": 0.0,
+					"contempt": 0.001,
+					"disgust": 0.0,
+					"fear": 0.0,
+					"happiness": 0.0,
+					"neutral": 0.97,
+					"sadness": 0.028,
+					"surprise": 0.0
+				}
+			}
+		}
+	]
+}
+....
+****
+
+* 分析人数が2人以上の場合
+****
+HTTP
+....
+HTTP/1.1 200
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 24 Dec 2020 04:32:36 GMT
+
+
+{
+	"total": 2,
+	"mean": { 
+		"faceAttributes": {
+			"emotion": {
+				"anger": 0.0,
+				"contempt": 0.001,
+				"disgust": 0.0,
+				"fear": 0.0,
+				"happiness": 0.0,
+				"neutral": 0.97,
+				"sadness": 0.028,
+				"surprise": 0.0
+			}
+		}
+	},
+	"person": 
+	[
+		{
+			"faceId": "c3900448-51d1-42f9-952b-041f9ef24cb4",
+			"faceRectangle": {
+				"top": 165,
+				"left": 658,
+				"width": 220,
+				"height": 220
+			},
+			"faceAttributes": {
+				"emotion": {
+					"anger": 0.0,
+					"contempt": 0.001,
+					"disgust": 0.0,
+					"fear": 0.0,
+					"happiness": 0.0,
+					"neutral": 0.97,
+					"sadness": 0.028,
+					"surprise": 0.0
+				}
+			}
+		},
+		{
+			"faceId": "c3900448-51d1-42f9-952b-041f9ef24cb4",
+			"faceRectangle": {
+				"top": 165,
+				"left": 658,
+				"width": 220,
+				"height": 220
+			},
+			"faceAttributes": {
+				"emotion": {
+					"anger": 0.0,
+					"contempt": 0.001,
+					"disgust": 0.0,
+					"fear": 0.0,
+					"happiness": 0.0,
+					"neutral": 0.97,
+					"sadness": 0.028,
+					"surprise": 0.0
+				}
+			}
+		}
+	]
+}
+
 ....
 ****
 
 失敗時 +
-パラメータを渡さなかった場合
+
+* パラメータを渡さなかった場合
 ****
 HTTP
 ....
@@ -194,7 +335,7 @@ Content-Type: application/json; charset=utf-8
 ....
 ****
 
-Azure Face APIからエラーが返された場合
+* Azure Face APIからエラーが返された場合
 ****
 HTTP
 ....
@@ -211,7 +352,7 @@ Content-Type: application/json; charset=utf-8
 ....
 ****
 
-Azure Face APIサーバーエラーの場合
+* Azure Face APIサーバーエラーの場合
 ****
 HTTP
 ....
