@@ -595,72 +595,53 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <img src="img/analyzed.png" alt="analyzed" width="600">
 </div>
 </div>
+<div class="paragraph">
+<p>　分析結果に複数人のデータが含まれている場合、分析結果は縦に並んで人数分表示する。分析可能人数の上限を超えた人数が画像内に写っている場合、分析可能人数分のみ分析結果を表示する。その場合、分析する人物の選択はできない。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>分析可能人数上限：10人</p>
+</li>
+</ul>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 6.25%;">
-<col style="width: 31.25%;">
-<col style="width: 62.5%;">
+<col style="width: 20%;">
+<col style="width: 80%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">番号</th>
 <th class="tableblock halign-left valign-top">名称</th>
 <th class="tableblock halign-left valign-top">説明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">画像情報表示</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">画像情報表示領域</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>画像のユーザー名、日付の情報を表示する。</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">画像表示</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">画像表示領域</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>分析対象の人物の顔をトリミングして表示する。</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">グラフ</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">グラフ領域</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>分析結果のグラフをレーダーチャートで表示する。</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">表</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">表領域</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>分析結果の数値を表示する。</p>
+<p>分析結果の数値を表示する。<br></p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">分析結果の平均値表示</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>画像に写る全員の感情の平均値を表示する。<br>
-画像に2人以上写っている場合のみ表示する。</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">全員の分析結果表示</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>画像に写る全員の感情の分析結果をそれぞれ表示する。</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>最大人数：10人</p>
-</li>
-</ul>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">戻るボタン</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>ボタンを押下するとホーム画面へ移動する。</p>
@@ -936,7 +917,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>表示ボタン押下不可</p>
+<p>表示ボタン押下負荷</p>
 </li>
 </ol>
 </div>
@@ -1066,7 +1047,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </li>
 <li>
-<p>システムは画像の分析結果を表示する。分析結果に複数人のデータが含まれる場合には、分析結果の平均値と分析可能人数上限までの結果を表示する</p>
+<p>システムは画像の分析結果を表示する。分析結果に複数人のデータが含まれる場合には分析可能人数上限までの結果を表示する</p>
 </li>
 </ol>
 </div></div></td>
@@ -1181,7 +1162,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 1.0 2020-10-21<br>
-Last updated 2021-03-02 14:45:00 +0900
+Last updated 2021-02-04 15:51:22 +0900
 </div>
 </div>
 </body>
