@@ -19,7 +19,8 @@ POST
 {エンドポイント}/face/emotion
 
 === 説明
-URLで指定された画像に映った人物の表情の分析をAzureFaceAPIに依頼し、受け取った結果を返却する。
+URLで指定された画像に映った人物の表情の分析をAzureFaceAPIに依頼し、結果を返却する。 +
+レスポンスには、画像に写る各個人の分析データと全員の平均値のデータが含まれる。
 
 === パラメータ
 
@@ -35,43 +36,84 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 === レスポンス
 * 成功時
 ** 200
-** 下表に記載されているキーを含むオブジェクトの配列が返却される
+** 下表に記載されているキーを含むオブジェクトが返却される
 
+.成功時のレスポンスオブジェクト
 [cols="1,4a" options="header"]
 |===
 |キー 
 |説明 
 
-|faceId (String)
+|total(number)
+|分析された人数
+
+|mean(object)
+|画像に写る全員の分析データの平均値
+
+|person(object[])
+|画像に写る各個人の分析データの配列
+
+|===
+
+."mean"オブジェクト
+[cols="1,4a" options="header"]
+|===
+|キー 
+|説明 
+
+|faceAttributes (object)
+|表情の属性
+
+* emotion (object) : 感情の強さ。それぞれ0.0~1.0の間の実数値で表される。FaceAPIでは有効桁数が定義されていない。本APIでは有効桁数を小数第3位までとし、小数第4位以下のけたは切り捨てることとする。
+
+** neutral (number) : 中立
+** anger (number) : 怒り
+** contempt (number) : 困惑
+** disgust (number) : 憎悪
+** fear (number) : 恐怖
+** happiness (number) : 幸福
+** sadness (number) : 悲しみ
+** surprise (number) : 驚き
+
+|===
+
+
+."person"オブジェクト
+[cols="1,4a" options="header"]
+|===
+|キー 
+|説明 
+
+|faceId (string)
 |検出された顔の識別子
 
-|faceRectangle (Object)
+|faceRectangle (object)
 |画像上の顔の位置の矩形領域
 
-** top (int)
-** left (int)
-** width (int)
-** height (int)
+** top (number)
+** left (number)
+** width (number)
+** height (number)
 
-|faceAttributes (Object)
-|顔の属性
+|faceAttributes (object)
+|表情の属性
 
-* emotion (Object)
-** 感情の強さ。[0,1]の間の数値。
+* emotion (object) : 感情の強さ。それぞれ0.0~1.0の間の実数値で表される。FaceAPIでは有効桁数が定義されていない。そのため、本APIでも有効桁数を定義しないこととする。
 
-** neutral (double)
-** anger (double)
-** contempt (double)
-** disgust (double)
-** fear (double)
-** happiness (double)
-** sadness (double)
-** surprise (double)
+** neutral (number) : 中立
+** anger (number) : 怒り
+** contempt (number) : 困惑
+** disgust (number) : 憎悪
+** fear (number) : 恐怖
+** happiness (number) : 幸福
+** sadness (number) : 悲しみ
+** surprise (number) : 驚き
 
 |===
 
 * 失敗時
 
+.ステータスとエラー内容
 [cols="1,1,3a" options="header"]
 |===
 |ステータス
@@ -93,10 +135,9 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 画像形式がサポートされていない場合など +
 詳しくは https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236[FaceAPI公式リファレンス] を参照
 
-* details (Object)
-** Azure Face API からのレスポンス内容
-** code (String)
-** message (String)
+* details (object) : Azure Face API からのレスポンス内容
+** code (string)
+** message (string)
 
 |415
 |media type is invalid.
@@ -109,10 +150,9 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 |Face API response is error.
 |AzureFaceAPIから400, 429以外のステータスが返却された場合
 
-* details (Object)
-** Azure Face API からのレスポンス内容
-** code (String)
-** message (String)
+* details (object) : Azure Face API からのレスポンス内容
+** code (string)
+** message (string)
 
 |503
 |Face API server unavalable.
@@ -145,6 +185,8 @@ curl -X POST
 
 === レスポンスサンプル
 成功時
+
+* 分析人数が2人の場合
 ****
 HTTP
 ....
@@ -154,15 +196,9 @@ Transfer-Encoding: chunked
 Date: Thu, 24 Dec 2020 04:32:36 GMT
 
 
-[
-	{
-		"faceId": "c3900448-51d1-42f9-952b-041f9ef24cb4",
-		"faceRectangle": {
-			"top": 165,
-			"left": 658,
-			"width": 220,
-			"height": 220
-		},
+{
+	"total": 2,
+	"mean": { 
 		"faceAttributes": {
 			"emotion": {
 				"anger": 0.0,
@@ -173,15 +209,62 @@ Date: Thu, 24 Dec 2020 04:32:36 GMT
 				"neutral": 0.97,
 				"sadness": 0.028,
 				"surprise": 0.0
-			}	
+			}
 		}
-	}
-]
+	},
+	"person": 
+	[
+		{
+			"faceId": "c3900448-51d1-42f9-952b-041f9ef24cb4",
+			"faceRectangle": {
+				"top": 165,
+				"left": 658,
+				"width": 220,
+				"height": 220
+			},
+			"faceAttributes": {
+				"emotion": {
+					"anger": 0.0,
+					"contempt": 0.001,
+					"disgust": 0.0,
+					"fear": 0.0,
+					"happiness": 0.0,
+					"neutral": 0.97,
+					"sadness": 0.028,
+					"surprise": 0.0
+				}
+			}
+		},
+		{
+			"faceId": "c3900448-51d1-42f9-952b-041f9ef24cb4",
+			"faceRectangle": {
+				"top": 165,
+				"left": 658,
+				"width": 220,
+				"height": 220
+			},
+			"faceAttributes": {
+				"emotion": {
+					"anger": 0.0,
+					"contempt": 0.001,
+					"disgust": 0.0,
+					"fear": 0.0,
+					"happiness": 0.0,
+					"neutral": 0.97,
+					"sadness": 0.028,
+					"surprise": 0.0
+				}
+			}
+		}
+	]
+}
+
 ....
 ****
 
 失敗時 +
-パラメータを渡さなかった場合
+
+* パラメータを渡さなかった場合
 ****
 HTTP
 ....
@@ -194,7 +277,7 @@ Content-Type: application/json; charset=utf-8
 ....
 ****
 
-Azure Face APIからエラーが返された場合
+* Azure Face APIからエラーが返された場合
 ****
 HTTP
 ....
@@ -211,7 +294,7 @@ Content-Type: application/json; charset=utf-8
 ....
 ****
 
-Azure Face APIサーバーエラーの場合
+* Azure Face APIサーバーエラーの場合
 ****
 HTTP
 ....
@@ -223,3 +306,6 @@ Content-Type: application/json; charset=utf-8
 }
 ....
 ****
+
+=== 参考文献
+* https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236[FaceAPI公式リファレンス] 
