@@ -19,10 +19,12 @@ package "API" {
 
     package "Response" {
 
-        class ResponseFactry {
-            createSuccessResponse(): ResponseData
+        class ResponseFactory {
             createErrorResponse(): ErrorResponse
+            createFaceApiServerError(): FaceApiErrorResponse
             createFaceApiErrorResponse(): FaceApiErrorResponse
+            createSuccessResponse(): ResponseData
+            calcEmotionMean(): Emotion
         }
 
         class FaceApiErrorResponseDetail {
@@ -33,21 +35,15 @@ package "API" {
         }
         note bottom: FaceAPIからのエラー内容
 
-        class FaceAPIExcepton {
-
+        class ErrorResponse {
+            error: string
         }
 
-        class FaceApiInvalidRequestException {
-
+        class FaceApiErrorResponse {
+            error: string
+            details: FaceApiError
         }
 
-        class FaceApiServerException {
-
-        }
-
-        class NotDetectedException {
-
-        }
     }
 
 
@@ -93,48 +89,41 @@ package "API" {
             getter()
         }
 
-        class ErrorResponse {
-            error: string
-        }
-
+        
         class ErrorMessage {
-            REQUEST_BODY_ERROR = "request body is invalid.";
-            MEDIA_TYPE_ERROR = "media type is invalid.";
-            FACE_API_SERVER_UNABLABLE_ERROR = "Face API server unavalable.";
-            FACE_API_RESPONSE_ERROR = "Face API response is error.";
-            UNEXPECTED_ERROR = "unexpected error.";
+            REQUEST_BODY_ERROR: string
+            MEDIA_TYPE_ERROR: string
+            FACE_API_SERVER_UNABLABLE_ERROR: string
+            FACE_API_RESPONSE_ERROR: string
+            UNEXPECTED_ERROR: string
         }
-
         note bottom: このAPIからのエラー文
-
-        class FaceApiErrorResponse {
-            error: string
-            details: FaceApiError
-        }
-    }
-
-    class Calculator {
-
+        
     }
 
 }
 
-ResponseData "1" o.. "n" ResultData
-ResultData "1" o.. "1" FaceRectangle
-ResultData "1" o.. "1" FaceAttributes
-FaceAttributes "1" o.. "1" Emotion
+ResponseData "1" o-- "n" ResultData
+ResponseData --> FaceAttributes
+ResultData "1" o-- "1" FaceRectangle
+ResultData "1" o-- "1" FaceAttributes
+FaceAttributes "1" o-- "1" Emotion
 
+ResponseFactory ..> ErrorMessage
+ResponseFactory ..> ErrorResponse
+ResponseFactory ..> FaceApiErrorResponse
+ResponseFactory ..> ResponseData
+
+FaceEmotionController -- ResponseFactory
+FaceEmotionController ..> ErrorMessage
+FaceEmotionController ..> ImageInfo
+FaceEmotionController -- ResultData
 FaceEmotionController ..> ResponseData
-FaceEmotionController ..> ErrorController
 
-Controller ..> ErrorMessage
-ResponseFactry ..> ErrorMessage
+ErrorController -- ResponseFactory
+ErrorController ..> ErrorMessage
+ErrorController ..> ErrorResponse
 
-FaceEmotionController ..> ResponseFactry
-ErrorController ..> ResponseFactry
-ResponseFactry ..> ErrorResponse
-ResponseFactry ..> FaceApiErrorResponse
 FaceApiErrorResponse ..> FaceApiErrorResponseDetail
-Response ..> ResultData
 
 @enduml
