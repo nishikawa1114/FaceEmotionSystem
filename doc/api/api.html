@@ -561,19 +561,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">total(int)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">total(nubmer)</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>分析された人数</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">mean(Ojbect)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mean(object)</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>画像に写る全員の分析データの平均値</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">person(Object[])</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">person(object[])</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>画像に写る各個人の分析データの配列</p>
 </div></div></td>
@@ -594,42 +594,39 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">faceAttributes (Object)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">faceAttributes (object)</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>顔の属性</p>
+<p>表情の属性</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>emotion (Object)</p>
+<p>emotion (object) : 感情の強さ。それぞれ0.0~1.0の間の実数値で表される。</p>
 <div class="ulist">
 <ul>
 <li>
-<p>感情の強さ。[0,1]の間の数値。</p>
+<p>neutral (number) : 中立</p>
 </li>
 <li>
-<p>neutral (double)</p>
+<p>anger (number) : 怒り</p>
 </li>
 <li>
-<p>anger (double)</p>
+<p>contempt (number) : 困惑</p>
 </li>
 <li>
-<p>contempt (double)</p>
+<p>disgust (number) : 憎悪</p>
 </li>
 <li>
-<p>disgust (double)</p>
+<p>fear (number) : 恐怖</p>
 </li>
 <li>
-<p>fear (double)</p>
+<p>happiness (number) : 幸福</p>
 </li>
 <li>
-<p>happiness (double)</p>
+<p>sadness (number) : 悲しみ</p>
 </li>
 <li>
-<p>sadness (double)</p>
-</li>
-<li>
-<p>surprise (double)</p>
+<p>surprise (number) : 驚き</p>
 </li>
 </ul>
 </div>
@@ -653,70 +650,67 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">faceId (String)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">faceId (string)</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>検出された顔の識別子</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">faceRectangle (Object)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">faceRectangle (object)</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>画像上の顔の位置の矩形領域</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>top (int)</p>
+<p>top (number)</p>
 </li>
 <li>
-<p>left (int)</p>
+<p>left (number)</p>
 </li>
 <li>
-<p>width (int)</p>
+<p>width (number)</p>
 </li>
 <li>
-<p>height (int)</p>
+<p>height (number)</p>
 </li>
 </ul>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">faceAttributes (Object)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">faceAttributes (object)</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>顔の属性</p>
+<p>表情の属性</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>emotion (Object)</p>
+<p>emotion (object) : 感情の強さ。それぞれ0.0~1.0の間の実数値で表される。</p>
 <div class="ulist">
 <ul>
 <li>
-<p>感情の強さ。[0,1]の間の数値。</p>
+<p>neutral (number) : 中立</p>
 </li>
 <li>
-<p>neutral (double)</p>
+<p>anger (number) : 怒り</p>
 </li>
 <li>
-<p>anger (double)</p>
+<p>contempt (number) : 困惑</p>
 </li>
 <li>
-<p>contempt (double)</p>
+<p>disgust (number) : 憎悪</p>
 </li>
 <li>
-<p>disgust (double)</p>
+<p>fear (number) : 恐怖</p>
 </li>
 <li>
-<p>fear (double)</p>
+<p>happiness (number) : 幸福</p>
 </li>
 <li>
-<p>happiness (double)</p>
+<p>sadness (number) : 悲しみ</p>
 </li>
 <li>
-<p>sadness (double)</p>
-</li>
-<li>
-<p>surprise (double)</p>
+<p>surprise (number) : 驚き</p>
 </li>
 </ul>
 </div>
@@ -773,17 +767,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>details (Object)</p>
+<p>details (object) : Azure Face API からのレスポンス内容</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Azure Face API からのレスポンス内容</p>
+<p>code (string)</p>
 </li>
 <li>
-<p>code (String)</p>
-</li>
-<li>
-<p>message (String)</p>
+<p>message (string)</p>
 </li>
 </ul>
 </div>
@@ -821,17 +812,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>details (Object)</p>
+<p>details (object) : Azure Face API からのレスポンス内容</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Azure Face API からのレスポンス内容</p>
+<p>code (string)</p>
 </li>
 <li>
-<p>code (String)</p>
-</li>
-<li>
-<p>message (String)</p>
+<p>message (string)</p>
 </li>
 </ul>
 </div>
@@ -888,72 +876,7 @@ Content-Type: application/json
 <div class="ulist">
 <ul>
 <li>
-<p>分析人数が一人の場合</p>
-</li>
-</ul>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="paragraph">
-<p>HTTP</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>HTTP/1.1 200
-Content-Type: application/json
-Transfer-Encoding: chunked
-Date: Thu, 24 Dec 2020 04:32:36 GMT
-
-
-{
-	"total": 1,
-	"mean": {
-		"faceAttributes": {
-			"emotion": {
-				"anger": 0.0,
-				"contempt": 0.001,
-				"disgust": 0.0,
-				"fear": 0.0,
-				"happiness": 0.0,
-				"neutral": 0.97,
-				"sadness": 0.028,
-				"surprise": 0.0
-			}
-		}
-	},
-	"person":
-	[
-		{
-			"faceId": "c3900448-51d1-42f9-952b-041f9ef24cb4",
-			"faceRectangle": {
-				"top": 165,
-				"left": 658,
-				"width": 220,
-				"height": 220
-			},
-			"faceAttributes": {
-				"emotion": {
-					"anger": 0.0,
-					"contempt": 0.001,
-					"disgust": 0.0,
-					"fear": 0.0,
-					"happiness": 0.0,
-					"neutral": 0.97,
-					"sadness": 0.028,
-					"surprise": 0.0
-				}
-			}
-		}
-	]
-}</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>分析人数が2人以上の場合</p>
+<p>分析人数が2人の場合</p>
 </li>
 </ul>
 </div>
@@ -1116,13 +1039,23 @@ Content-Type: application/json; charset=utf-8
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_参考文献">参考文献</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://westus.dev.cognitive.microsoft.com/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236">FaceAPI公式リファレンス</a></p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 1.0 2020-12-24<br>
-Last updated 2021-03-03 13:25:52 +0900
+Last updated 2021-03-04 11:34:40 +0900
 </div>
 </div>
 </body>
