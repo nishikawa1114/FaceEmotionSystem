@@ -64,7 +64,7 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 |faceAttributes (object)
 |表情の属性
 
-* emotion (object) : 感情の強さ。それぞれ0.0~1.0の間の実数値で表される。
+* emotion (object) : 感情の強さ。それぞれ0.0~1.0の間の実数値で表される。FaceAPIでは有効桁数が定義されていない。本APIでは有効桁数を小数第3位までとし、小数第4位以下のけたは切り捨てることとする。
 
 ** neutral (number) : 中立
 ** anger (number) : 怒り
@@ -98,7 +98,7 @@ URLで指定された画像に映った人物の表情の分析をAzureFaceAPI�
 |faceAttributes (object)
 |表情の属性
 
-* emotion (object) : 感情の強さ。それぞれ0.0~1.0の間の実数値で表される。
+* emotion (object) : 感情の強さ。それぞれ0.0~1.0の間の実数値で表される。FaceAPIでは有効桁数が定義されていない。そのため、本APIでも有効桁数を定義しないこととする。
 
 ** neutral (number) : 中立
 ** anger (number) : 怒り
