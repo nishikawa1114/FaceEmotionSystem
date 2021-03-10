@@ -1,12 +1,13 @@
 import React from 'react';
 import './index.css';
 import { Analyzer } from './Analyzer';
-import { ImageUrl, ResultData } from './types';
+import { ImageUrl, ResultData, ResponseData } from './types';
 import { ErrorId } from './types';
 import { AnalyzeDetail } from './AnalyzeDetail';
 import { AppBar, Button, CardContent, Grid, Typography } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import Card from '@material-ui/core/Card';
+import { AnalyzeDetailMean } from './AnalyzeDetailMean';
 
 interface AnalyzeProps {
     checkedimage: ImageUrl;
@@ -16,7 +17,7 @@ interface AnalyzeProps {
 }
 
 interface AnalyzeResultState {
-    resultData: Array<ResultData>;
+    responseData: ResponseData;
 }
 
 // 分析結果画面を表示するコンポーネント
@@ -25,7 +26,24 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
     public constructor(props: AnalyzeProps) {
         super(props);
         this.state = {
-            resultData: []
+            responseData: {
+                total: 0,
+                mean: {
+                    faceAttributes: {
+                        emotion: {
+                            anger: 0,
+                            contempt: 0,
+                            disgust: 0,
+                            fear: 0,
+                            happiness: 0,
+                            neutral: 0,
+                            sadness: 0,
+                            surprise: 0,
+                        }
+                    }
+                },
+                person: []
+            }
         }
     }
 
@@ -83,7 +101,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
             }
 
             this.setState({
-                resultData: response,
+                responseData: response,
             })
         })
     }
@@ -116,11 +134,37 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
                 </Grid>
 
                 {/* 分析結果を表示 */}
-                {this.state.resultData.length > 0 &&
+                {this.state.responseData.total > 0 &&
                     <div>
                         {
+                            this.state.responseData.total > 1 ?
+                                <div>
+                                    <Typography component="h1" variant="h4" className="head_item">
+                                        平均
+                                    </Typography>
+                                    <hr></hr>
+                                    <Grid container spacing={1}>
+                                        <Grid item className="analyze_grid_item">
+                                            <Card>
+                                                <AnalyzeDetailMean
+                                                    img={this.props.checkedimage}
+                                                    mean={this.state.responseData.mean}
+                                                />
+                                            </Card>
+                                        </Grid>
+                                    </Grid>
 
-                            Array(this.state.resultData.slice(0, MAX_ANALYSIS_DISPLAY_LENGTH).length).fill(this.state.resultData.slice(0, 10)).map((value, i: number) => {
+                                </div>
+                                :
+                                <div></div>
+                        }
+                        <Typography component="h1" variant="h4" className="head_item">
+                            全員
+                        </Typography>
+                        <hr></hr>
+                        {
+
+                            Array(this.state.responseData.person.slice(0, MAX_ANALYSIS_DISPLAY_LENGTH).length).fill(this.state.responseData.person.slice(0, MAX_ANALYSIS_DISPLAY_LENGTH)).map((value, i: number) => {
                                 return (
                                     <div key={i}>
                                         <Grid container spacing={1}>
@@ -134,10 +178,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
                                                 </Card>
                                             </Grid>
                                         </Grid>
-                                        <CardContent>
-
-                                        </CardContent>
-
+                                        <CardContent/>
                                     </div>
                                 )
                             })

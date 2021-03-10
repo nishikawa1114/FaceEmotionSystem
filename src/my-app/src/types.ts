@@ -32,6 +32,16 @@ export interface ResultData {
     faceAttributes: FaceAttributes;
 }
 
+export interface MeanfaceAttributes {
+    faceAttributes: FaceAttributes;
+}
+
+export interface ResponseData {
+    total: number;
+    mean: MeanfaceAttributes
+    person: Array<ResultData>;
+}
+
 // エラーID
 export enum ErrorId {
     NOT_ERROR,
