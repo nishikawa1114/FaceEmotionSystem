@@ -6,6 +6,7 @@ export class Analyzer {
     // 画像に映る表情の分析を依頼、結果を返す
     public static analyze(imageUrl: string) {
 
+        // FaceAPIと直接通信する場合の設定
         // Add a valid subscription key and endpoint to your environment variables.
         // const subscriptionKey = String(process.env.REACT_APP_FACE_SUBSCRIPTION_KEY);
         // const endpoint = String(process.env.REACT_APP_FACE_ENDPOINT) + '/face/v1.0/detect';
@@ -20,7 +21,7 @@ export class Analyzer {
         // const queryString = new URLSearchParams(queryParams);
 
         // let fetch = require('node-fetch')
-        return fetch("http://localhost:8080/face/emotion", {  // パラメータparamsをURLに入れてFace API に渡す
+        return fetch("http://localhost:8080/face/emotion", { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

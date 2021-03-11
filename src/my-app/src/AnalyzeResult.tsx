@@ -42,7 +42,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
                         }
                     }
                 },
-                person: []
+                resultData: []
             }
         }
     }
@@ -108,6 +108,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
 
     public render() {
         const MAX_ANALYSIS_DISPLAY_LENGTH = 10;
+        const resultData10 = this.state.responseData.resultData.slice(0, MAX_ANALYSIS_DISPLAY_LENGTH) || null;
 
         return (
             <div className="back">
@@ -134,7 +135,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
                 </Grid>
 
                 {/* 分析結果を表示 */}
-                {this.state.responseData.total > 0 &&
+                {resultData10.length > 0 &&
                     <div>
                         {
                             this.state.responseData.total > 1 ?
@@ -163,8 +164,7 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
                         </Typography>
                         <hr></hr>
                         {
-
-                            Array(this.state.responseData.person.slice(0, MAX_ANALYSIS_DISPLAY_LENGTH).length).fill(this.state.responseData.person.slice(0, MAX_ANALYSIS_DISPLAY_LENGTH)).map((value, i: number) => {
+                            resultData10.map((value, i: number) => {
                                 return (
                                     <div key={i}>
                                         <Grid container spacing={1}>
@@ -172,13 +172,13 @@ export class AnalyzeResult extends React.Component<AnalyzeProps, AnalyzeResultSt
                                                 <Card>
                                                     <AnalyzeDetail
                                                         img={this.props.checkedimage}
-                                                        resultData={value[i]}
+                                                        resultData={value}
                                                         id={i}
                                                     />
                                                 </Card>
                                             </Grid>
                                         </Grid>
-                                        <CardContent/>
+                                        <CardContent />
                                     </div>
                                 )
                             })
