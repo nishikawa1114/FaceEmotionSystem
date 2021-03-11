@@ -66,154 +66,120 @@ class ResponseFactoryTest {
 	
 	// 小数第4位切り捨て
 	@Test
-	void testFloorDecimal1() {
+	void testFloorDecimal_lessThan5() {
 		// 期待値
 		double expect = 0.123;
 		// 実行
-		double result = ResponseFactory.floorDecimal(0.1234, 4);
+		double result = ResponseFactory.floorDecimalPlace4(0.1234);
 		// 比較
 		assertThat(result).isEqualTo(expect);
 	}
 
 	// 小数第４位切り捨て(5以上の数字の場合)
 	@Test
-	void testFloorDecimal2() {
+	void testFloorDecimal_5OrHigher() {
 		// 期待値
 		double expect = 0.123;
 		// 実行
-		double result = ResponseFactory.floorDecimal(0.1236, 4);
+		double result = ResponseFactory.floorDecimalPlace4(0.1236);
 		// 比較
 		assertThat(result).isEqualTo(expect);
 	}
 
 	// 元の数字が小数第1位までの場合、小数第4位を指定しての切り捨て
 	@Test
-	void testFloorDecimal3() {
+	void testFloorDecimal_oneDecimalPlace() {
 		// 期待値
 		double expect = 0.1;
 		// 実行
-		double result = ResponseFactory.floorDecimal(0.1, 4);
-		// 比較
-		assertThat(result).isEqualTo(expect);
-	}
-
-	// 小数第3位以下の切り捨て
-	@Test
-	void testFloorDecimal4() {
-		// 期待値
-		double expect = 0.12;
-		// 実行
-		double result = ResponseFactory.floorDecimal(0.1234, 3);
-		// 比較
-		assertThat(result).isEqualTo(expect);
-	}
-
-	// 小数点以下の切り捨て
-	@Test
-	void testFloorDecimal5() {
-		// 期待値
-		double expect = 1;
-		// 実行
-		double result = ResponseFactory.floorDecimal(1.1234, 1);
+		double result = ResponseFactory.floorDecimalPlace4(0.1);
 		// 比較
 		assertThat(result).isEqualTo(expect);
 	}
 	
 	// ===== calcMeanEmotion のテスト =====
 	
+	FaceAttributes createFaceAttributes(double anger, double contempt,
+										double disgust, double fear,
+										double happiness, double neutral,
+										double sadness, double surprise) {
+		
+		Emotion emotion = new Emotion();
+		emotion.setAnger(anger);
+		emotion.setContempt(contempt);
+		emotion.setDisgust(disgust);
+		emotion.setFear(fear);
+		emotion.setHappiness(happiness);
+		emotion.setNeutral(neutral);
+		emotion.setSadness(sadness);
+		emotion.setSurprise(surprise);
+		FaceAttributes faceAttributes = new FaceAttributes();
+		faceAttributes.setEmotion(emotion);
+		
+		return faceAttributes;
+	}
+	
 	// 複数の分析結果を含む配列resultDataのemotionの平均値が格納された
 	// Emotionオブジェクトが返却される
 	@Test
 	void testCalcMeanEmotion() {
-		// 期待値
 			// 分析結果を作成
-		Emotion emotion1 = new Emotion();
-		emotion1.setAnger(0.1);
-		emotion1.setContempt(0.1);
-		emotion1.setDisgust(0.1);
-		emotion1.setFear(0.1);
-		emotion1.setHappiness(0.1);
-		emotion1.setNeutral(0.1);
-		emotion1.setSadness(0.1);
-		emotion1.setSurprise(0.1);
-		FaceAttributes faceAttributes1 = new FaceAttributes();
-		faceAttributes1.setEmotion(emotion1);
+		FaceAttributes faceAttributes1 = createFaceAttributes(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1);
 		ResultData resultData1 = new ResultData();
 		resultData1.setFaceAttributes(faceAttributes1);
-		Emotion emotion2 = new Emotion();
-		emotion2.setAnger(0.2);
-		emotion2.setContempt(0.2);
-		emotion2.setDisgust(0.2);
-		emotion2.setFear(0.2);
-		emotion2.setHappiness(0.2);
-		emotion2.setNeutral(0.2);
-		emotion2.setSadness(0.2);
-		emotion2.setSurprise(0.2);
-		FaceAttributes faceAttributes2 = new FaceAttributes();
-		faceAttributes2.setEmotion(emotion2);
+
+		FaceAttributes faceAttributes2 = createFaceAttributes(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2);
 		ResultData resultData2 = new ResultData();
 		resultData2.setFaceAttributes(faceAttributes2);
+		
 		ResultData[] resultDatas = {resultData1, resultData2};
+		// 期待値
 			// emotionの平均値
-		Emotion meanEmotion = new Emotion();
-		meanEmotion.setAnger(0.15);
-		meanEmotion.setContempt(0.15);
-		meanEmotion.setDisgust(0.15);
-		meanEmotion.setFear(0.15);
-		meanEmotion.setHappiness(0.15);
-		meanEmotion.setNeutral(0.15);
-		meanEmotion.setSadness(0.15);
-		meanEmotion.setSurprise(0.15);
-		FaceAttributes meanFaceAttributes = new FaceAttributes();
-		meanFaceAttributes.setEmotion(meanEmotion);
+		FaceAttributes meanFaceAttributes = createFaceAttributes(0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15);
 		MeanFaceAttributes mean = new MeanFaceAttributes();
-		mean.setFaceAttributes(faceAttributes2);
+		mean.setFaceAttributes(meanFaceAttributes);
 		
 		ResponseData expect = new ResponseData();
 		expect.setTotal(2);
 		expect.setMean(mean);
 		expect.setResultData(resultDatas);
-		
 		// 実行
 		Emotion result = ResponseFactory.calcMeanEmotion(resultDatas);
 		// 比較
-		assertThat(result.getAnger()).isEqualTo(meanEmotion.getAnger());
-		assertThat(result.getContempt()).isEqualTo(meanEmotion.getContempt());
-		assertThat(result.getDisgust()).isEqualTo(meanEmotion.getDisgust());
-		assertThat(result.getFear()).isEqualTo(meanEmotion.getFear());
-		assertThat(result.getHappiness()).isEqualTo(meanEmotion.getHappiness());
-		assertThat(result.getNeutral()).isEqualTo(meanEmotion.getNeutral());
-		assertThat(result.getSadness()).isEqualTo(meanEmotion.getSadness());
-		assertThat(result.getSurprise()).isEqualTo(meanEmotion.getSurprise());
+		assertThat(result.getAnger()).isEqualTo(mean.getFaceAttributes().getEmotion().getAnger());
+		assertThat(result.getContempt()).isEqualTo(mean.getFaceAttributes().getEmotion().getContempt());
+		assertThat(result.getDisgust()).isEqualTo(mean.getFaceAttributes().getEmotion().getDisgust());
+		assertThat(result.getFear()).isEqualTo(mean.getFaceAttributes().getEmotion().getFear());
+		assertThat(result.getHappiness()).isEqualTo(mean.getFaceAttributes().getEmotion().getHappiness());
+		assertThat(result.getNeutral()).isEqualTo(mean.getFaceAttributes().getEmotion().getNeutral());
+		assertThat(result.getSadness()).isEqualTo(mean.getFaceAttributes().getEmotion().getSadness());
+		assertThat(result.getSurprise()).isEqualTo(mean.getFaceAttributes().getEmotion().getSurprise());
 
 	}
 	
 	// ===== createSuccessResponse のテスト =====
+	
+	FaceRectangle createFaceRectangle(int top, int left, int width, int height) {
+		FaceRectangle rectangle = new FaceRectangle();
+		rectangle.setTop(top);
+		rectangle.setLeft(left);
+		rectangle.setWidth(width);
+		rectangle.setHeight(height);
+		
+		return rectangle;
+	}
 
 	// 返却レスポンスが生成される
 	@Test
 	void testCreateSuccessResponse() {
 		// 期待値作成
-		Emotion emotion1 = new Emotion();
-		emotion1.setAnger(0.1);
-		emotion1.setContempt(0.1);
-		emotion1.setDisgust(0.1);
-		emotion1.setFear(0.1);
-		emotion1.setHappiness(0.1);
-		emotion1.setNeutral(0.1);
-		emotion1.setSadness(0.1);
-		emotion1.setSurprise(0.1);
-		FaceAttributes faceAttributes1 = new FaceAttributes();
-		faceAttributes1.setEmotion(emotion1);
-		FaceRectangle faceRectangle1 = new FaceRectangle();
-		faceRectangle1.setTop(10);
-		faceRectangle1.setLeft(20);
-		faceRectangle1.setWidth(150);
-		faceRectangle1.setHeight(120);
+		FaceAttributes faceAttributes1 = createFaceAttributes(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1);
+		FaceRectangle faceRectangle1 = createFaceRectangle(10, 20, 150, 200);
 		ResultData resultData1 = new ResultData();
 		resultData1.setFaceId("01");
 		resultData1.setFaceRectangle(faceRectangle1);
 		resultData1.setFaceAttributes(faceAttributes1);
+		
 		MeanFaceAttributes mean = new MeanFaceAttributes();
 		mean.setFaceAttributes(faceAttributes1);
 		ResultData[] list = { resultData1 };
@@ -222,10 +188,8 @@ class ResponseFactoryTest {
 		responseData.setTotal(1);
 		responseData.setResultData(list);
 		responseData.setMean(mean);
-
 		// 実行
 		ResponseData result = ResponseFactory.createSuccessResponse(list);
-
 		// 比較
 		assertThat(result.getTotal()).isEqualTo(responseData.getTotal());
 		assertThat(result.getMean().getFaceAttributes().getEmotion().getAnger()).isEqualTo(responseData.getMean().getFaceAttributes().getEmotion().getAnger());
