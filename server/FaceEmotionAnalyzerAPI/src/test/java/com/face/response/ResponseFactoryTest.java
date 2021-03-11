@@ -99,6 +99,7 @@ class ResponseFactoryTest {
 	
 	// ===== calcMeanEmotion のテスト =====
 	
+	// FaceAttributesを初期化する
 	FaceAttributes createFaceAttributes(double anger, double contempt,
 										double disgust, double fear,
 										double happiness, double neutral,
@@ -124,18 +125,18 @@ class ResponseFactoryTest {
 	@Test
 	void testCalcMeanEmotion() {
 			// 分析結果を作成
-		FaceAttributes faceAttributes1 = createFaceAttributes(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1);
+		FaceAttributes faceAttributes1 = createFaceAttributes(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8);
 		ResultData resultData1 = new ResultData();
 		resultData1.setFaceAttributes(faceAttributes1);
 
-		FaceAttributes faceAttributes2 = createFaceAttributes(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2);
+		FaceAttributes faceAttributes2 = createFaceAttributes(0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0);
 		ResultData resultData2 = new ResultData();
 		resultData2.setFaceAttributes(faceAttributes2);
 		
 		ResultData[] resultDatas = {resultData1, resultData2};
 		// 期待値
 			// emotionの平均値
-		FaceAttributes meanFaceAttributes = createFaceAttributes(0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15);
+		FaceAttributes meanFaceAttributes = createFaceAttributes(0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9);
 		MeanFaceAttributes mean = new MeanFaceAttributes();
 		mean.setFaceAttributes(meanFaceAttributes);
 		
@@ -146,14 +147,15 @@ class ResponseFactoryTest {
 		// 実行
 		Emotion result = ResponseFactory.calcMeanEmotion(resultDatas);
 		// 比較
-		assertThat(result.getAnger()).isEqualTo(mean.getFaceAttributes().getEmotion().getAnger());
-		assertThat(result.getContempt()).isEqualTo(mean.getFaceAttributes().getEmotion().getContempt());
-		assertThat(result.getDisgust()).isEqualTo(mean.getFaceAttributes().getEmotion().getDisgust());
-		assertThat(result.getFear()).isEqualTo(mean.getFaceAttributes().getEmotion().getFear());
-		assertThat(result.getHappiness()).isEqualTo(mean.getFaceAttributes().getEmotion().getHappiness());
-		assertThat(result.getNeutral()).isEqualTo(mean.getFaceAttributes().getEmotion().getNeutral());
-		assertThat(result.getSadness()).isEqualTo(mean.getFaceAttributes().getEmotion().getSadness());
-		assertThat(result.getSurprise()).isEqualTo(mean.getFaceAttributes().getEmotion().getSurprise());
+		Emotion expectEmotion = mean.getFaceAttributes().getEmotion(); // 期待する感情の平均値
+		assertThat(result.getAnger()).isEqualTo(expectEmotion.getAnger());
+		assertThat(result.getContempt()).isEqualTo(expectEmotion.getContempt());
+		assertThat(result.getDisgust()).isEqualTo(expectEmotion.getDisgust());
+		assertThat(result.getFear()).isEqualTo(expectEmotion.getFear());
+		assertThat(result.getHappiness()).isEqualTo(expectEmotion.getHappiness());
+		assertThat(result.getNeutral()).isEqualTo(expectEmotion.getNeutral());
+		assertThat(result.getSadness()).isEqualTo(expectEmotion.getSadness());
+		assertThat(result.getSurprise()).isEqualTo(expectEmotion.getSurprise());
 
 	}
 	
@@ -173,7 +175,7 @@ class ResponseFactoryTest {
 	@Test
 	void testCreateSuccessResponse() {
 		// 期待値作成
-		FaceAttributes faceAttributes1 = createFaceAttributes(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1);
+		FaceAttributes faceAttributes1 = createFaceAttributes(0.1, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18);
 		FaceRectangle faceRectangle1 = createFaceRectangle(10, 20, 150, 200);
 		ResultData resultData1 = new ResultData();
 		resultData1.setFaceId("01");
@@ -191,15 +193,17 @@ class ResponseFactoryTest {
 		// 実行
 		ResponseData result = ResponseFactory.createSuccessResponse(list);
 		// 比較
+		Emotion resultEmotion = result.getMean().getFaceAttributes().getEmotion(); // 実行結果から得られる感情の平均値
+		Emotion expectEmotion = responseData.getMean().getFaceAttributes().getEmotion(); // 期待する感情の平均値
 		assertThat(result.getTotal()).isEqualTo(responseData.getTotal());
-		assertThat(result.getMean().getFaceAttributes().getEmotion().getAnger()).isEqualTo(responseData.getMean().getFaceAttributes().getEmotion().getAnger());
-		assertThat(result.getMean().getFaceAttributes().getEmotion().getContempt()).isEqualTo(responseData.getMean().getFaceAttributes().getEmotion().getAnger());
-		assertThat(result.getMean().getFaceAttributes().getEmotion().getDisgust()).isEqualTo(responseData.getMean().getFaceAttributes().getEmotion().getAnger());
-		assertThat(result.getMean().getFaceAttributes().getEmotion().getFear()).isEqualTo(responseData.getMean().getFaceAttributes().getEmotion().getAnger());
-		assertThat(result.getMean().getFaceAttributes().getEmotion().getHappiness()).isEqualTo(responseData.getMean().getFaceAttributes().getEmotion().getAnger());
-		assertThat(result.getMean().getFaceAttributes().getEmotion().getNeutral()).isEqualTo(responseData.getMean().getFaceAttributes().getEmotion().getAnger());
-		assertThat(result.getMean().getFaceAttributes().getEmotion().getSadness()).isEqualTo(responseData.getMean().getFaceAttributes().getEmotion().getAnger());
-		assertThat(result.getMean().getFaceAttributes().getEmotion().getSurprise()).isEqualTo(responseData.getMean().getFaceAttributes().getEmotion().getAnger());
+		assertThat(resultEmotion.getAnger()).isEqualTo(expectEmotion.getAnger());
+		assertThat(resultEmotion.getContempt()).isEqualTo(expectEmotion.getContempt());
+		assertThat(resultEmotion.getDisgust()).isEqualTo(expectEmotion.getDisgust());
+		assertThat(resultEmotion.getFear()).isEqualTo(expectEmotion.getFear());
+		assertThat(resultEmotion.getHappiness()).isEqualTo(expectEmotion.getHappiness());
+		assertThat(resultEmotion.getNeutral()).isEqualTo(expectEmotion.getNeutral());
+		assertThat(resultEmotion.getSadness()).isEqualTo(expectEmotion.getSadness());
+		assertThat(resultEmotion.getSurprise()).isEqualTo(expectEmotion.getSurprise());
 
 	}
 
