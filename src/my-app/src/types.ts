@@ -32,14 +32,14 @@ export interface ResultData {
     faceAttributes: FaceAttributes;
 }
 
-export interface MeanfaceAttributes {
+export interface MeanFaceAttributes {
     faceAttributes: FaceAttributes;
 }
 
 export interface ResponseData {
     total: number;
-    mean: MeanfaceAttributes
-    person: Array<ResultData>;
+    mean: MeanFaceAttributes
+    resultData: Array<ResultData>;
 }
 
 // エラーID
