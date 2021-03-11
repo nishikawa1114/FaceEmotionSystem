@@ -68,19 +68,6 @@ public class ResponseFactory {
 		} else if (data.length == 0) {
 			return meanEmotion;
 		}
-
-//		// 各感情値の合計値の計算
-//		for (ResultData rd: data) {
-//			Emotion emo = rd.getFaceAttributes().getEmotion();
-//			meanEmotion.setAnger(meanEmotion.getAnger() + emo.getAnger());
-//			meanEmotion.setContempt(meanEmotion.getContempt() + emo.getContempt());
-//			meanEmotion.setDisgust(meanEmotion.getDisgust() + emo.getDisgust());
-//			meanEmotion.setFear(meanEmotion.getFear() + emo.getFear());
-//			meanEmotion.setHappiness(meanEmotion.getHappiness() + emo.getHappiness());
-//			meanEmotion.setSadness(meanEmotion.getSadness() + emo.getSadness());
-//			meanEmotion.setSurprise(meanEmotion.getSurprise() + emo.getSurprise()); 
-//			meanEmotion.setNeutral(meanEmotion.getNeutral() + emo.getNeutral()); 
-//		}
 		
 		double meanAnger = Arrays.stream(data).mapToDouble(rd -> rd.getFaceAttributes().getEmotion().getAnger()).average().orElse(0);
 		double meanContempt = Arrays.stream(data).mapToDouble(rd -> rd.getFaceAttributes().getEmotion().getContempt()).average().orElse(0);
