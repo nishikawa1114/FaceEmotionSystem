@@ -6,24 +6,24 @@ export class Analyzer {
     // 画像に映る表情の分析を依頼、結果を返す
     public static analyze(imageUrl: string) {
 
+        // FaceAPIと直接通信する場合の設定
         // Add a valid subscription key and endpoint to your environment variables.
-        const subscriptionKey = String(process.env.REACT_APP_FACE_SUBSCRIPTION_KEY);
-        const endpoint = String(process.env.REACT_APP_FACE_ENDPOINT) + '/face/v1.0/detect';
+        // const subscriptionKey = String(process.env.REACT_APP_FACE_SUBSCRIPTION_KEY);
+        // const endpoint = String(process.env.REACT_APP_FACE_ENDPOINT) + '/face/v1.0/detect';
         // Optionally, replace with your own image URL (for example a .jpg or .png URL).
 
-        const queryParams = {    // Face API に渡すパラメータ
-            "detectionModel": "detection_01",
-            "returnFaceAttributes": "emotion",
-            "returnFaceId": "true"
-        };
+        // const queryParams = {    // Face API に渡すパラメータ
+        //     "detectionModel": "detection_01",
+        //     "returnFaceAttributes": "emotion",
+        //     "returnFaceId": "true"
+        // };
 
-        const queryString = new URLSearchParams(queryParams);
+        // const queryString = new URLSearchParams(queryParams);
 
         // let fetch = require('node-fetch')
-        return fetch(endpoint + '?' + queryString, {  // パラメータparamsをURLに入れてFace API に渡す
+        return fetch("http://localhost:8080/face/emotion", { 
             method: 'POST',
             headers: {
-                'Ocp-Apim-Subscription-Key': subscriptionKey,   // Face API サブスクリプションキー
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ 'url': imageUrl }) // Face API に渡したい画像のURL

@@ -1,5 +1,5 @@
 body {
-  background-color: azure;
+  background-color: whitesmoke;
 }
 
 .title_bar {
@@ -94,4 +94,12 @@ img.image {
 
 .analyze_grid_item {
   min-width: 1000px;
+}
+
+
+.head_item {
+  height: 35px;
+  min-width: 1000px;
+  padding-top: 20px;
+  padding-left: 20px;
 }

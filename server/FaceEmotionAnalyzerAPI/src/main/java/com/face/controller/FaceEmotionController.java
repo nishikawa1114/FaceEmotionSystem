@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +21,15 @@ import org.springframework.web.client.RestTemplate;
 
 import com.face.model.ErrorMessage;
 import com.face.model.ImageInfo;
+import com.face.model.ResponseData;
 import com.face.model.ResultData;
 import com.face.response.FaceApiException;
 import com.face.response.FaceApiInvalidRequestException;
 import com.face.response.FaceApiServerException;
 import com.face.response.NotDetectedException;
+import com.face.response.ResponseFactory;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/face")
 public class FaceEmotionController {
@@ -45,7 +49,7 @@ public class FaceEmotionController {
 	private String endPoint;
 
 	@PostMapping(value = "/emotion")
-	public ResultData[] analyze(@RequestBody ImageInfo url) throws Exception {
+	public ResponseData analyze(@RequestBody ImageInfo url) throws Exception {
 
 		// パラメータが不正な場合
 		if (url.getUrl() == null || url.getUrl().isEmpty()) {
@@ -59,10 +63,9 @@ public class FaceEmotionController {
 		// ボディ設定
 		// 画像URL と 分析項目を指定
 		String queryUrl = endPoint + "?detectionModel=detection_01&returnFaceAttributes=emotion&returnFaceId=true";
-		String imageQueryStr = "?sv=2019-07-07&sr=c&si=myPolicyPS&sig=FkKJ4nXCiqzDYjbSaDfqli%2FnErPRTKrD%2BUQfH0MT3ac%3D"; // サーバー上に置かれている画像にアクセスするために必要なクエリ文字列。処理には関係なし。
 
 		Map<String, String> map = new HashMap<>();
-		map.put("url", url.getUrl() + imageQueryStr);
+		map.put("url", url.getUrl());
 		HttpEntity<Object> request = new HttpEntity<Object>(map, headers);
 
 		ResultData[] response = null;
@@ -91,8 +94,10 @@ public class FaceEmotionController {
 		if (response == null || response.length == 0) {
 			throw new NotDetectedException("face not detected.");
 		}
+		
+		ResponseData responseData = ResponseFactory.createSuccessResponse(response);
 
-		return response;
+		return responseData;
 
 	}
 
