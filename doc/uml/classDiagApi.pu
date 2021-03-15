@@ -11,41 +11,49 @@ package "API" {
         class ErrorController {
             handleNotDetectedException()
             handleFaceApiException()
-            handleInvalidRequestBodyException()
+            handleFaceApiInvalidRequestBodyException()
+            handleFaceApiInvalidRequestBodyException()
             handleInvalidMediaTypeException()
         }
     }
 
     package "Response" {
-        class Response {
+
+        class ResponseFactory {
             createErrorResponse(): ErrorResponse
+            createFaceApiServerError(): FaceApiErrorResponse
             createFaceApiErrorResponse(): FaceApiErrorResponse
-            createSuccessResponse(): ResultData[]
+            createSuccessResponse(): ResponseData
+            calcEmotionMean(): Emotion
         }
+
+        class FaceApiErrorResponseDetail {
+            code: string
+            message: string
+            getter()
+            setter()
+        }
+        note bottom: FaceAPIからのエラー内容
 
         class ErrorResponse {
-            errorStatus: ErrorStatus
-        }
-
-        class ErrorStatus {
             error: string
         }
-        note bottom: このAPIからのエラー文
 
         class FaceApiErrorResponse {
-            errorStatus: ErrorStatus
+            error: string
             details: FaceApiError
         }
 
-        class FaceApiError {
-            code: string
-            message: string
-        }
-        note bottom: FaceAPIからのエラー内容
     }
 
 
     package "Model" {
+        class ResponseData {
+            total: int
+            mean: FaceAttributes
+            peason: ResultData[]
+        }
+
         class ResultData {
             faceId: string
             faceRectangle: FaceRectangle
@@ -54,10 +62,10 @@ package "API" {
         note right: 成功時に返却する
 
         class FaceRectangle {
-            top: double
-            left: double
-            width: double
-            height: double
+            top: int
+            left: int
+            width: int
+            height: int
         }
 
         class FaceAttributes {
@@ -74,24 +82,48 @@ package "API" {
             sadness: double
             surprise: double
         }
+
+        class ImageInfo {
+            url: string
+            setter()
+            getter()
+        }
+
+        
+        class ErrorMessage {
+            REQUEST_BODY_ERROR: string
+            MEDIA_TYPE_ERROR: string
+            FACE_API_SERVER_UNABLABLE_ERROR: string
+            FACE_API_RESPONSE_ERROR: string
+            UNEXPECTED_ERROR: string
+        }
+        note bottom: このAPIからのエラー文
+        
     }
 
 }
 
-ResultData "1" o.. "1" FaceRectangle
-ResultData "1" o.. "1" FaceAttributes
-FaceAttributes "1" o.. "1" Emotion
+ResponseData "1" o-- "n" ResultData
+ResponseData --> FaceAttributes
+ResultData "1" o-- "1" FaceRectangle
+ResultData "1" o-- "1" FaceAttributes
+FaceAttributes "1" o-- "1" Emotion
 
-FaceEmotionController ..> ResultData
-FaceEmotionController ..> ErrorController
+ResponseFactory ..> ErrorMessage
+ResponseFactory ..> ErrorResponse
+ResponseFactory ..> FaceApiErrorResponse
+ResponseFactory ..> ResponseData
 
-FaceEmotionController ..> Response
-ErrorController ..> Response
-Response ..> ErrorResponse
-Response ..> FaceApiErrorResponse
-ErrorResponse ..> ErrorStatus
-FaceApiErrorResponse ..> FaceApiError
-FaceApiErrorResponse ..> ErrorStatus
-Response ..> ResultData
+FaceEmotionController -- ResponseFactory
+FaceEmotionController ..> ErrorMessage
+FaceEmotionController ..> ImageInfo
+FaceEmotionController -- ResultData
+FaceEmotionController ..> ResponseData
+
+ErrorController -- ResponseFactory
+ErrorController ..> ErrorMessage
+ErrorController ..> ErrorResponse
+
+FaceApiErrorResponse ..> FaceApiErrorResponseDetail
 
 @enduml
